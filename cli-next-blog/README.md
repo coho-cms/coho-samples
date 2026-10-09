@@ -14,30 +14,29 @@ cli-next-blog/
     └── blog-posts/     two posts, linked to the authors and tags below
 ```
 
-Everything below runs from the `coho-samples` folder, so the `-f` paths resolve.
+Every command below runs from inside this folder. Start by moving into it:
+
+```bash
+cd cli-next-blog
+```
+
+From here, paths are relative to `cli-next-blog`, so `types/tag.json` means this folder's `types` directory.
 
 ## 0. Before you start
 
-You need the `coho` CLI installed, and an account on the dev stack. The steps use the
-`dev` profile, which points at `https://api-dev.coho-cms.dev`.
+You need the `coho` CLI installed, and an account. Every command below uses the default
+profile, so none of them needs a `-p` flag.
 
-## 1. Point a profile at the dev stack
+## 1. Sign in
 
-```bash
-coho -p dev configure --url https://api-dev.coho-cms.dev --oidc-domain https://auth-dev.coho-cms.dev --client-id coho-cli
-```
-
-Then sign in. This opens a browser:
+Sign in to the default profile. This opens a browser:
 
 ```bash
-coho -p dev login
+coho login
 ```
 
-Use `dev` for every command in this guide, so set it once for the terminal session:
-
-```bash
-export COHO_PROFILE=dev
-```
+If `coho login` reports that there is no profile yet, set one up with `coho configure`,
+then run `coho login` again.
 
 ## 2. Check who you are
 
@@ -76,15 +75,15 @@ The slug is built from `_name` in each file, so no slug argument is needed:
 `blogPost`.
 
 ```bash
-coho type put --file cli-next-blog/types/tag.json
+coho type put --file types/tag.json
 ```
 
 ```bash
-coho type put --file cli-next-blog/types/teamMember.json
+coho type put --file types/teamMember.json
 ```
 
 ```bash
-coho type put --file cli-next-blog/types/blogPost.json
+coho type put --file types/blogPost.json
 ```
 
 Check that all three are there:
@@ -96,25 +95,25 @@ coho type list
 ## 5. Create the tags
 
 ```bash
-coho entry create -t tag -f cli-next-blog/entries/tags/traffic.json
+coho entry create -t tag -f entries/tags/traffic.json
 ```
 
 ```bash
-coho entry create -t tag -f cli-next-blog/entries/tags/drainage.json
+coho entry create -t tag -f entries/tags/drainage.json
 ```
 
 ```bash
-coho entry create -t tag -f cli-next-blog/entries/tags/project-notes.json
+coho entry create -t tag -f entries/tags/project-notes.json
 ```
 
 ## 6. Create the team members
 
 ```bash
-coho entry create -t teamMember -f cli-next-blog/entries/team-members/priya-shah.json
+coho entry create -t teamMember -f entries/team-members/priya-shah.json
 ```
 
 ```bash
-coho entry create -t teamMember -f cli-next-blog/entries/team-members/tom-okafor.json
+coho entry create -t teamMember -f entries/team-members/tom-okafor.json
 ```
 
 ## 7. Create the blog posts
@@ -122,11 +121,11 @@ coho entry create -t teamMember -f cli-next-blog/entries/team-members/tom-okafor
 The posts are created without their links. Step 9 adds those once you have the IDs.
 
 ```bash
-coho entry create -t blogPost -f cli-next-blog/entries/blog-posts/roundabout-second-opinion.json
+coho entry create -t blogPost -f entries/blog-posts/roundabout-second-opinion.json
 ```
 
 ```bash
-coho entry create -t blogPost -f cli-next-blog/entries/blog-posts/elm-street-drainage.json
+coho entry create -t blogPost -f entries/blog-posts/elm-street-drainage.json
 ```
 
 Each entry's slug comes from its `_name`, so the posts become `roundabout-second-opinion`
