@@ -1,0 +1,19 @@
+{
+  "_name": "Roundabout second opinion",
+  "title": {
+    "en-US": "Why every roundabout needs a second opinion"
+  },
+  "summary": {
+    "en-US": "A roundabout that looks right on paper can still jam at rush hour. Here is how we check."
+  },
+  "body": {
+    "en-US": "A roundabout is a simple idea with a surprising number of ways to go wrong.\n\n## Check the approaches\n\nEvery arm has to be modelled at peak flow, not average flow. Queues form where drivers hesitate, and that is rarely where the drawings say they will.\n\n## Walk it\n\nWe walk the junction at the time it will be busiest. A model cannot tell you how a bus driver judges a gap."
+  },
+  "layout": "standard",
+  "publishedAt": "2026-09-15T09:00:00Z",
+  "featured": true,
+  "readingMinutes": 4,
+  "seoDescription": {
+    "en-US": "Why roundabouts need a second check at peak flow, and why walking the junction still matters."
+  }
+}

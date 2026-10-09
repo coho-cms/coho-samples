@@ -1,0 +1,16 @@
+{
+  "_name": "Blog post",
+  "fields": [
+    { "id": "title",           "name": "Title",               "type": "text",      "required": true, "localized": true, "max": 140 },
+    { "id": "summary",         "name": "Summary",             "type": "longText",  "localized": true },
+    { "id": "body",            "name": "Body",                "type": "longText",  "required": true, "localized": true, "textFormat": "markdown" },
+    { "id": "layout",          "name": "Layout",              "type": "choice",    "required": true, "values": ["standard", "wide", "landing"] },
+    { "id": "publishedAt",     "name": "Published at",        "type": "datetime",  "required": true },
+    { "id": "author",          "name": "Author",              "type": "reference", "of": ["teamMember"] },
+    { "id": "tags",            "name": "Tags",                "type": "reference", "of": ["tag"], "many": true, "max": 5 },
+    { "id": "related",         "name": "Related posts",       "type": "reference", "of": ["blogPost"], "many": true, "max": 3 },
+    { "id": "readingMinutes",  "name": "Reading time (minutes)", "type": "integer", "min": 1 },
+    { "id": "featured",        "name": "Featured",            "type": "boolean" },
+    { "id": "seoDescription",  "name": "SEO description",     "type": "text",      "localized": true, "max": 160 }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "_name": "Elm Street drainage",
+  "title": {
+    "en-US": "What the drainage survey found under Elm Street"
+  },
+  "summary": {
+    "en-US": "The survey was meant to be routine. It was not."
+  },
+  "body": {
+    "en-US": "We expected a clay pipe and a bit of silt. We found a culvert nobody had on record.\n\n## What we did\n\nWe camera-surveyed the full run, mapped the connections and re-routed the outfall before the resurfacing crew arrived.\n\n## What we would do differently\n\nRecords are a starting point. Walk the line with a camera before you commit to a design."
+  },
+  "layout": "wide",
+  "publishedAt": "2026-10-01T09:00:00Z",
+  "featured": false,
+  "readingMinutes": 6,
+  "seoDescription": {
+    "en-US": "A routine drainage survey turned up an unrecorded culvert under Elm Street."
+  }
+}
