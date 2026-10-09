@@ -182,6 +182,129 @@ coho entry get <elm-street-post-id>
 
 The `author`, `tags` and `related` fields should now hold the IDs you set.
 
+## 11. Preview on dev
+
+`dev` is a live environment. It points at the newest saved content on the trunk, `v0.0.x`,
+not at a tag. Use it to see what the entries look like before you cut a release.
+
+Find the account and project IDs in the output of `coho status`.
+
+Sign in to the dev site first. Open this address in the browser. If it shows an error,
+open `https://api-dev.coho-cms.dev/auth/login` and sign in, then try again:
+
+```
+https://api-dev.coho-cms.dev/api/v1/me
+```
+
+Then open the blog posts from `dev`, replacing `<account-id>` and `<project-id>`:
+
+```
+https://api-dev.coho-cms.dev/api/v1/accounts/<account-id>/projects/<project-id>/preview/dev/entries?type=blogPost
+```
+
+Add `/<entry-id>` to the end of the address to show one entry. Preview responses come
+through the signed-in session, so they need no key.
+
+## 12. Fix a mistake
+
+Tags never change, so a fix goes on the trunk and then into a new tag. `dev` shows the fix
+straight away. `qa` keeps the old tag until you cut a new one (step 13).
+
+For example, to correct the summary of the Elm Street post:
+
+```bash
+coho entry put <elm-street-post-id> --set 'summary={"en-US":"The corrected summary."}'
+```
+
+`--set` reads the current entry, changes only that field, and writes it back. Check the
+change in the dev preview from step 11.
+
+## 13. Cut a release for QA
+
+A release is a tag on the trunk, promoted to an environment. Give each tag a name that has
+not been used before. Here the next release after `v1.0.0` is `v1.0.1`:
+
+```bash
+coho tag create v1.0.1 --branch v0.0.x -m "Correct the Elm Street summary"
+```
+
+```bash
+coho promote qa v1.0.1
+```
+
+`promote` waits until the release is ready, for up to five minutes. Check which tag `qa`
+points at:
+
+```bash
+coho env show qa
+```
+
+You will see this warning when you promote to `qa`:
+
+```
+warning: SKIPPED_TIER: 'v1.0.1' has not been promoted to any 'dev' environment
+```
+
+It is expected in this sample. A tag can only move to a snapshot environment, and `dev` is a
+live one, so the release never goes through a `dev` step before `qa`.
+
+## 14. Get a delivery key
+
+A website reads published content with a delivery key, sent in the `Authorization` header.
+Create one for `qa`:
+
+```bash
+coho key create --label "blog-sample qa" --ref qa
+```
+
+The key is shown once and only its hash is stored. Copy it somewhere safe now. Do not put
+it in a web address, a commit or a chat.
+
+To find a key's ID later, so you can revoke it, list the keys in JSON:
+
+```bash
+coho -o json key list
+```
+
+```bash
+coho key revoke <key-id>
+```
+
+## 15. Test delivery in the browser
+
+A browser cannot send the `Authorization` header from the address bar. So for browser-only
+testing, make `qa` readable without a key:
+
+```bash
+coho key public qa
+```
+
+This replaces the whole list of readable environments, and anyone with the address below can
+read `qa` from now on. The content is sample content, so this is safe for testing. Undo it
+with `coho key public` and no argument. Keys and tags are not affected: a tag still needs a
+key when you address it directly.
+
+Open these in the browser, replacing `<project-id>`:
+
+```
+https://delivery-dev.coho-cms.dev/v1/projects/<project-id>/qa/entries?type=blogPost&locale=en-US
+```
+
+```
+https://delivery-dev.coho-cms.dev/v1/projects/<project-id>/qa/entries/<elm-street-post-id>
+```
+
+You should see JSON with the two blog posts. Each entry has its `slug` at the top level and
+its content under `fields`.
+
+To check the key from a terminal, which is the way your website will use it:
+
+```bash
+curl -H "Authorization: Bearer <key>" https://delivery-dev.coho-cms.dev/v1/projects/<project-id>/qa/entries
+```
+
+Without the header the same address returns `401`.
+
 ## If something goes wrong
 
 - **`SLUG_CONFLICT` or `INTERNAL_NAME_CONFLICT` on create:** the entry already exists.
@@ -194,3 +317,13 @@ The `author`, `tags` and `related` fields should now hold the IDs you set.
 - **A reference is rejected:** check that the ID came from the list in step 8, and that
   the entry is of the right type. Authors must be `teamMember` entries, and tags must be
   `tag` entries.
+- **`INVALID_PROMOTION_TARGET` when promoting to `dev`:** `dev` is live and only points at
+  the trunk. Promote a tag to `qa`, `stage` or `prod` instead.
+- **The dev preview returns `401`:** sign in at `https://api-dev.coho-cms.dev/auth/login`,
+  then load the address again.
+- **`VERSION_CONFLICT` on `entry put --set`:** someone else saved the entry between the read
+  and the write. Run the command again.
+- **Delivery returns `401` with `KEY_REQUIRED`:** send the key in the `Authorization` header,
+  or make `qa` readable without one for browser testing (step 15).
+- **Delivery returns `404` with `PROJECT_NOT_FOUND`:** the key belongs to another project, or
+  the project ID is wrong. Check it against `coho status`.
