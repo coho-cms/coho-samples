@@ -76,13 +76,7 @@ The slug is built from `_name` in each file, so no slug argument is needed:
 
 ```bash
 coho type put --file types/tag.json
-```
-
-```bash
 coho type put --file types/teamMember.json
-```
-
-```bash
 coho type put --file types/blogPost.json
 ```
 
@@ -96,13 +90,7 @@ coho type list
 
 ```bash
 coho entry create -t tag -f entries/tags/traffic.json
-```
-
-```bash
 coho entry create -t tag -f entries/tags/drainage.json
-```
-
-```bash
 coho entry create -t tag -f entries/tags/project-notes.json
 ```
 
@@ -110,9 +98,6 @@ coho entry create -t tag -f entries/tags/project-notes.json
 
 ```bash
 coho entry create -t teamMember -f entries/team-members/priya-shah.json
-```
-
-```bash
 coho entry create -t teamMember -f entries/team-members/tom-okafor.json
 ```
 
@@ -122,9 +107,6 @@ The posts are created without their links. Step 9 adds those once you have the I
 
 ```bash
 coho entry create -t blogPost -f entries/blog-posts/roundabout-second-opinion.json
-```
-
-```bash
 coho entry create -t blogPost -f entries/blog-posts/elm-street-drainage.json
 ```
 
@@ -134,14 +116,10 @@ and `elm-street-drainage`.
 ## 8. Get the IDs
 
 References hold entry IDs, not slugs. Read the IDs with JSON output, because the table
-can shorten them. Don't worry, you won't have to do this all the time, this is just to show
-you how linking works behind the scenes. 
+can shorten them. 
 
 ```bash
 coho -o json entry list -t teamMember
-```
-
-```bash
 coho -o json entry list -t tag
 ```
 
@@ -158,7 +136,8 @@ Note the `id` for:
 ## 9. Link the posts
 
 Replace each `<…>` with an ID from step 8. The value after `--set` is JSON, so a list
-goes in quotes.
+goes in quotes. Don't worry, you won't have to do this all the time, this is just to show
+you how linking works behind the scenes. 
 
 Link the roundabout post to Priya and to the Traffic tag:
 
