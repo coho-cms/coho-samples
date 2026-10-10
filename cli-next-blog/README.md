@@ -134,7 +134,8 @@ and `elm-street-drainage`.
 ## 8. Get the IDs
 
 References hold entry IDs, not slugs. Read the IDs with JSON output, because the table
-can shorten them:
+can shorten them. Don't worry, you won't have to do this all the time, this is just to show
+you how linking works behind the scenes. 
 
 ```bash
 coho -o json entry list -t teamMember
