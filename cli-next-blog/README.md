@@ -121,9 +121,6 @@ can shorten them.
 ```bash
 coho -o json entry list -t teamMember
 coho -o json entry list -t tag
-```
-
-```bash
 coho -o json entry list -t blogPost
 ```
 
