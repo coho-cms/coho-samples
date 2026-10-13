@@ -243,40 +243,42 @@ coho -o json key list
 coho key revoke <key-id>
 ```
 
-## 15. Test delivery in the browser
+## 15. Test delivery with curl
 
-A browser cannot send the `Authorization` header from the address bar. So for browser-only
-testing, make `qa` readable without a key:
+Read `qa` the way your website will: with the key from step 14 in the `Authorization`
+header. A browser cannot send that header from the address bar, so use `curl`.
+
+Put the key in a shell variable first. `read -s` does not echo what you paste, which keeps
+the key out of your screen and your shell history. Paste the key and press Enter:
 
 ```bash
-coho key public qa
+read -rs COHO_KEY
 ```
 
-This replaces the whole list of readable environments, and anyone with the address below can
-read `qa` from now on. The content is sample content, so this is safe for testing. Undo it
-with `coho key public` and no argument. Keys and tags are not affected: a tag still needs a
-key when you address it directly.
+List the blog posts, replacing `<project-id>`:
 
-Open these in the browser, replacing `<project-id>`:
-
-```
-https://delivery-dev.coho-cms.dev/v1/projects/<project-id>/qa/entries?type=blogPost&locale=en-US
+```bash
+curl -H "Authorization: Bearer $COHO_KEY" "https://delivery-dev.coho-cms.dev/v1/projects/<project-id>/qa/entries?type=blogPost&locale=en-US"
 ```
 
-```
-https://delivery-dev.coho-cms.dev/v1/projects/<project-id>/qa/entries/<elm-street-post-id>
+Show one post:
+
+```bash
+curl -H "Authorization: Bearer $COHO_KEY" "https://delivery-dev.coho-cms.dev/v1/projects/<project-id>/qa/entries/<elm-street-post-id>"
 ```
 
 You should see JSON with the two blog posts. Each entry has its `slug` at the top level and
-its content under `fields`.
+its content under `fields`. If you have `jq` installed, add `| jq` to the end of a command
+to make the output easier to read.
 
-To check the key from a terminal, which is the way your website will use it:
+Without the header the same address returns `401`:
 
 ```bash
-curl -H "Authorization: Bearer <key>" https://delivery-dev.coho-cms.dev/v1/projects/<project-id>/qa/entries
+curl -i "https://delivery-dev.coho-cms.dev/v1/projects/<project-id>/qa/entries"
 ```
 
-Without the header the same address returns `401`.
+If it returns `200` instead, `qa` was made readable without a key at some point. Turn that
+off with `coho key public` and no argument.
 
 ## If something goes wrong
 
@@ -296,7 +298,8 @@ Without the header the same address returns `401`.
   then load the address again.
 - **`VERSION_CONFLICT` on `entry put --set`:** someone else saved the entry between the read
   and the write. Run the command again.
-- **Delivery returns `401` with `KEY_REQUIRED`:** send the key in the `Authorization` header,
-  or make `qa` readable without one for browser testing (step 15).
+- **Delivery returns `401` with `KEY_REQUIRED`:** send the key in the `Authorization` header
+  (step 15). If you used `read -s`, check that `COHO_KEY` is set in the same terminal:
+  `echo ${#COHO_KEY}` prints its length without showing it.
 - **Delivery returns `404` with `PROJECT_NOT_FOUND`:** the key belongs to another project, or
   the project ID is wrong. Check it against `coho status`.
