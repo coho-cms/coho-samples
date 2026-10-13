@@ -239,14 +239,10 @@ points at:
 coho env show qa
 ```
 
-You will see this warning when you promote to `qa`:
-
-```
-warning: SKIPPED_TIER: 'v1.0.1' has not been promoted to any 'dev' environment
-```
-
-It is expected in this sample. A tag can only move to a snapshot environment, and `dev` is a
-live one, so the release never goes through a `dev` step before `qa`.
+`qa` is the first environment a tag can go to. `dev` follows the trunk rather than a tag, so
+the release does not pass through it. If you promote a tag past an environment it could
+have gone to, for example straight to `stage`, `promote` warns that a step was skipped. The
+promotion still goes ahead.
 
 ## 14. Get a delivery key
 
