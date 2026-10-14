@@ -1,4 +1,4 @@
-# Setting up a Next.js blog with the CLI
+# Setting up a Next,js blog with the CLI
 
 This sample walks through setting up a simple blog content model and wiring it into a
 Next.js app. It starts with the content model: the content types, and a few entries to read.
@@ -14,7 +14,6 @@ localized text, markdown, and references between entries.
 
 ```
 cli-next-blog/
-├── types/          content type definitions (tag, teamMember, blogPost)
 └── entries/
     ├── tags/           three tags
     ├── team-members/   two authors
@@ -23,8 +22,15 @@ cli-next-blog/
 
 ## Before you start
 
+Every command below runs from inside this folder. Start by moving into it:
+
 You need the `coho` CLI installed, and an account. Every command in this sample uses the
 default profile, so none of them needs a `-p` flag.
+
+```bash
+git clone https://github.com/coho-cms/coho-samples.git
+cd cli-next-blog
+```
 
 Sign in to the default profile. This opens a browser:
 
@@ -44,4 +50,5 @@ coho whoami
 This lists the accounts you belong to. If you belong to more than one, add
 `--account <name-or-id>` to the commands that follow, or set `COHO_ACCOUNT`.
 
-When you are signed in, start with [Set up the content model](01_CONTENT.md).
+
+Next: [Setup the Content Model](01_CONTENT.md).
