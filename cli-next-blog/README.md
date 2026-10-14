@@ -146,7 +146,8 @@ Link the Elm Street post to Tom, to the Drainage and Project notes tags, and to 
 roundabout post as a related read:
 
 ```bash
-coho entry put <elm-street-post-id> --set author=<tom-okafor-id> --set 'tags=["<drainage-id>","<project-notes-id>"]' --set 'related=["<roundabout-post-id>"]'
+coho entry put <elm-street-post-id> --set author=<tom-okafor-id> --set 'tags=["<drainage-id>","<project-notes-id>"]' \
+    --set 'related=["<roundabout-post-id>"]'
 ```
 
 ## 10. Check the result
@@ -258,13 +259,15 @@ read -rs COHO_KEY
 List the blog posts, replacing `<project-id>`:
 
 ```bash
-curl -H "Authorization: Bearer $COHO_KEY" "https://delivery-dev.coho-cms.dev/v1/projects/<project-id>/qa/entries?type=blogPost&locale=en-US"
+curl -H "Authorization: Bearer $COHO_KEY" \
+    "https://delivery-dev.coho-cms.dev/v1/projects/<project-id>/qa/entries?type=blogPost&locale=en-US"
 ```
 
 Show one post:
 
 ```bash
-curl -H "Authorization: Bearer $COHO_KEY" "https://delivery-dev.coho-cms.dev/v1/projects/<project-id>/qa/entries/<elm-street-post-id>"
+curl -H "Authorization: Bearer $COHO_KEY" \
+    "https://delivery-dev.coho-cms.dev/v1/projects/<project-id>/qa/entries/<elm-street-post-id>"
 ```
 
 You should see JSON with the two blog posts. Each entry has its `slug` at the top level and
@@ -284,14 +287,16 @@ off with `coho key public` and no argument.
 
 A site reads this content through a content library: a TypeScript package with an
 interface for each content type, generated from this project's types. This step creates
-one from the `v1.0.1` release, and lists the content it can read.
+one from the `v1.0.1` release, and lists the content it can read. Note, this creates a 
+library that you will be able to manage and refresh as your content model changes.
+It's up to you to manage the source control and dependency into whichever Node-based web
+framework you are using. 
 
-The library tooling is in testing, so its releases are alphas on npm, reached with
-`@alpha`. `coho status` shows the URL, account and project the library needs. Create the
-library beside this repository, replacing the three placeholders:
+Remember, `coho status` shows the URL, account and project the library needs. 
 
 ```bash
-npm create coho@alpha ../../blog-content -- --name @your-org/blog-content --url <url> --account <account-id> --project <project-id> --ref v1.0.1
+npm create coho@alpha ../../blog-content -- --name @your-org/blog-content --url <url> \
+    --account <account-id> --project <project-id> --ref v1.0.1
 ```
 
 This copies the library template, sets it up for this project, and installs it. Move into it:
