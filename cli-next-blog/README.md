@@ -1,4 +1,4 @@
-# Setting up a Next.js blog with the CLI
+# Setting up a Next,js blog with the CLI
 
 This is the content half of the demo. It creates the content model and loads a few
 entries by hand, so a Next.js site has something to read. The model shows the main
