@@ -146,7 +146,9 @@ Link the Elm Street post to Tom, to the Drainage and Project notes tags, and to 
 roundabout post as a related read:
 
 ```bash
-coho entry put <elm-street-post-id> --set author=<tom-okafor-id> --set 'tags=["<drainage-id>","<project-notes-id>"]' \
+coho entry put <elm-street-post-id> \
+    --set author=<tom-okafor-id> \
+    --set 'tags=["<drainage-id>","<project-notes-id>"]' \
     --set 'related=["<roundabout-post-id>"]'
 ```
 
