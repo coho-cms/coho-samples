@@ -280,6 +280,102 @@ curl -i "https://delivery-dev.coho-cms.dev/v1/projects/<project-id>/qa/entries"
 If it returns `200` instead, `qa` was made readable without a key at some point. Turn that
 off with `coho key public` and no argument.
 
+## 16. Generate a typed content library
+
+A site reads this content through a content library: a TypeScript package with an
+interface for each content type, generated from this project's types. This step creates
+one from the `v1.0.1` release, and lists the content it can read.
+
+While the library tooling is in testing, it runs from a checkout of
+[coho-delivery-sdk-typescript](https://github.com/coho-cms/coho-delivery-sdk-typescript),
+and its packages are on GitHub Packages. Clone it beside this repository, if you have not
+already, and build it:
+
+```bash
+git clone https://github.com/coho-cms/coho-delivery-sdk-typescript ../../coho-delivery-sdk-typescript
+```
+
+```bash
+npm --prefix ../../coho-delivery-sdk-typescript install
+```
+
+```bash
+npm --prefix ../../coho-delivery-sdk-typescript run build
+```
+
+Installing from GitHub Packages needs a GitHub token with `read:packages`, even for public
+packages. With the GitHub CLI, add that scope once with `gh auth refresh -s read:packages`,
+then use its token in this terminal:
+
+```bash
+export NODE_AUTH_TOKEN=$(gh auth token)
+```
+
+`coho status` shows the URL, account and project the library needs. Create the library
+beside this repository, replacing the three placeholders:
+
+```bash
+npx ../../coho-delivery-sdk-typescript/packages/create-coho ../../blog-content --name @your-org/blog-content --url <url> --account <account-id> --project <project-id> --ref v1.0.1
+```
+
+This copies the library template, sets it up for this project, and installs it. Move into it:
+
+```bash
+cd ../../blog-content
+```
+
+The library reads its types with a project token. Create one that can only read, and copy
+it somewhere safe; it is shown once:
+
+```bash
+coho token create --role viewer --label "blog-content library"
+```
+
+Copy the example settings:
+
+```bash
+cp .env.example .env
+```
+
+Then fill in `.env`. It is in `.gitignore`, so it stays out of commits:
+
+- `COHO_TOKEN`: the project token you just created.
+- `COHO_DELIVERY_URL`: `https://delivery-dev.coho-cms.dev`.
+- `COHO_DELIVERY_KEY`: the delivery key from step 14.
+- `COHO_DELIVERY_REF`: `qa`, the environment the key from step 14 reads.
+
+Fetch the types from `v1.0.1`, and generate the library's code from them:
+
+```bash
+npm run pull
+```
+
+```bash
+npm run generate
+```
+
+List the content the library can read:
+
+```bash
+npm run catalog
+```
+
+You should see every content type, and how many entries each has on `qa`:
+
+```
+Content on qa:
+
+  blogPost     Blog post         2
+  tag          Tag               3
+  teamMember   Team member       2
+
+  7 entries in 3 types
+```
+
+The counting is the library's `catalog` function, in `src/catalog.ts`, and a site uses the
+typed reads beside it the same way, such as `coho.blogPost.list({ order: '-publishedAt' })`.
+The library's README covers releasing it and using it from a site.
+
 ## If something goes wrong
 
 - **`SLUG_CONFLICT` or `INTERNAL_NAME_CONFLICT` on create:** the entry already exists.
@@ -303,3 +399,12 @@ off with `coho key public` and no argument.
   `echo ${#COHO_KEY}` prints its length without showing it.
 - **Delivery returns `404` with `PROJECT_NOT_FOUND`:** the key belongs to another project, or
   the project ID is wrong. Check it against `coho status`.
+- **`npm install` fails with `401` in step 16:** `NODE_AUTH_TOKEN` is not set in this
+  terminal, or the token lacks `read:packages`.
+- **`npm run pull` fails with `401` or `403`:** check `COHO_TOKEN` in `.env`. It must be a
+  project token for this project.
+- **`npm run pull` fails with `404`:** the Coho server predates the type model. It needs a
+  build that serves `…/refs/{ref}/type-model`.
+- **`npm run catalog` fails:** a key made for `qa` reads only `qa`, so set
+  `COHO_DELIVERY_REF=qa`. `PROJECT_NOT_FOUND` means the key is for another project, or
+  `project` in `coho.config.json` is wrong.
