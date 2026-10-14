@@ -286,36 +286,12 @@ A site reads this content through a content library: a TypeScript package with a
 interface for each content type, generated from this project's types. This step creates
 one from the `v1.0.1` release, and lists the content it can read.
 
-While the library tooling is in testing, it runs from a checkout of
-[coho-delivery-sdk-typescript](https://github.com/coho-cms/coho-delivery-sdk-typescript),
-and its packages are on GitHub Packages. Clone it beside this repository, if you have not
-already, and build it:
+The library tooling is in testing, so its releases are alphas on npm, reached with
+`@alpha`. `coho status` shows the URL, account and project the library needs. Create the
+library beside this repository, replacing the three placeholders:
 
 ```bash
-git clone https://github.com/coho-cms/coho-delivery-sdk-typescript ../../coho-delivery-sdk-typescript
-```
-
-```bash
-npm --prefix ../../coho-delivery-sdk-typescript install
-```
-
-```bash
-npm --prefix ../../coho-delivery-sdk-typescript run build
-```
-
-Installing from GitHub Packages needs a GitHub token with `read:packages`, even for public
-packages. With the GitHub CLI, add that scope once with `gh auth refresh -s read:packages`,
-then use its token in this terminal:
-
-```bash
-export NODE_AUTH_TOKEN=$(gh auth token)
-```
-
-`coho status` shows the URL, account and project the library needs. Create the library
-beside this repository, replacing the three placeholders:
-
-```bash
-npx ../../coho-delivery-sdk-typescript/packages/create-coho ../../blog-content --name @your-org/blog-content --url <url> --account <account-id> --project <project-id> --ref v1.0.1
+npm create coho@alpha ../../blog-content -- --name @your-org/blog-content --url <url> --account <account-id> --project <project-id> --ref v1.0.1
 ```
 
 This copies the library template, sets it up for this project, and installs it. Move into it:
@@ -399,8 +375,6 @@ The library's README covers releasing it and using it from a site.
   `echo ${#COHO_KEY}` prints its length without showing it.
 - **Delivery returns `404` with `PROJECT_NOT_FOUND`:** the key belongs to another project, or
   the project ID is wrong. Check it against `coho status`.
-- **`npm install` fails with `401` in step 16:** `NODE_AUTH_TOKEN` is not set in this
-  terminal, or the token lacks `read:packages`.
 - **`npm run pull` fails with `401` or `403`:** check `COHO_TOKEN` in `.env`. It must be a
   project token for this project.
 - **`npm run pull` fails with `404`:** the Coho server predates the type model. It needs a
