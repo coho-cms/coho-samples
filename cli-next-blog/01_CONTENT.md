@@ -1,6 +1,6 @@
 # 1. Set up the content model
 
-This page builds the content the blog reads. You create a project, add three content types
+This page builds the content model and sets up some sample content for the blog. You create a project, add three content types
 (`tag`, `teamMember` and `blogPost`), and load a few entries by hand. Then you link the
 entries to each other and preview them on `dev`. Last, you cut a release, promote it to
 `qa`, and read it with a delivery key, the way a website will.
@@ -153,6 +153,13 @@ https://api-dev.coho-cms.dev/api/v1/accounts/<account-id>/projects/<project-id>/
 Without it, those references are listed under `unresolved` with the reason `depth`. To
 show one entry, replace `entries?type=blogPost` with `entries/<entry-id>?depth=1`.
 Preview responses come through the signed-in session, so they need no key.
+
+Add `/<entry-id>` to the end of the address to show one entry. Preview responses come
+through the signed-in session, so they need no key. 
+
+This is not how you will normally access content, we have much
+more convenient methods, but it's worth knowing a few of the lower level API calls just to understand
+what's happening behind the curtains.
 
 ## 10. Fix a mistake
 

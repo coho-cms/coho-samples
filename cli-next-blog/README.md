@@ -1,4 +1,4 @@
-# Setting up a Next,js blog with the CLI
+# Setting up a Next.js blog with the CLI
 
 This sample walks through setting up a simple blog content model and wiring it into a
 Next.js app. It starts with the content model: the content types, and a few entries to read.
