@@ -150,7 +150,9 @@ https://api-dev.coho-cms.dev/api/v1/accounts/<account-id>/projects/<project-id>/
 ```
 
 Add `/<entry-id>` to the end of the address to show one entry. Preview responses come
-through the signed-in session, so they need no key.
+through the signed-in session, so they need no key. This is not how you will normally access content, we have much
+more convenient methods, but it's worth knowing a few of the lower level API calls just to understand
+what's happening behind the curtains.
 
 ## 10. Fix a mistake
 
