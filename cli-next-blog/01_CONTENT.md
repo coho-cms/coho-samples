@@ -1,6 +1,6 @@
 # 1. Set up the content model
 
-This page builds the content the blog reads. You create a project, add three content types
+This page builds the content model and sets up some sample contet for the blog. You create a project, add three content types
 (`tag`, `teamMember` and `blogPost`), and load a few entries by hand. Then you link the
 entries to each other and preview them on `dev`. Last, you cut a release, promote it to
 `qa`, and read it with a delivery key, the way a website will.
