@@ -10,23 +10,7 @@ environment without changing its code.
 You need the delivery key from step 12 of [Set up the content model](01_CONTENT.md).
 Run the first command from inside the `cli-next-blog` folder.
 
-## 1. Create the library
-
-The library tooling is in testing, so its releases are alphas on npm, reached with
-`@alpha`. `coho status` shows the URL, account and project the library needs. Create the
-library beside this repository, replacing the three placeholders:
-
-```bash
-npm create coho@alpha ../../blog-content -- --name @your-org/blog-content --url <url> --account <account-id> --project <project-id> --ref v1.0.1
-```
-
-This copies the library template, sets it up for this project, and installs it. Move into it:
-
-```bash
-cd ../../blog-content
-```
-
-## 2. Create a project token
+## 1. Create a project token
 
 The library reads its types with a project token. Create one that can only read, and copy
 it somewhere safe; it is shown once:
@@ -35,17 +19,38 @@ it somewhere safe; it is shown once:
 coho token create --role viewer --label "blog-content library"
 ```
 
-## 3. Fill in the settings
+A token belongs to one project, so it is all the library needs to know which project it
+is for: there are no account or project IDs to copy.
 
-Copy the example settings:
+## 2. Create the library
+
+The library tooling is in testing, so its releases are alphas on npm, reached with
+`@alpha`. Create the library beside this repository:
 
 ```bash
-cp .env.example .env
+npm create coho@alpha ../../blog-content -- --name @your-org/blog-content --url https://api-dev.coho-cms.dev --ref v1.0.1
 ```
 
-Then fill in `.env`. It is in `.gitignore`, so it stays out of commits:
+It asks for the project token from step 1. Paste it; it is not shown as you do. Coho says
+which account and project the token is for, and the library is set up for them:
 
-- `COHO_TOKEN`: the project token from step 2.
+```
+Created @your-org/blog-content in ../../blog-content, from the bundled template, on @coho-cms 0.1.0-alpha.3.
+It reads blog-sample, in <your account>, with the token in .env.
+```
+
+This copies the library template, sets it up for this project, puts the token in the
+library's `.env`, and installs it. Move into it:
+
+```bash
+cd ../../blog-content
+```
+
+## 3. Fill in the delivery settings
+
+The token is in `.env` already. It is in `.gitignore`, so it stays out of commits. Fill in
+the rest of `.env`, which `npm run catalog` reads in step 5:
+
 - `COHO_DELIVERY_URL`: `https://delivery-dev.coho-cms.dev`.
 - `COHO_DELIVERY_KEY`: the delivery key you created for `qa`.
 - `COHO_REF`: `qa`, the environment that key reads.
@@ -90,7 +95,7 @@ The library's README covers releasing it and using it from a site.
 
 `qa` holds a release. `dev` follows the trunk, so it holds whatever was saved last,
 released or not. Delivery serves only releases, so the library reads `dev` live through
-Coho instead, with the project token from step 2 rather than the delivery key:
+Coho instead, with the project token from step 1 rather than the delivery key:
 
 ```bash
 npm run catalog -- --preview
@@ -167,7 +172,8 @@ your editor rather than an `undefined` at runtime.
 
 Each environment gets a file of its own, saying where its content is. Neither holds a
 secret, so a real project commits them. Create `.env.dev`, replacing the placeholders with
-the account and project IDs from `coho status`:
+the `account` and `project` that `npm create coho` wrote into the library's
+`coho.config.json`:
 
 ```
 # dev: unreleased content, read live through Coho.
@@ -247,6 +253,10 @@ of [Set up the content model](01_CONTENT.md).
 
 ## If something goes wrong
 
+- **`npm create coho` says `Coho refused the token`:** with `UNAUTHENTICATED`, the token is
+  mistyped, revoked or expired, or was created before Coho could look tokens up by
+  themselves: create another. With `404`, check `--url`: it is Coho's own address, not
+  delivery's. Nothing is created when the token is refused, so run it again as it was.
 - **`npm run pull` fails with `401` or `403`:** check `COHO_TOKEN` in `.env`. It must be a
   project token for this project.
 - **`npm run pull` fails with `404`:** the Coho server predates the type model. It needs a
