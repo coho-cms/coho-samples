@@ -17,7 +17,8 @@ The library tooling is in testing, so its releases are alphas on npm, reached wi
 library beside this repository, replacing the three placeholders:
 
 ```bash
-npm create coho@alpha ../../blog-content -- --name @your-org/blog-content --url <url> --account <account-id> --project <project-id> --ref v1.0.1
+npm create coho@alpha ../../blog-content -- --name @your-org/blog-content --url <url> \
+    --account <account-id> --project <project-id> --ref v1.0.1
 ```
 
 This copies the library template, sets it up for this project, and installs it. Move into it:
