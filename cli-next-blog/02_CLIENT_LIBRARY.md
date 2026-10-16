@@ -1,22 +1,31 @@
 # 2. Create the client library
 
-A site reads this content through a client library: a TypeScript package with an
-interface for each content type, generated from this project's types. This page creates
-the library from the `v1.0.1` release cut in [Set up the content model](01_CONTENT.md),
-generates its typed API, and checks that it can read the content on `qa` and `dev`. Last,
-you write a small program of your own that uses the library, and point it at either
-environment without changing its code.
+Now we'll build a client library to have more convenient access to the content from
+our own codebase. This process creates a standalone node package that gets its configuration
+through environment variables. You will want to set this up as its own project that can be 
+updated as your content model changes, deployed to a node package repository, and distributed 
+as a dependency in all of the projects which need access to your content. 
 
-You need the delivery key from step 12 of [Set up the content model](01_CONTENT.md).
-Run the first command from inside the `cli-next-blog` folder.
+This step in the tutorial will create the new project, build it, and run some tests to make sure
+it can access your coho content. We will start by pointing at an environment `qa` which is pointing
+at an immutable tag. Since your development process is more likely to be pointing at the head of 
+a branch, we will then show how to have your local development environment point to 'dev' and have 
+the qa environment point to `qa`. 
+
+After that, we'll show how you can create your own content branch, point your local environment to 
+that branch, and when you're happy with the content changes, merge that into the version branch,
+ready for a qa deployment. 
+
+You will need the delivery key from step 12 of [Set up the content model](01_CONTENT.md).
 
 ## 1. Create the library
 
-The library tooling is in testing, so its releases are alphas on npm, reached with
-`@alpha`. `coho status` shows the URL, account and project the library needs. Create the
-library beside this repository, replacing the three placeholders:
+Remember that `coho status` shows the URL, account and project the library needs. Create a new folder
+for your library and run the following command:
 
 ```bash
+mkdir ~/workarea/blog-content
+cd ~/workarea/blog-content
 npm create coho@alpha ../../blog-content -- --name @your-org/blog-content --url <url> \
     --account <account-id> --project <project-id> --ref v1.0.1
 ```
