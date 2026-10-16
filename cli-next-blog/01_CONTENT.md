@@ -154,6 +154,15 @@ Without it, those references are listed under `unresolved` with the reason `dept
 show one entry, replace `entries?type=blogPost` with `entries/<entry-id>?depth=1`.
 Preview responses come through the signed-in session, so they need no key.
 
+The response lists entries in two places. `roots` holds the IDs of the entries the
+request asked for: here, every blog post, in the order the list is sorted. A request for
+one entry has one root. `entries` holds every root and every entry reached from one
+within `depth`, keyed by ID, each once. It is a map, so it has no order, and it cannot
+tell a post you asked for from an author it links to. `roots` is how you know: start
+from it, and look each ID up in `entries`. The authors and tags are in `entries` but not
+in `roots`. The roundabout post is a root even though Elm Street links to it as related,
+because the request asked for it too.
+
 Add `/<entry-id>` to the end of the address to show one entry. Preview responses come
 through the signed-in session, so they need no key. 
 
