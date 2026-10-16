@@ -146,11 +146,13 @@ https://api-dev.coho-cms.dev/api/v1/me
 Then open the blog posts from `dev`, replacing `<account-id>` and `<project-id>`:
 
 ```
-https://api-dev.coho-cms.dev/api/v1/accounts/<account-id>/projects/<project-id>/preview/dev/entries?type=blogPost
+https://api-dev.coho-cms.dev/api/v1/accounts/<account-id>/projects/<project-id>/preview/dev/entries?type=blogPost&depth=1
 ```
 
-Add `/<entry-id>` to the end of the address to show one entry. Preview responses come
-through the signed-in session, so they need no key.
+`depth=1` includes each post's author, tags and related posts in the same response.
+Without it, those references are listed under `unresolved` with the reason `depth`. To
+show one entry, replace `entries?type=blogPost` with `entries/<entry-id>?depth=1`.
+Preview responses come through the signed-in session, so they need no key.
 
 ## 10. Fix a mistake
 
