@@ -46,7 +46,7 @@ It asks for the project token from step 1. Paste it; it is not shown as you do. 
 which account and project the token is for, and the library is set up for them:
 
 ```
-Created @your-org/blog-content in …/workarea/blog-content, from the bundled template, on @coho-cms 0.1.0-alpha.3.
+Created @your-org/blog-content in …/workarea/blog-content, from the bundled template, on @coho-cms 0.1.0-alpha.4.
 It reads blog-sample, in <your account>, with the token in .env.
 ```
 
