@@ -52,13 +52,6 @@ Created @your-org/blog-content in …/workarea/blog-content, from the bundled te
 It reads blog-sample, in <your account>, with the token in .env.
 ```
 
-This copies the library template, sets it up for this project, puts the token in the
-library's `.env`, and installs it. Move into it:
-
-```bash
-cd ~/workarea/blog-content
-```
-
 ## 3. Generate the typed API
 
 Fetch the types from `dev`, and generate the library's code from them:
