@@ -29,7 +29,7 @@ default profile, so none of them needs a `-p` flag.
 
 ```bash
 git clone https://github.com/coho-cms/coho-samples.git
-cd cli-next-blog
+cd coho-samples/node/cli-next-blog
 ```
 
 Sign in to the default profile. This opens a browser:

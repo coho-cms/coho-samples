@@ -8,10 +8,10 @@ and reading it with a delivery key, the way a published website does, is a later
 Sign in first, as described under [Before you start](README.md#before-you-start).
 
 Every command on this page runs from inside the `cli-next-blog` folder. Start by moving
-into it:
+into it, from where you cloned the samples:
 
 ```bash
-cd cli-next-blog
+cd coho-samples/node/cli-next-blog
 ```
 
 From here, paths are relative to `cli-next-blog`, so `types/tag.json` means this folder's
