@@ -6,17 +6,17 @@ through environment variables. You will want to set this up as its own project t
 updated as your content model changes, deployed to a node package repository, and distributed 
 as a dependency in all of the projects which need access to your content. 
 
-This step in the tutorial will create the new project, build it, and run some tests to make sure
-it can access your coho content. We will start by pointing at an environment `qa` which is pointing
-at an immutable tag. Since your development process is more likely to be pointing at the head of 
-a branch, we will then show how to have your local development environment point to `dev` and have 
-the qa environment point to `qa`. 
+This step in the tutorial will create the new project, generate its types from `dev`, and run
+some tests to make sure it can access your coho content. `dev` follows the head of the trunk,
+which is where your development work is most likely to be. Then you'll write a small program
+of your own that uses the library, and point it at `dev` without changing its code.
 
-After that, we'll show how you can create your own content branch, point your local environment to 
-that branch, and when you're happy with the content changes, merge that into the version branch,
-ready for a qa deployment. 
+After that, we'll show how you can create your own content branch, point your local environment to
+that branch, and when you're happy with the content changes, merge that into the version branch.
 
-You will need the delivery key from step 12 of [Set up the content model](01_CONTENT.md).
+Everything on this page uses two credentials: your `coho login`, for the CLI, and project
+tokens, for the library and your own code. Releasing content to `qa` and reading it with a
+delivery key, the way a published website does, is a later tutorial.
 
 ## 1. Create a project token
 
@@ -39,7 +39,7 @@ or be empty:
 
 ```bash
 npm create coho@alpha ~/workarea/blog-content -- --name @your-org/blog-content \
-    --url https://api-dev.coho-cms.dev --ref v1.0.1
+    --url https://api-dev.coho-cms.dev --ref dev
 ```
 
 It asks for the project token from step 1. Paste it; it is not shown as you do. Coho says
@@ -57,18 +57,9 @@ library's `.env`, and installs it. Move into it:
 cd ~/workarea/blog-content
 ```
 
-## 3. Fill in the delivery settings
+## 3. Generate the typed API
 
-The token is in `.env` already. It is in `.gitignore`, so it stays out of commits. Fill in
-the rest of `.env`, which `npm run catalog` reads in step 5:
-
-- `COHO_DELIVERY_URL`: `https://delivery-dev.coho-cms.dev`.
-- `COHO_DELIVERY_KEY`: the delivery key you created for `qa`.
-- `COHO_REF`: `qa`, the environment that key reads.
-
-## 4. Generate the typed API
-
-Fetch the types from `v1.0.1`, and generate the library's code from them:
+Fetch the types from `dev`, and generate the library's code from them:
 
 ```bash
 npm run pull
@@ -78,39 +69,20 @@ npm run pull
 npm run generate
 ```
 
-## 5. List the content
+`generate` warns that the types came from a branch, whose types can change. That is
+expected while you develop: the library's types follow `dev`, so they change when `dev`
+does. It is a reminder for later. When you publish the library for other projects to
+install, generate it from a tag, so a published version always means the same types.
 
-List the content the library can read:
+## 4. List the content
 
-```bash
-npm run catalog
-```
-
-You should see every content type, and how many entries each has on `qa`:
-
-```
-Content on qa:
-
-  blogPost     Blog post         2
-  tag          Tag               3
-  teamMember   Team member       2
-
-  7 entries in 3 types
-```
-
-The counting is the library's `catalog` function, in `src/catalog.ts`, and a site uses the
-typed reads beside it the same way, such as `coho.blogPost.list({ order: '-publishedAt' })`.
-The library's README covers releasing it and using it from a site.
-
-## 6. List what is not released yet
-
-`qa` holds a release. `dev` follows the trunk, so it holds whatever was saved last,
-released or not. Delivery serves only releases, so the library reads `dev` live through
-Coho instead, with the project token from step 1 rather than the delivery key:
+List the content the library can read on `dev`:
 
 ```bash
 npm run catalog -- --preview
 ```
+
+You should see every content type, and how many entries each has:
 
 ```
 Unreleased content on dev:
@@ -122,17 +94,16 @@ Unreleased content on dev:
   7 entries in 3 types
 ```
 
-The counts match `qa`, because nothing has been saved on the trunk since `v1.0.1`. Create
-or change an entry and run it again: `dev` shows it at once, and `qa` only once it is
-released and promoted. A site previews the same way, with a project token of its own in
-place of its delivery key; the library's README shows how.
+`--preview` reads live through Coho, with the project token in `.env`. The counting is the
+library's `catalog` function, in `src/catalog.ts`, and a site uses the typed reads beside it
+the same way, such as `coho.blogPost.list({ order: '-publishedAt' })`.
 
-## 7. Write your own code
+## 5. Write your own code
 
 A site or service uses the library the way any program does: it imports it, and hands it
 its environment. The library reads no files. Whatever runs the program puts the variables
-in the environment: a `.env.dev` or `.env.qa` file for where things are, and the platform
-for secrets. So the same code reads `qa` in one deployment and `dev` in another.
+in the environment: a `.env.dev` file for where things are, and the platform for secrets.
+So the same code reads `dev` on your machine and a branch in a preview deployment.
 
 Try it with a small program beside the library. First build the library, so a program can
 import it:
@@ -141,8 +112,8 @@ import it:
 npm run build
 ```
 
-Create the program's folder, and install the library into it, with the delivery package
-the library is built on:
+Create the program's folder, and install the library into it, with `@coho-cms/delivery`,
+the package the library is built on:
 
 ```bash
 mkdir ../blog-try && cd ../blog-try
@@ -157,12 +128,12 @@ npm install ../blog-content @coho-cms/delivery@alpha
 ```
 
 Save this as `posts.ts`. It lists the blog posts, newest first, with each one's author,
-from whichever environment it is given:
+from whichever ref it is given:
 
 ```ts
 import { configFromEnv, createCoho, isResolved } from '@your-org/blog-content';
 
-// Released content or a preview, and which ref: the environment decides, not the code.
+// What to read, and with which credential: the environment decides, not the code.
 const coho = createCoho(configFromEnv(process.env));
 
 // depth: 1 brings each post's author, tags and related posts in the same request.
@@ -179,15 +150,14 @@ for (const post of posts.items) {
 The types come from the library, so a misspelled field such as `post.autor` is an error in
 your editor rather than an `undefined` at runtime.
 
-## 8. Say where each environment is
+## 6. Say where dev is
 
-Each environment gets a file of its own, saying where its content is. Neither holds a
-secret, so a real project commits them. Create `.env.dev`, replacing the placeholders with
-the `account` and `project` that `npm create coho` wrote into the library's
-`coho.config.json`:
+Create `.env.dev`, saying where `dev`'s content is. It holds no secret, so a real project
+commits it. Replace the placeholders with the `account` and `project` that `npm create coho`
+wrote into the library's `coho.config.json`:
 
 ```
-# dev: unreleased content, read live through Coho.
+# dev: the head of the trunk, read live through Coho.
 COHO_URL=https://api-dev.coho-cms.dev
 COHO_ACCOUNT=<account-id>
 COHO_PROJECT=<project-id>
@@ -195,35 +165,25 @@ COHO_REF=dev
 COHO_LOCALE=en-US
 ```
 
-And `.env.qa`:
+`COHO_URL` is Coho's own address, the one the CLI uses. `COHO_LOCALE` picks the
+translation of localized fields, such as the titles.
 
-```
-# qa: a release, read from delivery.
-COHO_DELIVERY_URL=https://delivery-dev.coho-cms.dev
-COHO_PROJECT=<project-id>
-COHO_REF=qa
-COHO_LOCALE=en-US
-```
+## 7. Run it against dev
 
-`dev` needs Coho's URL and the account, because it is read through Coho. `qa` needs only
-delivery's URL. `COHO_LOCALE` picks the translation of localized fields, such as the titles.
-
-## 9. Run it against dev and qa
-
-Each environment also needs a credential, and that is never written to a file: where the
+The program also needs a credential, and that is never written to a file: where the
 program runs, the platform injects it into the environment as a secret. Here, you set it
 on the command line, for one run.
 
-`dev` reads with a project token. Create one for this program, rather than reusing the
-library's `COHO_TOKEN`, which only pulls types and is never deployed:
+Create a project token for this program, rather than reusing the library's `COHO_TOKEN`.
+They could be the same token, but the library's stays with the library, while this one goes
+wherever the program runs, so each can be revoked without breaking the other:
 
 ```bash
 coho token create --role viewer --label "blog-try preview"
 ```
 
-Run the program against `dev`. `--env-file` makes Node load the file into the environment
-before the program starts, as a host does. A variable already set, such as the token, is
-kept:
+Run the program. `--env-file` makes Node load the file into the environment before the
+program starts, as a host does. A variable already set, such as the token, is kept:
 
 ```bash
 COHO_PREVIEW_TOKEN=<preview-token> node --env-file=.env.dev posts.ts
@@ -239,55 +199,78 @@ Blog posts on dev:
               A roundabout that looks right on paper can still jam at rush hour. Here is how we check.
 ```
 
-Then against `qa`, with the delivery key from step 12 of
-[Set up the content model](01_CONTENT.md):
+## 8. Work on a content branch
+
+A branch is your own copy of the content, where you can change things without touching
+`dev`. Create one from the trunk:
 
 ```bash
-COHO_DELIVERY_KEY=<delivery-key> node --env-file=.env.qa posts.ts
+coho branch create feature/spring-update --from v0.0.x
 ```
 
-It lists the same posts, under `Blog posts on qa`, because `v1.0.1` holds everything saved
-so far. The code did not change: the environment chose a preview through Coho with a
-token, or a release from delivery with a key.
-
-## 10. See dev and qa differ
-
-Change a post on the trunk:
+Change a post on the branch. `--ref` says which branch a command works on:
 
 ```bash
-coho entry put <elm-street-post-id> --set 'summary={"en-US":"Changed after v1.0.1."}'
+coho --ref feature/spring-update entry put <elm-street-post-id> --set 'summary={"en-US":"Rewritten on a branch."}'
 ```
 
-Run both commands from step 9 again. `dev` shows the new summary at once. `qa` still shows
-`The corrected summary.`, and will until a new tag is cut and promoted to it, as in step 11
-of [Set up the content model](01_CONTENT.md).
+Point the program at the branch. The variable on the command line wins over the one in
+`.env.dev`, so nothing else changes:
+
+```bash
+COHO_PREVIEW_TOKEN=<preview-token> COHO_REF=feature/spring-update node --env-file=.env.dev posts.ts
+```
+
+The Elm Street post now shows `Rewritten on a branch.` Run the command from step 7 again:
+`dev` still shows `The corrected summary.` In a real project, a preview deployment of a
+feature sets `COHO_REF` to its branch the same way.
+
+If a branch changes a content type, generate the library's types from it too. In
+`blog-content`:
+
+```bash
+npm run pull -- --ref feature/spring-update && npm run generate
+```
+
+## 9. Merge the branch
+
+When you are happy with the change, see what merging it into the trunk would do:
+
+```bash
+coho diff v0.0.x feature/spring-update
+```
+
+Then merge it. `--reviewed` checks that nothing changed since that diff:
+
+```bash
+coho merge feature/spring-update --into v0.0.x -m "Rewrite the Elm Street summary" --reviewed
+```
+
+Run the command from step 7 again. `dev` follows the trunk, so it now shows
+`Rewritten on a branch.` too.
 
 ## If something goes wrong
 
 - **`npm create coho` says `Coho refused the token`:** with `UNAUTHENTICATED`, the token is
   mistyped, revoked or expired, or was created before Coho could look tokens up by
-  themselves: create another. With `404`, check `--url`: it is Coho's own address, not
-  delivery's. Nothing is created when the token is refused, so run it again as it was.
+  themselves: create another. With `404`, check `--url`: it is Coho's own address. Nothing
+  is created when the token is refused, so run it again as it was.
 - **`npm run pull` fails with `401` or `403`:** check `COHO_TOKEN` in `.env`. It must be a
   project token for this project.
 - **`npm run pull` fails with `404`:** the Coho server predates the type model. It needs a
   build that serves `…/refs/{ref}/type-model`.
-- **`npm run catalog` fails:** a key made for `qa` reads only `qa`, so set
-  `COHO_REF=qa`. `PROJECT_NOT_FOUND` means the key is for another project, or
-  `project` in `coho.config.json` is wrong.
 - **`npm run catalog -- --preview` fails with `PROJECT_NOT_FOUND`:** `COHO_TOKEN` is for
   another project, or `account` or `project` in `coho.config.json` is wrong. With
   `UNAUTHENTICATED`, the token has expired or been revoked: create another.
 - **`posts.ts` fails with `Cannot find module …/blog-content/dist/index.js`:** the library
   is not built. Run `npm run build` in `blog-content`.
-- **`posts.ts` fails with `COHO_DELIVERY_URL is needed to read released content` on `dev`:**
-  no preview token reached the environment, so the library took the run for a release.
-  `dev` reads with `COHO_PREVIEW_TOKEN=` on the command line, not the delivery key.
-- **`posts.ts` fails with `set COHO_PREVIEW_TOKEN … or COHO_DELIVERY_KEY …, not both`:** one
-  of them is exported in your shell, so both reached the program. A deployment holds only
-  its own. Run `unset COHO_PREVIEW_TOKEN COHO_DELIVERY_KEY`, then try again.
-- **`posts.ts` fails with `UNAUTHENTICATED` on `dev`, or `PROJECT_NOT_FOUND` on `qa`:** the
-  credential is wrong, expired or revoked, or for another project. On `dev`, also check
-  `COHO_ACCOUNT` and `COHO_PROJECT` in `.env.dev`; on `qa`, `COHO_PROJECT` in `.env.qa`.
+- **`posts.ts` fails with `COHO_DELIVERY_URL is needed to read released content`:** no
+  preview token reached the environment, so the library took the run for a release. Check
+  `COHO_PREVIEW_TOKEN=` on the command line.
+- **`posts.ts` fails with `UNAUTHENTICATED` or `PROJECT_NOT_FOUND`:** the token is wrong,
+  expired or revoked, or for another project. Also check `COHO_ACCOUNT` and `COHO_PROJECT`
+  in `.env.dev`.
+- **`posts.ts` fails with `REF_NOT_FOUND` on the branch:** check the branch name in
+  `COHO_REF` against `coho branch list`.
 
 Next: [Build the Next.js blog](03_APPLICATION.md).

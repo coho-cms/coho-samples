@@ -2,8 +2,8 @@
 
 This page builds the content model and sets up some sample content for the blog. You create a project, add three content types
 (`tag`, `teamMember` and `blogPost`), and load a few entries by hand. Then you link the
-entries to each other and preview them on `dev`. Last, you cut a release, promote it to
-`qa`, and read it with a delivery key, the way a website will.
+entries to each other, preview them on `dev`, and fix a mistake. Releasing content to `qa`
+and reading it with a delivery key, the way a published website does, is a later tutorial.
 
 Sign in first, as described under [Before you start](README.md#before-you-start).
 
@@ -132,7 +132,7 @@ The `author`, `tags` and `related` fields should now hold the IDs you set.
 ## 9. Preview on dev
 
 `dev` is a live environment. It points at the newest saved content on the trunk, `v0.0.x`,
-not at a tag. Use it to see what the entries look like before you cut a release.
+not at a tag. Use it to see what the entries look like as you work.
 
 Find the account and project IDs in the output of `coho status`.
 
@@ -152,7 +152,7 @@ https://api-dev.coho-cms.dev/api/v1/accounts/<account-id>/projects/<project-id>/
 `depth=1` includes each post's author, tags and related posts in the same response.
 Without it, those references are listed under `unresolved` with the reason `depth`. To
 show one entry, replace `entries?type=blogPost` with `entries/<entry-id>?depth=1`.
-Preview responses come through the signed-in session, so they need no key.
+Preview responses come through your signed-in session, so the browser needs nothing else.
 
 The response lists entries in two places. `roots` holds the IDs of the entries the
 request asked for: here, every blog post, in the order the list is sorted. A request for
@@ -163,19 +163,14 @@ from it, and look each ID up in `entries`. The authors and tags are in `entries`
 in `roots`. The roundabout post is a root even though Elm Street links to it as related,
 because the request asked for it too.
 
-Add `/<entry-id>` to the end of the address to show one entry. Preview responses come
-through the signed-in session, so they need no key. 
-
 This is not how you will normally access content, we have much
 more convenient methods, but it's worth knowing a few of the lower level API calls just to understand
 what's happening behind the curtains.
 
 ## 10. Fix a mistake
 
-Tags never change, so a fix goes on the trunk and then into a new tag. `dev` shows the fix
-straight away. `qa` keeps the old tag until you cut a new one (step 11).
-
-For example, to correct the summary of the Elm Street post:
+A fix is saved on the trunk like any other change, and `dev` shows it straight away. For
+example, to correct the summary of the Elm Street post:
 
 ```bash
 coho entry put <elm-street-post-id> --set 'summary={"en-US":"The corrected summary."}'
@@ -183,91 +178,6 @@ coho entry put <elm-street-post-id> --set 'summary={"en-US":"The corrected summa
 
 `--set` reads the current entry, changes only that field, and writes it back. Check the
 change in the dev preview from step 9.
-
-## 11. Cut a release for QA
-
-A release is a tag on the trunk, promoted to an environment. Give each tag a name that has
-not been used before. Here the next release after `v1.0.0` is `v1.0.1`:
-
-```bash
-coho tag create v1.0.1 --branch v0.0.x -m "Correct the Elm Street summary"
-```
-
-```bash
-coho promote qa v1.0.1
-```
-
-`promote` waits until the release is ready, for up to five minutes. Check which tag `qa`
-points at:
-
-```bash
-coho env show qa
-```
-
-`qa` is the first environment a tag can go to. `dev` follows the trunk rather than a tag, so
-the release does not pass through it. If you promote a tag past an environment it could
-have gone to, for example straight to `stage`, `promote` warns that a step was skipped. The
-promotion still goes ahead.
-
-## 12. Get a delivery key
-
-A website reads published content with a delivery key, sent in the `Authorization` header.
-Create one for `qa`:
-
-```bash
-coho key create --label "blog-sample qa" --ref qa
-```
-
-The key is shown once and only its hash is stored. Copy it somewhere safe now. Do not put
-it in a web address, a commit or a chat. The [client library](02_CLIENT_LIBRARY.md) uses
-it too.
-
-To find a key's ID later, so you can revoke it, list the keys in JSON:
-
-```bash
-coho -o json key list
-```
-
-```bash
-coho key revoke <key-id>
-```
-
-## 13. Test delivery with curl
-
-Read `qa` the way your website will: with the key from step 12 in the `Authorization`
-header. A browser cannot send that header from the address bar, so use `curl`.
-
-Put the key in a shell variable first. `read -s` does not echo what you paste, which keeps
-the key out of your screen and your shell history. Paste the key and press Enter:
-
-```bash
-read -rs COHO_KEY
-```
-
-List the blog posts, replacing `<project-id>`:
-
-```bash
-curl -H "Authorization: Bearer $COHO_KEY" "https://delivery-dev.coho-cms.dev/v1/projects/<project-id>/qa/entries?type=blogPost&locale=en-US"
-```
-
-You should see JSON with the two blog posts. Each entry has its `slug` at the top level and
-its content under `fields`. If you have `jq` installed, add `| jq` to the end of a command
-to make the output easier to read.
-
-Show one post:
-
-```bash
-curl -H "Authorization: Bearer $COHO_KEY" "https://delivery-dev.coho-cms.dev/v1/projects/<project-id>/qa/entries/<elm-street-post-id>"
-```
-
-Without the header the same address returns `401`:
-
-```bash
-curl -i "https://delivery-dev.coho-cms.dev/v1/projects/<project-id>/qa/entries"
-```
-
-If it returns `200` instead, `qa` was made readable without a key at some point. Turn that
-off with `coho key public` and no argument.
 
 ## If something goes wrong
 
@@ -285,12 +195,5 @@ off with `coho key public` and no argument.
   and the write. Run the command again.
 - **The dev preview returns `401`:** sign in at `https://api-dev.coho-cms.dev/auth/login`,
   then load the address again.
-- **`INVALID_PROMOTION_TARGET` when promoting to `dev`:** `dev` is live and only points at
-  the trunk. Promote a tag to `qa`, `stage` or `prod` instead.
-- **Delivery returns `401` with `KEY_REQUIRED`:** send the key in the `Authorization` header
-  (step 13). If you used `read -s`, check that `COHO_KEY` is set in the same terminal:
-  `echo ${#COHO_KEY}` prints its length without showing it.
-- **Delivery returns `404` with `PROJECT_NOT_FOUND`:** the key belongs to another project, or
-  the project ID is wrong. Check it against `coho status`.
 
 Next: [Create the client library](02_CLIENT_LIBRARY.md).
