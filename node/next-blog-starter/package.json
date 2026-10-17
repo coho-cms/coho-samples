@@ -1,0 +1,25 @@
+{
+  "name": "next-blog-starter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A Next.js blog that reads its posts from Coho through your content library.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@coho-cms/delivery": "^0.1.0-alpha.5",
+    "next": "16.4.2",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-markdown": "^10.1.0",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
+  }
+}
