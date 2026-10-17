@@ -38,7 +38,9 @@ The library tooling is in testing, so its releases are alphas on npm, reached wi
 or be empty:
 
 ```bash
-npm create coho@alpha ~/workarea/blog-content -- --name @your-org/blog-content \
+mkdir ~/workarea/blog-content
+cd ~/workarea/blog-content
+npm create coho@alpha . -- --name @your-org/blog-content \
     --url https://api-dev.coho-cms.dev --ref dev
 ```
 
