@@ -1,0 +1,73 @@
+# Coho samples
+
+Welcome! This is the place to start with [Coho](https://github.com/coho-cms): tutorials,
+best practices, and getting-started projects that show how to bring Coho content into the
+languages and frameworks you already use.
+
+Coho is managed content infrastructure, branch-native: your content and your content
+model are versioned together. You change both on a branch, review the diff, merge it, cut
+a release, and promote that release through environments such as `dev`, `qa` and `prod`.
+These samples show what that looks like from the code that reads your content.
+
+## Start here
+
+New to Coho? Start with **[Setting up a Next.js blog with the CLI](node/cli-next-blog/README.md)**.
+In three short steps it goes from nothing to a working site:
+
+1. **[Set up the content model](node/cli-next-blog/01_CONTENT.md)**: content types, a few
+   entries, localized text, markdown, and references between entries.
+2. **[Create the client library](node/cli-next-blog/02_CLIENT_LIBRARY.md)**: a TypeScript
+   package with a typed API, generated from those content types.
+3. **[Build the Next.js blog](node/cli-next-blog/03_APPLICATION.md)**: React pages that read
+   the content through that library.
+
+## Samples by language
+
+| Language | Sample | What it shows |
+|---|---|---|
+| **Node.js and TypeScript** | [cli-next-blog](node/cli-next-blog/README.md) | A content model built with the CLI, a generated typed client library, and a Next.js blog |
+| **.NET** | 🔜 Coming | |
+| **Python** | 🔜 Coming | |
+
+Each sample is self-contained: its own folder, its own README, and steps numbered in the
+order you take them. Commands run from inside the sample's folder, and each README says
+what you need before you start.
+
+## What you'll pick up along the way
+
+- **Model content as code.** Content types are JSON files you keep in your repository and
+  review like any other change.
+- **Read content with types.** A client library generated from your content model catches
+  a removed field at build time, not in production.
+- **Preview before you release.** Read `dev` or a branch with a project token while you
+  work, and released content with a delivery key in production, from the same code.
+- **Keep credentials where they belong.** Each sample shows which token goes where, and
+  keeps every secret on the server.
+
+## Before you start
+
+You need the [`coho` CLI](https://github.com/coho-cms/coho-cli) and a Coho account. Each
+sample's README walks through signing in. Then clone this repository:
+
+```bash
+git clone https://github.com/coho-cms/coho-samples.git
+```
+
+## The tools these samples use
+
+| Repository | What it is |
+|---|---|
+| [coho-cli](https://github.com/coho-cms/coho-cli) | The `coho` command line: sign in, create projects, and manage types, entries, branches and releases |
+| [coho-delivery-sdk-typescript](https://github.com/coho-cms/coho-delivery-sdk-typescript) | The TypeScript delivery client, the code generator, and `npm create coho` |
+| [coho-template-typescript](https://github.com/coho-cms/coho-template-typescript) | The starting point for a TypeScript content library |
+| [coho-management-sdk-python](https://github.com/coho-cms/coho-management-sdk-python) | The Python management SDK: accounts, projects, branches, content, releases and delivery keys |
+
+## Contributing
+
+Found a step that didn't work, or have a sample you'd like to see? Open an issue. Samples
+for more languages and frameworks are on the way, and requests help decide which comes
+next.
+
+## License
+
+Apache-2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
