@@ -89,9 +89,9 @@ Unreleased content on dev:
   7 entries in 3 types
 ```
 
-`--preview` reads live through Coho, with the project token in `.env`. The counting is the
-library's `catalog` function, in `src/catalog.ts`, and a site uses the typed reads beside it
-the same way, such as `coho.blogPost.list({ order: '-publishedAt' })`.
+`--preview` reads live through Coho, with the project token in `.env`. The counting is in
+`scripts/`, a development tool, not part of the published library. A site uses the same
+typed reads, such as `coho.blogPost.list({ order: '-publishedAt' })`.
 
 ## 5. Write your own code
 
@@ -126,7 +126,8 @@ Save this as `posts.ts`. It lists the blog posts, newest first, with each one's 
 from whichever ref it is given:
 
 ```ts
-import { configFromEnv, createCoho, isResolved } from '@your-org/blog-content';
+import { configFromEnv } from '@coho-cms/delivery';
+import { createCoho, isResolved } from '@your-org/blog-content';
 
 // What to read, and with which credential: the environment decides, not the code.
 const coho = createCoho(configFromEnv(process.env));
