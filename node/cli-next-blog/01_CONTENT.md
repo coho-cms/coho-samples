@@ -89,8 +89,9 @@ Name each entry by its slug, with an `@` in front: `@priya-shah` is the entry wh
 is `priya-shah`. A reference holds the ID of the entry it points to, so the CLI looks each
 slug up on the current ref and writes that ID, and the server then checks that the entry
 is of a type the field allows. The value after `--set` is JSON, so a list goes in quotes.
-You won't usually link entries by hand like this. It is here to show how linking works
-behind the scenes.
+Note that the @ reference results in a separate lookup from the CLI into the management API.
+If you are writing a large migration script, you will likely want to get the ID once and pass
+that in rather than using the @<slug> shortcut for all calls. 
 
 Link the roundabout post to Priya and to the Traffic tag:
 
