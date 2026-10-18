@@ -3,14 +3,16 @@
 This sample walks through setting up a simple blog content model and wiring it into a
 Next.js app. It starts with the content model: the content types, and a few entries to read.
 Next it creates a client library with a strongly typed API, generated from those types.
-Last, it wires that library into React templates on a Next.js blog.
+Then it wires that library into React templates on a Next.js blog. Last, it gives the
+posts images and files to download.
 
 1. [Set up the content model](01_CONTENT.md)
 2. [Create the client library](02_CLIENT_LIBRARY.md)
 3. [Build the Next.js blog](03_APPLICATION.md)
+4. [Images and downloads](04_IMAGES_AND_ASSETS.md)
 
 The model shows the main things Coho does: content types, a closed list of choices,
-localized text, markdown, and references between entries.
+localized text, markdown, references between entries, and assets.
 
 ```
 cli-next-blog/

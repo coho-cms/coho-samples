@@ -278,3 +278,5 @@ changes with it, and so does the line in `package.json`.
 - **A build error about `server-only`:** a component marked `'use client'` imports
   `lib/coho.ts`, directly or through another file. Read content in a server component, and
   pass the client component what it shows as props.
+
+Next: [Images and downloads](04_IMAGES_AND_ASSETS.md).

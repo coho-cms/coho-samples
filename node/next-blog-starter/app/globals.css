@@ -39,6 +39,11 @@ a {
   text-underline-offset: 0.15em;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 h1,
 h2,
 h3 {
@@ -126,10 +131,42 @@ h3 {
   margin: 0;
 }
 
+/* A card with an image: its text on the left, the thumbnail on the right */
+
+.post-card:has(> .thumbnail) {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 1.25rem;
+  align-items: start;
+}
+
+.post-card:has(> .thumbnail) > * {
+  grid-column: 1;
+}
+
+.post-card > .thumbnail {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  border-radius: 0.5rem;
+}
+
+@media (max-width: 30rem) {
+  .post-card > .thumbnail {
+    width: 6rem;
+  }
+}
+
 /* A post. Its layout field sets the page's width: wide and landing widen the column. */
 
 body:has(.post:is([data-layout='wide'], [data-layout='landing'])) {
   --measure: var(--wide);
+}
+
+/* Never wider than the size it was cut at, so it is never blurred; narrower on a small screen */
+.post .hero {
+  display: block;
+  margin-bottom: 1.5rem;
+  border-radius: 0.75rem;
 }
 
 .post h1 {
@@ -228,11 +265,13 @@ body:has(.post:is([data-layout='wide'], [data-layout='landing'])) {
   margin-bottom: 0.75rem;
 }
 
-.related {
+.related,
+.downloads {
   margin-top: 3rem;
 }
 
-.related h2 {
+.related h2,
+.downloads h2 {
   margin-block: 0 0.75rem;
   color: var(--muted);
   font-size: 0.875rem;
@@ -240,7 +279,8 @@ body:has(.post:is([data-layout='wide'], [data-layout='landing'])) {
   text-transform: uppercase;
 }
 
-.related ul {
+.related ul,
+.downloads ul {
   margin: 0;
   padding-left: 1.25rem;
 }
