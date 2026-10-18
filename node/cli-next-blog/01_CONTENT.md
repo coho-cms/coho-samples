@@ -73,7 +73,7 @@ coho entry create -t teamMember -f entries/team-members/tom-okafor.json
 
 ## 5. Create the blog posts
 
-The posts are created without their links. Step 7 adds those once you have the IDs.
+The posts are created without their links. Step 6 adds those.
 
 ```bash
 coho entry create -t blogPost -f entries/blog-posts/roundabout-second-opinion.json
@@ -83,53 +83,40 @@ coho entry create -t blogPost -f entries/blog-posts/elm-street-drainage.json
 Each entry's slug comes from its `_name`, so the posts become `roundabout-second-opinion`
 and `elm-street-drainage`.
 
-## 6. Get the IDs
+## 6. Link the posts
 
-References hold entry IDs, not slugs. Read the IDs with JSON output, because the table
-can shorten them.
-
-```bash
-coho -o json entry list -t teamMember
-coho -o json entry list -t tag
-coho -o json entry list -t blogPost
-```
-
-Note the `id` for:
-
-- Priya Shah and Tom Okafor
-- Traffic, Drainage and Project notes
-- Why every roundabout needs a second opinion, which is the `roundabout-second-opinion` post
-
-## 7. Link the posts
-
-Replace each `<…>` with an ID from step 6. The value after `--set` is JSON, so a list
-goes in quotes. You won't usually link entries by hand like this. It is here to show how
-linking works behind the scenes.
+Name each entry by its slug, with an `@` in front: `@priya-shah` is the entry whose slug
+is `priya-shah`. A reference holds the ID of the entry it points to, so the CLI looks each
+slug up on the current ref and writes that ID, and the server then checks that the entry
+is of a type the field allows. The value after `--set` is JSON, so a list goes in quotes.
+You won't usually link entries by hand like this. It is here to show how linking works
+behind the scenes.
 
 Link the roundabout post to Priya and to the Traffic tag:
 
 ```bash
-coho entry put <roundabout-post-id> --set author=<priya-shah-id> --set 'tags=["<traffic-id>"]'
+coho entry put @roundabout-second-opinion --set author=@priya-shah --set 'tags=["@traffic"]'
 ```
 
 Link the Elm Street post to Tom, to the Drainage and Project notes tags, and to the
 roundabout post as a related read:
 
 ```bash
-coho entry put <elm-street-post-id> --set author=<tom-okafor-id> --set 'tags=["<drainage-id>","<project-notes-id>"]' --set 'related=["<roundabout-post-id>"]'
+coho entry put @elm-street-drainage --set author=@tom-okafor --set 'tags=["@drainage","@project-notes"]' --set 'related=["@roundabout-second-opinion"]'
 ```
 
-## 8. Check the result
+## 7. Check the result
 
 Show one of the linked posts:
 
 ```bash
-coho entry get <elm-street-post-id>
+coho entry get @elm-street-drainage
 ```
 
-The `author`, `tags` and `related` fields should now hold the IDs you set.
+The `author`, `tags` and `related` fields now hold the IDs of the entries you named.
+`coho entry list -t tag` shows which ID belongs to which slug.
 
-## 9. Preview on dev
+## 8. Preview on dev
 
 `dev` is a live environment. It points at the newest saved content on the trunk, `v0.0.x`,
 not at a tag. Use it to see what the entries look like as you work.
@@ -151,7 +138,8 @@ https://api-dev.coho-cms.dev/api/v1/accounts/<account-id>/projects/<project-id>/
 
 `depth=1` includes each post's author, tags and related posts in the same response.
 Without it, those references are listed under `unresolved` with the reason `depth`. To
-show one entry, replace `entries?type=blogPost` with `entries/<entry-id>?depth=1`.
+show one entry by its slug, replace `entries?type=blogPost` with
+`entries-by-slug/elm-street-drainage?depth=1`.
 Preview responses come through your signed-in session, so the browser needs nothing else.
 
 The response lists entries in two places. `roots` holds the IDs of the entries the
@@ -167,30 +155,32 @@ This is not how you will normally access content, we have much
 more convenient methods, but it's worth knowing a few of the lower level API calls just to understand
 what's happening behind the curtains.
 
-## 10. Fix a mistake
+## 9. Fix a mistake
 
 A fix is saved on the trunk like any other change, and `dev` shows it straight away. For
 example, to correct the summary of the Elm Street post:
 
 ```bash
-coho entry put <elm-street-post-id> --set 'summary={"en-US":"The corrected summary."}'
+coho entry put @elm-street-drainage --set 'summary={"en-US":"The corrected summary."}'
 ```
 
 `--set` reads the current entry, changes only that field, and writes it back. Check the
-change in the dev preview from step 9.
+change in the dev preview from step 8.
 
 ## If something goes wrong
 
 - **`SLUG_CONFLICT` or `INTERNAL_NAME_CONFLICT` on create:** the entry already exists.
-  List it with `coho entry list -t <type>`, and delete it with `coho entry delete <id>`
-  if you want to load it again.
+  List it with `coho entry list -t <type>`, and delete it with
+  `coho entry delete @<slug>` if you want to load it again.
+- **`ENTRY_NOT_FOUND` for an `@` name:** no entry on the ref has that slug. Check the
+  `SLUG` column of `coho entry list -t <type>`. A slug is looked up on a branch or an
+  environment on one, such as `dev`; on a tag, use the ID.
 - **`VALIDATION_FAILED`:** the message names the field that is wrong. The most common
   cause is a `layout` or `disciplines` value that is not in the type's list.
 - **`type put` says the type exists:** pass the ETag from `coho type get <slug>` with
   `--if-match`, or add `--force` to overwrite it.
-- **A reference is rejected:** check that the ID came from the list in step 6, and that
-  the entry is of the right type. Authors must be `teamMember` entries, and tags must be
-  `tag` entries.
+- **A reference is rejected:** check that the entry you named is of the right type.
+  Authors must be `teamMember` entries, and tags must be `tag` entries.
 - **`VERSION_CONFLICT` on `entry put --set`:** someone else saved the entry between the read
   and the write. Run the command again.
 - **The dev preview returns `401`:** sign in at `https://api-dev.coho-cms.dev/auth/login`,

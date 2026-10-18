@@ -213,7 +213,7 @@ coho branch create feature/spring-update --from v0.0.x
 Change a post on the branch. `--ref` says which branch a command works on:
 
 ```bash
-coho --ref feature/spring-update entry put <elm-street-post-id> --set 'summary={"en-US":"Rewritten on a branch."}'
+coho --ref feature/spring-update entry put @elm-street-drainage --set 'summary={"en-US":"Rewritten on a branch."}'
 ```
 
 Point the program at the branch. A variable set on the command line wins over the one in
