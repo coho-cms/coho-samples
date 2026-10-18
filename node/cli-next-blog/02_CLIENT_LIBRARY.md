@@ -112,7 +112,7 @@ Create the program's folder, and install the library into it, with `@coho-cms/de
 the package the library is built on:
 
 ```bash
-mkdir ../blog-try && cd ../blog-try
+mkdir ../blog-test && cd ../blog-test
 npm init -y && npm pkg set type=module
 npm install ../blog-content @coho-cms/delivery@alpha
 ```
@@ -150,7 +150,7 @@ with the library, while this one goes wherever the program runs, so each can be 
 without breaking the other:
 
 ```bash
-coho token create --role viewer --label "blog-try preview"
+coho token create --role viewer --label "blog-test preview"
 ```
 
 Create `.env.local`, saying where `dev`'s content is and holding that token. Replace the
@@ -277,7 +277,7 @@ coho ref switch v0.0.x
 - **`posts.ts` fails with `UNAUTHENTICATED` or `PROJECT_NOT_FOUND`:** the token is wrong,
   expired or revoked, or for another project. Also check `COHO_ACCOUNT` and `COHO_PROJECT`
   in `.env.local`.
-- **`node` says `.env.local: not found`:** run the command from inside `blog-try`, where
+- **`node` says `.env.local: not found`:** run the command from inside `blog-test`, where
   the file is.
 - **`posts.ts` fails with `REF_NOT_FOUND` on the branch:** check the branch name in
   `COHO_REF` against `coho branch list`.

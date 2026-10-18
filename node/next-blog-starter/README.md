@@ -37,7 +37,7 @@ next-blog-starter/
    `@your-org/blog-content`, change it in `lib/coho.ts`.
 4. Put the Coho variables in `.env.local`, which the `.gitignore` keeps out of git:
    `COHO_URL`, `COHO_ACCOUNT`, `COHO_PROJECT`, `COHO_REF`, `COHO_LOCALE` and a project
-   token as `COHO_PREVIEW_TOKEN`. Copying `blog-try`'s `.env.local` is enough. Never give
+   token as `COHO_PREVIEW_TOKEN`. Copying `blog-test`'s `.env.local` is enough. Never give
    any of them a `NEXT_PUBLIC_` prefix.
 5. `npm run dev`, then replace each `Repeater:` comment with a `.map()` over its list.
    The tutorial has the code for each.

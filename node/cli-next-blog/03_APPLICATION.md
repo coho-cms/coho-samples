@@ -13,12 +13,12 @@ The site starts from [next-blog-starter](../next-blog-starter/README.md), a Next
 whose layout, styles, pages and reads are already written. This page adds the two things
 that are yours: the library, and the repeaters that show each post, tag and related post.
 
-Like `blog-try`, the site lives beside the library, outside this repository:
+Like `blog-test`, the site lives beside the library, outside this repository:
 
 ```
 ~/workarea/
 ├── blog-content/   the client library, from page 2
-├── blog-try/       the small program, from page 2
+├── blog-test/      the small program, from page 2
 └── blog-site/      the blog, from this page
 ```
 
@@ -104,12 +104,12 @@ than `@your-org/blog-content`, change the name there.
 
 ## 4. Say where dev is
 
-The site reads the same variables as `blog-try`: where `dev`'s content is, and the token
+The site reads the same variables as `blog-test`: where `dev`'s content is, and the token
 to read it with. Next.js reads them from a `.env.local` file, for `npm run dev` and for
-`npm run build`, so copy the one you made for `blog-try`:
+`npm run build`, so copy the one you made for `blog-test`:
 
 ```bash
-cp ../blog-try/.env.local .env.local
+cp ../blog-test/.env.local .env.local
 ```
 
 It holds the same values as before:
@@ -126,7 +126,7 @@ COHO_PREVIEW_TOKEN=<preview-token>
 The token is a secret, so `.env.local` must never be committed. The starter's `.gitignore`
 already leaves it out, with the line `.env*.local`.
 
-Sharing `blog-try`'s token is fine while you try things out. A real site gets a token of
+Sharing `blog-test`'s token is fine while you try things out. A real site gets a token of
 its own, so each can be revoked without breaking the other. Create one with
 `coho token create --role viewer --label "blog-site preview"`, and put it in
 `COHO_PREVIEW_TOKEN`.
