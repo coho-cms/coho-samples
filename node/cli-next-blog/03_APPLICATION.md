@@ -90,7 +90,7 @@ cd ../blog-site
 npm install ../blog-content/your-org-blog-content-0.1.0.tgz
 ```
 
-This installs everything the site needs, and adds the library to its `package.json`:
+This installs everything the site needs, and adds the library to its `package.json`. If you use a different mechanism for local development across multiple packages, feel free to adopt this to your own method.
 
 ```json
 "@your-org/blog-content": "file:../blog-content/your-org-blog-content-0.1.0.tgz",
