@@ -113,13 +113,7 @@ the package the library is built on:
 
 ```bash
 mkdir ../blog-try && cd ../blog-try
-```
-
-```bash
 npm init -y && npm pkg set type=module
-```
-
-```bash
 npm install ../blog-content @coho-cms/delivery@alpha
 ```
 
