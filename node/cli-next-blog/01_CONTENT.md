@@ -103,7 +103,9 @@ Link the Elm Street post to Tom, to the Drainage and Project notes tags, and to 
 roundabout post as a related read:
 
 ```bash
-coho entry put @elm-street-drainage --set author=@tom-okafor --set 'tags=["@drainage","@project-notes"]' --set 'related=["@roundabout-second-opinion"]'
+coho entry put @elm-street-drainage --set author=@tom-okafor \
+    --set 'tags=["@drainage","@project-notes"]' \
+    --set 'related=["@roundabout-second-opinion"]'
 ```
 
 ## 7. Check the result
