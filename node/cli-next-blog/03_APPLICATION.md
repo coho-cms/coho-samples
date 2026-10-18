@@ -106,7 +106,7 @@ than `@your-org/blog-content`, change the name there.
 
 `.env.development` says where `dev`'s content is. Next.js reads it for `npm run dev`. It
 holds no secret, so a real project commits it. Fill in `COHO_ACCOUNT` and `COHO_PROJECT`
-with the same ids as the `.env.dev` you made for `blog-try`:
+with the same ids as the `.env.local` you made for `blog-try`:
 
 ```
 COHO_URL=https://api-dev.coho-cms.dev

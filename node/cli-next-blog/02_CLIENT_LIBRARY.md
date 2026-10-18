@@ -97,8 +97,9 @@ typed reads, such as `coho.blogPost.list({ order: '-publishedAt' })`.
 
 A site or service uses the library the way any program does: it imports it, and hands it
 its environment. The library reads no files. Whatever runs the program puts the variables
-in the environment: a `.env.dev` file for where things are, and the platform for secrets.
-So the same code reads `dev` on your machine and a branch in a preview deployment.
+in the environment: on your machine, a `.env.local` file; on a host, the platform's
+settings and secrets. So the same code reads `dev` on your machine and a branch in a
+preview deployment.
 
 Try it with a small program beside the library. First build the library, so a program can
 import it:
@@ -148,9 +149,18 @@ your editor rather than an `undefined` at runtime.
 
 ## 6. Say where dev is
 
-Create `.env.dev`, saying where `dev`'s content is. It holds no secret, so a real project
-commits it. Replace the placeholders with the `account` and `project` that `npm create coho`
-wrote into the library's `coho.config.json`:
+The program needs a credential to read `dev`. Create a project token for it, rather than
+reusing the library's `COHO_TOKEN`. They could be the same token, but the library's stays
+with the library, while this one goes wherever the program runs, so each can be revoked
+without breaking the other:
+
+```bash
+coho token create --role viewer --label "blog-try preview"
+```
+
+Create `.env.local`, saying where `dev`'s content is and holding that token. Replace the
+placeholders with the `account` and `project` that `npm create coho` wrote into the
+library's `coho.config.json`, and with the token:
 
 ```
 # dev: the head of the trunk, read live through Coho.
@@ -159,30 +169,26 @@ COHO_ACCOUNT=<account-id>
 COHO_PROJECT=<project-id>
 COHO_REF=dev
 COHO_LOCALE=en-US
+COHO_PREVIEW_TOKEN=<preview-token>
 ```
 
 `COHO_URL` is Coho's own address, the one the CLI uses. `COHO_LOCALE` picks the
 translation of localized fields, such as the titles.
 
-## 7. Run it against dev
-
-The program also needs a credential, and that is never written to a file: where the
-program runs, the platform injects it into the environment as a secret. Here, you set it
-on the command line, for one run.
-
-Create a project token for this program, rather than reusing the library's `COHO_TOKEN`.
-They could be the same token, but the library's stays with the library, while this one goes
-wherever the program runs, so each can be revoked without breaking the other:
+The token is a secret, so `.env.local` must never be committed. Add it to `.gitignore`
+now, before the folder ever becomes a repository:
 
 ```bash
-coho token create --role viewer --label "blog-try preview"
+echo ".env.local" >> .gitignore
 ```
 
+## 7. Run it against dev
+
 Run the program. `--env-file` makes Node load the file into the environment before the
-program starts, as a host does. A variable already set, such as the token, is kept:
+program starts, as a host does:
 
 ```bash
-COHO_PREVIEW_TOKEN=<preview-token> node --env-file=.env.dev posts.ts
+node --env-file=.env.local posts.ts
 ```
 
 ```
@@ -210,11 +216,11 @@ Change a post on the branch. `--ref` says which branch a command works on:
 coho --ref feature/spring-update entry put <elm-street-post-id> --set 'summary={"en-US":"Rewritten on a branch."}'
 ```
 
-Point the program at the branch. The variable on the command line wins over the one in
-`.env.dev`, so nothing else changes:
+Point the program at the branch. A variable set on the command line wins over the one in
+`.env.local`, so nothing else changes:
 
 ```bash
-COHO_PREVIEW_TOKEN=<preview-token> COHO_REF=feature/spring-update node --env-file=.env.dev posts.ts
+COHO_REF=feature/spring-update node --env-file=.env.local posts.ts
 ```
 
 The Elm Street post now shows `Rewritten on a branch.` Run the command from step 7 again:
@@ -262,10 +268,12 @@ Run the command from step 7 again. `dev` follows the trunk, so it now shows
   is not built. Run `npm run build` in `blog-content`.
 - **`posts.ts` fails with `COHO_DELIVERY_URL is needed to read released content`:** no
   preview token reached the environment, so the library took the run for a release. Check
-  `COHO_PREVIEW_TOKEN=` on the command line.
+  `COHO_PREVIEW_TOKEN` in `.env.local`, and that the command has `--env-file=.env.local`.
 - **`posts.ts` fails with `UNAUTHENTICATED` or `PROJECT_NOT_FOUND`:** the token is wrong,
   expired or revoked, or for another project. Also check `COHO_ACCOUNT` and `COHO_PROJECT`
-  in `.env.dev`.
+  in `.env.local`.
+- **`node` says `.env.local: not found`:** run the command from inside `blog-try`, where
+  the file is.
 - **`posts.ts` fails with `REF_NOT_FOUND` on the branch:** check the branch name in
   `COHO_REF` against `coho branch list`.
 
