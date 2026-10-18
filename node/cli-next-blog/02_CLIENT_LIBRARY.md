@@ -208,7 +208,8 @@ coho branch create feature/spring-update --from v0.0.x
 Change a post on the branch. `--ref` says which branch a command works on:
 
 ```bash
-coho --ref feature/spring-update entry put @elm-street-drainage --set 'summary={"en-US":"Rewritten on a branch."}'
+coho --ref feature/spring-update entry put @elm-street-drainage \
+    --set 'summary={"en-US":"Rewritten on a branch."}'
 ```
 
 Point the program at the branch. A variable set on the command line wins over the one in
@@ -219,8 +220,8 @@ COHO_REF=feature/spring-update node --env-file=.env.local posts.ts
 ```
 
 The Elm Street post now shows `Rewritten on a branch.` Run the command from step 7 again:
-`dev` still shows `The corrected summary.` In a real project, a preview deployment of a
-feature sets `COHO_REF` to its branch the same way.
+`dev` still shows `The corrected summary.` If you are a developer working on your own branch
+for a while, you will want your env.local to point to your branch until you're done. 
 
 If a branch changes a content type, generate the library's types from it too. In
 `blog-content`:
