@@ -6,7 +6,8 @@ The types catch a misspelled field or a missing reference while you build, befor
 ever calls Coho.
 
 You need the client library from [Create the client library](02_CLIENT_LIBRARY.md), with
-its `.env` filled in and its code generated.
+its code generated. The blog brings its own settings and token: the library's `.env` only
+holds the token `npm run pull` uses, and never goes with it.
 
 The site starts from [next-blog-starter](../next-blog-starter/README.md), a Next.js app
 whose layout, styles, pages and reads are already written. This page adds the two things
