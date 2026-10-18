@@ -131,7 +131,8 @@ const coho = createCoho(configFromEnv(process.env));
 const posts = await coho.blogPost.list({ order: '-publishedAt', depth: 1 });
 
 console.log(`Blog posts on ${process.env.COHO_REF}:\n`);
-for (const post of posts.items) {
+for (const post of posts.items)
+{
   const author = post.author !== undefined && isResolved(post.author) ? post.author.fullName : 'no author';
   console.log(`  ${post.publishedAt.slice(0, 10)}  ${post.title}, by ${author}`);
   console.log(`              ${post.summary}\n`);
