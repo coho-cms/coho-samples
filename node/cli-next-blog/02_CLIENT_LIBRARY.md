@@ -251,6 +251,15 @@ coho merge feature/spring-update --into v0.0.x -m "Rewrite the Elm Street summar
 Run the command from step 7 again. `dev` follows the trunk, so it now shows
 `Rewritten on a branch.` too.
 
+Creating the branch made it the CLI's current ref. Now that it is merged, switch back to
+the trunk, so the commands that follow work there again:
+
+```bash
+coho ref switch v0.0.x
+```
+
+`coho status` shows `v0.0.x` as the ref again.
+
 ## If something goes wrong
 
 - **`npm create coho` says `Coho refused the token`:** with `UNAUTHENTICATED`, the token is
