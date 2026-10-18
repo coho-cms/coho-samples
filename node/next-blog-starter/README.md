@@ -24,7 +24,6 @@ next-blog-starter/
 ├── lib/
 │   ├── coho.ts                 the Coho client, and the only import of your library
 │   └── site.ts                 the site's name, its locale, and how dates look
-└── .env.development            where dev's content is
 ```
 
 ## In short
@@ -36,8 +35,10 @@ next-blog-starter/
 3. Install it in the site: `npm install ../blog-content/your-org-blog-content-0.1.0.tgz`.
    That adds the reference to `package.json`. If your library has another name than
    `@your-org/blog-content`, change it in `lib/coho.ts`.
-4. Fill in `COHO_ACCOUNT` and `COHO_PROJECT` in `.env.development`, and put a project
-   token in `.env.local` as `COHO_PREVIEW_TOKEN`. Never give either a `NEXT_PUBLIC_` prefix.
+4. Put the Coho variables in `.env.local`, which the `.gitignore` keeps out of git:
+   `COHO_URL`, `COHO_ACCOUNT`, `COHO_PROJECT`, `COHO_REF`, `COHO_LOCALE` and a project
+   token as `COHO_PREVIEW_TOKEN`. Copying `blog-try`'s `.env.local` is enough. Never give
+   any of them a `NEXT_PUBLIC_` prefix.
 5. `npm run dev`, then replace each `Repeater:` comment with a `.map()` over its list.
    The tutorial has the code for each.
 

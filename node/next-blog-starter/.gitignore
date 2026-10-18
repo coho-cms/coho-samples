@@ -12,8 +12,7 @@
 # debug
 npm-debug.log*
 
-# env files: .env.development holds no secret and is committed; .env.local holds
-# the project token and never is
+# env files: .env.local holds the project token, so it is never committed
 .env*.local
 
 # typescript

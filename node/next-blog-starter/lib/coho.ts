@@ -7,7 +7,7 @@ import { createCoho } from '@your-org/blog-content';
  *
  * What it reads, and with which credential, comes from the environment, not the code:
  * with a preview token it reads dev or a branch, live; with a delivery key, released
- * content. See .env.development.
+ * content. Set them in .env.local.
  */
 export const coho = createCoho(configFromEnv(process.env));
 

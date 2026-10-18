@@ -46,7 +46,6 @@ blog-site/
 ├── lib/
 │   ├── coho.ts                 the Coho client, and the only import of the library
 │   └── site.ts                 the site's name, its locale, and how dates look
-└── .env.development            where dev's content is
 ```
 
 ## 2. Pack the library
@@ -105,9 +104,15 @@ than `@your-org/blog-content`, change the name there.
 
 ## 4. Say where dev is
 
-`.env.development` says where `dev`'s content is. Next.js reads it for `npm run dev`. It
-holds no secret, so a real project commits it. Fill in `COHO_ACCOUNT` and `COHO_PROJECT`
-with the same ids as the `.env.local` you made for `blog-try`:
+The site reads the same variables as `blog-try`: where `dev`'s content is, and the token
+to read it with. Next.js reads them from a `.env.local` file, for `npm run dev` and for
+`npm run build`, so copy the one you made for `blog-try`:
+
+```bash
+cp ../blog-try/.env.local .env.local
+```
+
+It holds the same values as before:
 
 ```
 COHO_URL=https://api-dev.coho-cms.dev
@@ -115,21 +120,16 @@ COHO_ACCOUNT=<account-id>
 COHO_PROJECT=<project-id>
 COHO_REF=dev
 COHO_LOCALE=en-US
-```
-
-The site also needs a project token. As with `blog-try`, create one of its own, so each
-can be revoked without breaking the other:
-
-```bash
-coho token create --role viewer --label "blog-site preview"
-```
-
-A token is a secret, so it goes in `.env.local`, which Next.js also reads and the site's
-`.gitignore` keeps out of git. Create it with this line:
-
-```
 COHO_PREVIEW_TOKEN=<preview-token>
 ```
+
+The token is a secret, so `.env.local` must never be committed. The starter's `.gitignore`
+already leaves it out, with the line `.env*.local`.
+
+Sharing `blog-try`'s token is fine while you try things out. A real site gets a token of
+its own, so each can be revoked without breaking the other. Create one with
+`coho token create --role viewer --label "blog-site preview"`, and put it in
+`COHO_PREVIEW_TOKEN`.
 
 Never give a Coho variable a `NEXT_PUBLIC_` prefix: Next.js would put it in every visitor's
 browser. `lib/coho.ts` imports `server-only`, so only server components can read content.
@@ -140,7 +140,7 @@ browser. `lib/coho.ts` imports `server-only`, so only server components can read
 npm run dev
 ```
 
-It lists the files it read: `.env.local, .env.development`. Open http://localhost:3000.
+It lists the file it read the variables from: `.env.local`. Open http://localhost:3000.
 You see the site's name and **Latest posts**, but no posts. The page reads them, and
 nothing shows them yet. That is what the repeaters are for.
 
@@ -267,16 +267,14 @@ changes with it, and so does the line in `package.json`.
   environment, so the site took the run for a release. Check `COHO_PREVIEW_TOKEN` in
   `.env.local`, then restart `npm run dev`.
 - **`COHO_ACCOUNT, COHO_PROJECT are needed to read a preview`:** fill them in in
-  `.env.development` (step 4).
+  `.env.local` (step 4).
 - **`UNAUTHENTICATED` or `PROJECT_NOT_FOUND`:** the token is wrong, expired or revoked, or
-  for another project. Also check `COHO_ACCOUNT` and `COHO_PROJECT` in `.env.development`.
+  for another project. Also check `COHO_ACCOUNT` and `COHO_PROJECT` in `.env.local`.
 - **The page shows no posts, and no error:** check the repeater in `app/page.tsx` (step 6).
   If it is there, check that `dev` has posts: `npm run catalog -- --preview` in
   `blog-content`.
 - **The site still shows the old library after a change:** install the new tarball by its
   path, as in step 9, not with a plain `npm install`, and restart `npm run dev`.
-- **`npm run build` asks for `COHO_` variables:** a build reads `.env.production` and
-  `.env.local`, not `.env.development`. Set the variables for the content to build from.
 - **A build error about `server-only`:** a component marked `'use client'` imports
   `lib/coho.ts`, directly or through another file. Read content in a server component, and
   pass the client component what it shows as props.
