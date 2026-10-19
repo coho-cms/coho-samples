@@ -36,7 +36,7 @@ coho asset upload ../../sample-assets/roundabout.png --title "Roundabout anatomy
 
 ```bash
 coho asset upload ../../sample-assets/culvert.png --title "Culvert through a road embankment" \
-    --alt "Cutaway of a road embankment, showing the culvert pipe that carries a stream under the road"
+    --alt "Cutaway of a road embankment, showing the culvert pipe that carries a stream under the road" \
     --focal 0.5,0.6
 ```
 
