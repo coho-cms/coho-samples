@@ -272,7 +272,36 @@ Add the references after the downloads, before **Related posts**:
 )}
 ```
 
-Put it beside the tags repeater from page 3:
+The starter's stylesheet numbers the list and styles its heading like **Related posts**.
+If you copied the starter before this page was written, add these rules to the end of
+`app/globals.css`:
+
+```css
+.references {
+  margin-top: 3rem;
+}
+
+.references h2 {
+  margin-block: 0 0.75rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.references ol {
+  margin: 0;
+  padding-left: 1.5rem;
+  font-size: 0.9375rem;
+}
+
+.references li {
+  margin-bottom: 0.5rem;
+  overflow-wrap: anywhere;
+}
+```
+
+Put the repeater beside the tags repeater from page 3:
 
 ```tsx
 {post.tags?.filter(isResolved).map((tag) => (
