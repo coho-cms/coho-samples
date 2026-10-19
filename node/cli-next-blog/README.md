@@ -22,7 +22,7 @@ cli-next-blog/
     ├── tags/           three tags
     ├── team-members/   two authors
     ├── blog-posts/     two posts, linked to the authors and tags
-    └── references/     two citations for each post, from page 5
+    └── citations/      two citations for each post, from page 5
 ```
 
 ## Before you start

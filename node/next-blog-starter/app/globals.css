@@ -267,13 +267,13 @@ body:has(.post:is([data-layout='wide'], [data-layout='landing'])) {
 
 .related,
 .downloads,
-.references {
+.citations {
   margin-top: 3rem;
 }
 
 .related h2,
 .downloads h2,
-.references h2 {
+.citations h2 {
   margin-block: 0 0.75rem;
   color: var(--muted);
   font-size: 0.875rem;
@@ -287,14 +287,14 @@ body:has(.post:is([data-layout='wide'], [data-layout='landing'])) {
   padding-left: 1.25rem;
 }
 
-/* References: numbered, each wrapped onto a hanging indent, a long URL broken anywhere */
-.references ol {
+/* Citations: numbered, each wrapped onto a hanging indent, a long URL broken anywhere */
+.citations ol {
   margin: 0;
   padding-left: 1.5rem;
   font-size: 0.9375rem;
 }
 
-.references li {
+.citations li {
   margin-bottom: 0.5rem;
   overflow-wrap: anywhere;
 }
