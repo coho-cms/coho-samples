@@ -36,7 +36,8 @@ coho asset upload ../../sample-assets/roundabout.png --title "Roundabout anatomy
 
 ```bash
 coho asset upload ../../sample-assets/culvert.png --title "Culvert through a road embankment" \
-    --alt "Cutaway of a road embankment, showing the culvert pipe that carries a stream under the road"
+    --alt "Cutaway of a road embankment, showing the culvert pipe that carries a stream under the road" \
+    --focal 0.5,0.6
 ```
 
 The focal point is a pair of fractions, across and down: `0.5,0.52` is the middle of the
@@ -249,6 +250,18 @@ https://assets-dev.coho-cms.dev/<project-id>/i/<hash>/roundabout.png?w=800&h=200
 point. The CDN caches each size it makes, and the same `imageUrl`, `srcset` and
 `downloadUrl` functions are in `@coho-cms/delivery` for anywhere a component does not fit,
 such as a CSS background or a social card.
+
+## 10. Update the culvert image
+
+Note that for the culvert image, we set the focal point at 0.5,0.6. This really was way too far down. 
+
+So let's update it to relocate the focal point to the center of the image. 
+
+```bash
+coho asset put culvert --focal 0.5,0.5
+```
+Then refresh the page. It will take a split second for the new focal point to re-render and voila, it's 
+changed. 
 
 ## If something goes wrong
 
