@@ -1,0 +1,52 @@
+@page "/posts/{slug}"
+@model PostModel
+@{
+    var post = Model.Post;
+    var author = post.Author?.Value;
+    ViewData["Title"] = post.Title;
+    ViewData["Description"] = post.SeoDescription ?? post.Summary;
+}
+
+<article class="post" data-layout="@post.Layout">
+    <header>
+        <h1>@post.Title</h1>
+        <p class="meta">
+            <time datetime="@post.PublishedAt.ToString("O")">@Site.FormatDate(post.PublishedAt)</time>
+            @if (author is not null)
+            {
+                <text> · @author.FullName</text>
+            }
+            @if (post.ReadingMinutes is not null)
+            {
+                <text> · @post.ReadingMinutes min read</text>
+            }
+        </p>
+        <ul class="tags">
+            @* Repeater: an <li> with the name of each tag in post.Tags. *@
+        </ul>
+    </header>
+
+    <markdown text="@post.Body" />
+
+    @if (author is not null)
+    {
+        <aside class="author">
+            <h2>@author.FullName</h2>
+            @if (author.Title is not null)
+            {
+                <p class="meta">@author.Title</p>
+            }
+            <markdown text="@author.Bio" />
+        </aside>
+    }
+
+    @if (post.Related.Count > 0)
+    {
+        <section class="related">
+            <h2>Related posts</h2>
+            <ul>
+                @* Repeater: an <li> linking to each post in post.Related. *@
+            </ul>
+        </section>
+    }
+</article>

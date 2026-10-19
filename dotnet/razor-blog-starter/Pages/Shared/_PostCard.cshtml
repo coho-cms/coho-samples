@@ -1,0 +1,26 @@
+@* One post in a list: its date, author, title and summary, linking to the post. *@
+@model BlogPost
+@{
+    // A post read with depth 1 has its author. Without it, the author is only a link.
+    var author = Model.Author?.Value;
+}
+<article class="post-card">
+    <p class="meta">
+        <time datetime="@Model.PublishedAt.ToString("O")">@Site.FormatDate(Model.PublishedAt)</time>
+        @if (author is not null)
+        {
+            <text> · @author.FullName</text>
+        }
+        @if (Model.Featured == true)
+        {
+            <span class="badge">Featured</span>
+        }
+    </p>
+    <h2>
+        <a asp-page="/Posts/Post" asp-route-slug="@Model.Slug">@Model.Title</a>
+    </h2>
+    @if (Model.Summary is not null)
+    {
+        <p>@Model.Summary</p>
+    }
+</article>

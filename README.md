@@ -25,12 +25,15 @@ In five short steps it goes from nothing to a working site:
 5. **[Reference repeaters and inline repeaters](node/cli-next-blog/05_REFERENCE_AND_INLINE_REPEATERS.md)**:
    a list of entries each post links to, beside a list of citations stored in the post.
 
+Working in .NET? **[Setting up an ASP.NET Core blog with the CLI](dotnet/cli-razor-blog/README.md)**
+takes the same five steps, with a C# library and a Razor Pages site.
+
 ## Samples by language
 
 | Language | Sample | What it shows |
 |---|---|---|
 | **Node.js and TypeScript** | [cli-next-blog](node/cli-next-blog/README.md) | A content model built with the CLI, a generated typed client library, and a Next.js blog |
-| **.NET** | 🔜 Coming | |
+| **.NET** | [cli-razor-blog](dotnet/cli-razor-blog/README.md) | The same content model, a generated typed C# library, and an ASP.NET Core Razor Pages blog |
 | **Python** | 🔜 Coming | |
 
 Each sample is self-contained: its own folder, its own README, and steps numbered in the
@@ -64,6 +67,10 @@ git clone https://github.com/coho-cms/coho-samples.git
 | [coho-cli](https://github.com/coho-cms/coho-cli) | The `coho` command line: sign in, create projects, and manage types, entries, branches and releases |
 | [coho-delivery-sdk-typescript](https://github.com/coho-cms/coho-delivery-sdk-typescript) | The TypeScript delivery client, the code generator, and `npm create coho` |
 | [coho-template-typescript](https://github.com/coho-cms/coho-template-typescript) | The starting point for a TypeScript content library |
+| [coho-react](https://github.com/coho-cms/coho-react) | React components for images resized at the edge, and links to download assets |
+| [coho-delivery-sdk-dotnet](https://github.com/coho-cms/coho-delivery-sdk-dotnet) | The .NET delivery client, the code generator, and `dotnet new coho-library` |
+| [coho-template-dotnet](https://github.com/coho-cms/coho-template-dotnet) | The starting point for a .NET content library |
+| [coho-razor](https://github.com/coho-cms/coho-razor) | Razor tag helpers and Blazor components for images and downloads |
 | [coho-management-sdk-python](https://github.com/coho-cms/coho-management-sdk-python) | The Python management SDK: accounts, projects, branches, content, releases and delivery keys |
 
 ## Contributing

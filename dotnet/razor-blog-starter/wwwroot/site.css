@@ -1,0 +1,300 @@
+:root {
+  --text: #1c2024;
+  --muted: #5c6670;
+  --background: #fdfdfc;
+  --surface: #f2f4f5;
+  --border: #e0e4e7;
+  --accent: #0f6b66;
+  --measure: 42rem;
+  --wide: 60rem;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #e6e9eb;
+    --muted: #9aa5ae;
+    --background: #111416;
+    --surface: #1a1f22;
+    --border: #2b3237;
+    --accent: #63c5bc;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font: 1.0625rem/1.65 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 0.15em;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+/* The page: one centred column, with a gutter on small screens */
+
+.site-header,
+.site-footer,
+.site-main > * {
+  width: min(var(--measure), 100% - 2.5rem);
+  margin-inline: auto;
+}
+
+.site-header {
+  padding-block: 2rem 1.5rem;
+}
+
+.site-name {
+  color: var(--text);
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.site-main {
+  padding-block: 1rem 4rem;
+}
+
+.site-footer {
+  padding-block: 1.5rem 3rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.page-title {
+  margin-block: 0 2rem;
+  font-size: 2rem;
+}
+
+.meta {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.badge {
+  margin-left: 0.5rem;
+  padding: 0.0625rem 0.5rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--background);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* A list of posts */
+
+.post-list {
+  display: grid;
+  gap: 2.25rem;
+  margin-block: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.post-card h2 {
+  margin-block: 0.25rem 0.5rem;
+  font-size: 1.375rem;
+}
+
+.post-card h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.post-card h2 a:hover {
+  color: var(--accent);
+}
+
+.post-card p {
+  margin: 0;
+}
+
+/* A card with an image: its text on the left, the thumbnail on the right */
+
+.post-card:has(> .thumbnail) {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 1.25rem;
+  align-items: start;
+}
+
+.post-card:has(> .thumbnail) > * {
+  grid-column: 1;
+}
+
+.post-card > .thumbnail {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  border-radius: 0.5rem;
+}
+
+@media (max-width: 30rem) {
+  .post-card > .thumbnail {
+    width: 6rem;
+  }
+}
+
+/* A post. Its layout field sets the page's width: wide and landing widen the column. */
+
+body:has(.post:is([data-layout='wide'], [data-layout='landing'])) {
+  --measure: var(--wide);
+}
+
+/* Never wider than the size it was cut at, so it is never blurred; narrower on a small screen */
+.post .hero {
+  display: block;
+  margin-bottom: 1.5rem;
+  border-radius: 0.75rem;
+}
+
+.post h1 {
+  margin-block: 0 0.75rem;
+  font-size: clamp(1.75rem, 5vw, 2.25rem);
+}
+
+.post[data-layout='landing'] header {
+  padding-block: 2rem;
+  text-align: center;
+}
+
+.post[data-layout='landing'] h1 {
+  font-size: clamp(2.25rem, 7vw, 3rem);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block: 1rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.post[data-layout='landing'] .tags {
+  justify-content: center;
+}
+
+.tags li {
+  padding: 0.125rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 0.8125rem;
+}
+
+.post > .prose {
+  margin-top: 2rem;
+}
+
+.prose h2 {
+  margin-block: 2rem 0.5rem;
+  font-size: 1.375rem;
+}
+
+.prose p,
+.prose ul,
+.prose ol {
+  margin-block: 0 1rem;
+}
+
+.prose > :last-child {
+  margin-bottom: 0;
+}
+
+.prose blockquote {
+  margin: 0 0 1rem;
+  padding-left: 1rem;
+  border-left: 3px solid var(--border);
+  color: var(--muted);
+}
+
+.prose code {
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  background: var(--surface);
+  font-size: 0.9em;
+}
+
+.prose pre {
+  overflow-x: auto;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: var(--surface);
+}
+
+.prose pre code {
+  padding: 0;
+  background: none;
+}
+
+.author {
+  margin-top: 3rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 0.75rem;
+  background: var(--surface);
+}
+
+.author h2 {
+  margin: 0;
+  font-size: 1.0625rem;
+}
+
+.author .meta {
+  margin-bottom: 0.75rem;
+}
+
+.related,
+.downloads,
+.citations {
+  margin-top: 3rem;
+}
+
+.related h2,
+.downloads h2,
+.citations h2 {
+  margin-block: 0 0.75rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.related ul,
+.downloads ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+/* Citations: numbered, each wrapped onto a hanging indent, a long URL broken anywhere */
+.citations ol {
+  margin: 0;
+  padding-left: 1.5rem;
+  font-size: 0.9375rem;
+}
+
+.citations li {
+  margin-bottom: 0.5rem;
+  overflow-wrap: anywhere;
+}

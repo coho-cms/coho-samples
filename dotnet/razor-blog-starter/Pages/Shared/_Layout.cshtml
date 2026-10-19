@@ -1,0 +1,18 @@
+@* Around every page: the header, the footer and the title. *@
+<!DOCTYPE html>
+<html lang="@Site.Locale">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@(ViewData["Title"] is string title ? $"{title} · {Site.Name}" : Site.Name)</title>
+    <meta name="description" content="@(ViewData["Description"] ?? "Notes from our work, published with Coho.")" />
+    <link rel="stylesheet" href="~/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="site-header">
+        <a asp-page="/Index" class="site-name">@Site.Name</a>
+    </header>
+    <main class="site-main">@RenderBody()</main>
+    <footer class="site-footer">Published with Coho.</footer>
+</body>
+</html>

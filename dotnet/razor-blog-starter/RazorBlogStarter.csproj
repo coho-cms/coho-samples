@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>RazorBlogStarter</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- For markdown fields, such as a post's body: see TagHelpers/MarkdownTagHelper.cs. -->
+    <PackageReference Include="Markdig" Version="1.4.0" />
+  </ItemGroup>
+</Project>
