@@ -93,7 +93,8 @@ Name each asset by its slug, with an `@`, as you named entries on page 1. The CL
 slug up among the assets, because the field is an asset field:
 
 ```bash
-coho entry put @roundabout-second-opinion --set image=@roundabout --set 'downloads=["@roundabout-functionality"]'
+coho entry put @roundabout-second-opinion --set image=@roundabout \
+    --set 'downloads=["@roundabout-functionality"]'
 ```
 
 ```bash
