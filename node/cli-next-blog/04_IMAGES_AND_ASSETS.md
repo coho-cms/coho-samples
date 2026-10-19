@@ -36,8 +36,7 @@ coho asset upload ../../sample-assets/roundabout.png --title "Roundabout anatomy
 
 ```bash
 coho asset upload ../../sample-assets/culvert.png --title "Culvert through a road embankment" \
-    --alt "Cutaway of a road embankment, showing the culvert pipe that carries a stream under the road" \
-    --focal 0.5,0.6
+    --alt "Cutaway of a road embankment, showing the culvert pipe that carries a stream under the road"
 ```
 
 The focal point is a pair of fractions, across and down: `0.5,0.52` is the middle of the
