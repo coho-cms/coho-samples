@@ -288,3 +288,5 @@ changed.
   delivers them.
 - **No thumbnail, and no error:** check that the post links an image (`coho entry get
   @elm-street-drainage`), and that the site shows the new library: restart `npm run dev`.
+
+Next: [Reference repeaters and inline repeaters](05_REFERENCE_AND_INLINE_REPEATERS.md).

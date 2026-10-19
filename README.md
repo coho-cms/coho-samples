@@ -12,7 +12,7 @@ These samples show what that looks like from the code that reads your content.
 ## Start here
 
 New to Coho? Start with **[Setting up a Next.js blog with the CLI](node/cli-next-blog/README.md)**.
-In four short steps it goes from nothing to a working site:
+In five short steps it goes from nothing to a working site:
 
 1. **[Set up the content model](node/cli-next-blog/01_CONTENT.md)**: content types, a few
    entries, localized text, markdown, and references between entries.
@@ -22,6 +22,8 @@ In four short steps it goes from nothing to a working site:
    the content through that library.
 4. **[Images and downloads](node/cli-next-blog/04_IMAGES_AND_ASSETS.md)**: files uploaded as
    assets, linked from the posts, and shown as resized images and download links.
+5. **[Reference repeaters and inline repeaters](node/cli-next-blog/05_REFERENCE_AND_INLINE_REPEATERS.md)**:
+   a list of entries each post links to, beside a list of citations stored in the post.
 
 ## Samples by language
 
