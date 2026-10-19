@@ -70,7 +70,9 @@ An `asset` field links assets, as a `reference` field links entries. `accept` sa
 media types it takes: any image for `image`, and only PDFs for `downloads`. `many` makes
 `downloads` a list, of at most five.
 
-The type already exists, so Coho needs to know you are changing the version you last saw.
+The type already exists, so Coho needs to know you are changing the version you last saw. This ensures
+that no one else sneaks in and makes a change while you're not looking. 
+
 Read the type, and note its ETag:
 
 ```bash
