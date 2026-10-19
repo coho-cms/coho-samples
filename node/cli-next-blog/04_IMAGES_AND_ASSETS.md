@@ -29,11 +29,15 @@ for images, and a focal point: where a crop centres. Upload the two images, each
 its alt text and focal point:
 
 ```bash
-coho asset upload ../../sample-assets/roundabout.png --title "Roundabout anatomy" --alt "Diagram of a single-lane roundabout, with its central island, splitter islands and crossings" --focal 0.5,0.52
+coho asset upload ../../sample-assets/roundabout.png --title "Roundabout anatomy" \
+    --alt "Diagram of a single-lane roundabout, with its central island, splitter islands and crossings" \
+    --focal 0.5,0.52
 ```
 
 ```bash
-coho asset upload ../../sample-assets/culvert.png --title "Culvert through a road embankment" --alt "Cutaway of a road embankment, showing the culvert pipe that carries a stream under the road" --focal 0.5,0.6
+coho asset upload ../../sample-assets/culvert.png --title "Culvert through a road embankment" \
+    --alt "Cutaway of a road embankment, showing the culvert pipe that carries a stream under the road"
+    --focal 0.5,0.6
 ```
 
 The focal point is a pair of fractions, across and down: `0.5,0.52` is the middle of the
