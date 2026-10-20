@@ -171,12 +171,13 @@ Then read the blog posts from `dev`, through Coho's preview:
 
 ```bash
 curl -s -H "Authorization: Bearer $TOKEN" \
-    "https://api-dev.coho-cms.dev/api/v1/accounts/$ACCOUNT/projects/$PROJECT/preview/dev/entries?type=blogPost&depth=1" \
-    | python3 -m json.tool
+    "https://api-dev.coho-cms.dev/api/v1/accounts/$ACCOUNT/projects/$PROJECT/preview/dev/entries?type=blogPost&depth=1"
 ```
 
-`python3 -m json.tool` only indents the response, so it is easier to read; leave it off if
-you have no Python. `depth=1` includes each post's author, tags and related posts in the
+Don't worry - this is just an example of how to make a raw API call. We'll get into the SDK in the next step
+or two. 
+
+Passing `depth=1` includes each post's author, tags and related posts in the
 same response. Without it, those references are listed under `unresolved` with the reason
 `depth`. To show one entry by its slug, replace `entries?type=blogPost` with
 `entries-by-slug/elm-street-drainage`.
