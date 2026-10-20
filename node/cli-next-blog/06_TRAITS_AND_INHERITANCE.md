@@ -168,31 +168,24 @@ Upload each with a title, alt text and focal point, as on page 4. A slug would c
 the filename, `01-dam`, so each command names a shorter one with `--slug`:
 
 ```bash
-coho asset upload ../../sample-assets/gallery/01_dam.png --slug dam --title "Arch dam and reservoir" \
+coho asset upload ../../sample-assets/gallery/01_dam.png \
+    --slug dam --title "Arch dam and reservoir" \
     --alt "Cutaway of a concrete arch dam holding back a reservoir, with its spillway, a powerhouse and transmission lines below" \
     --focal 0.52,0.45
-```
-
-```bash
-coho asset upload ../../sample-assets/gallery/02_canal_lock.png --slug canal-lock --title "Canal lock and container port" \
+coho asset upload ../../sample-assets/gallery/02_canal_lock.png \
+    --slug canal-lock --title "Canal lock and container port" \
     --alt "Cutaway of a canal where a lock lifts a container barge, with a container port beside it and a village across the water" \
     --focal 0.52,0.48
-```
-
-```bash
-coho asset upload ../../sample-assets/gallery/03_interchange.png --slug interchange --title "Motorway interchange" \
+coho asset upload ../../sample-assets/gallery/03_interchange.png \
+    --slug interchange --title "Motorway interchange" \
     --alt "Cutaway of a motorway interchange: an overpass, a roundabout at each end of the slip roads, and a solar farm beside it" \
     --focal 0.50,0.48
-```
-
-```bash
-coho asset upload ../../sample-assets/gallery/04_river_town.png --slug river-town --title "River town and its bridges" \
+coho asset upload ../../sample-assets/gallery/04_river_town.png \
+    --slug river-town --title "River town and its bridges" \
     --alt "Cutaway of a town on a walled river, crossed by an arch bridge and a cable-stayed bridge" \
     --focal 0.62,0.51
-```
-
-```bash
-coho asset upload ../../sample-assets/gallery/05_treatment_plant.png --slug treatment-plant --title "Wastewater treatment plant" \
+coho asset upload ../../sample-assets/gallery/05_treatment_plant.png \
+    --slug treatment-plant --title "Wastewater treatment plant" \
     --alt "Cutaway of a wastewater treatment plant beside a river, with round clarifiers, aeration tanks and digesters" \
     --focal 0.53,0.48
 ```
