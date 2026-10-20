@@ -346,10 +346,21 @@ npx tsc --noEmit
 ```
 
 ```
-app/page.tsx(14,29): error TS2322: Type 'AnyBlogPost' is not assignable to type 'BlogPost'.
+app/page.tsx:14:29 - error TS2322: Type 'AnyBlogPost' is not assignable to type 'BlogPost'.
   Type 'PhotoGallery' is not assignable to type 'BlogPost'.
     Types of property '_type' are incompatible.
       Type '"photoGallery"' is not assignable to type '"blogPost"'.
+
+14                   <PostCard post={post} />
+                               ~~~~
+
+  components/post-card.tsx:7:38
+    7 export function PostCard({ post }: { post: BlogPost }) {
+                                           ~~~~
+    The expected type comes from property 'post' which is declared here on type 'IntrinsicAttributes & { post: BlogPost; }'
+
+
+Found 1 error in app/page.tsx:14
 ```
 
 The home page's list of posts can now hold a gallery, and `PostCard` takes only a
@@ -533,6 +544,9 @@ required, for example, is refused with the types it would reach, `blogPost` and
   declares itself, not those it inherits. Update it, or pass the team member's id.
 - **`entry create` fails with `VALIDATION_FAILED` at `/photos`:** a gallery needs at least
   one photo, and each must be an image. `coho asset list` shows the slugs.
+- **`npx tsc --noEmit` says `'@/lib/coho'` has no exported member named `AnyBlogPost`:**
+  the library has it, but the site passes on only the types it named on page 5. Update the
+  `export type` line in `lib/coho.ts`, as in step 8.
 - **`npx tsc --noEmit` says `post.photos` does not exist on `BlogPost`:** `post.photos` is
   outside a `post._type === 'photoGallery'` check, where `post` may be a plain post.
 - **The gallery is not in the home page's list:** the library was generated before step 5,
