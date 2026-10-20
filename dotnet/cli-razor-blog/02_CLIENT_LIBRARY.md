@@ -41,7 +41,7 @@ The library tooling is in testing, so its releases are alphas on NuGet. Install 
 library template, at the version this tutorial uses:
 
 ```bash
-dotnet new install CohoCms.Templates::0.1.0-alpha.3
+dotnet new install CohoCms.Templates@0.1.0-alpha.3
 ```
 
 Create the library in a folder of its own, outside this repository, such as
@@ -213,7 +213,8 @@ translation of localized fields, such as the titles.
 
 A program reads user secrets only when it runs in the `Development` environment, as it
 does on your machine and never on a host. Say so in `Properties/launchSettings.json`,
-which `dotnet run` reads. Create the folder and the file:
+which `dotnet run` reads. Create the folder and the file, named exactly that, with the `s`
+in `Settings`:
 
 ```json
 {
@@ -235,6 +236,7 @@ dotnet run
 ```
 
 ```
+Using launch settings from …/BlogTest/Properties/launchSettings.json...
 Blog posts on dev:
 
   2026-10-01  What the drainage survey found under Elm Street, by Tom Okafor
@@ -244,7 +246,9 @@ Blog posts on dev:
               A roundabout that looks right on paper can still jam at rush hour. Here is how we check.
 ```
 
-`dotnet run` builds the library too, because the program references its project.
+The first line says `dotnet run` found the launch settings, so the program runs in
+`Development` and reads its user secrets. `dotnet run` builds the library too, because the
+program references its project.
 
 ## 8. Work on a content branch
 
@@ -324,9 +328,12 @@ coho ref switch v0.0.x
   `account` or `project` in `coho.config.json` is wrong. With `UNAUTHENTICATED`, the token
   has expired or been revoked: create another.
 - **`dotnet run` fails with `COHO_DELIVERY_URL, COHO_PROJECT, COHO_REF are needed to read
-  released content`:** none of the user secrets were read. Check that
-  `Properties/launchSettings.json` sets `DOTNET_ENVIRONMENT` to `Development`, and that
-  `dotnet user-secrets list` shows them.
+  released content`:** none of the user secrets were read, because the program did not run
+  in `Development`. If the output does not start with `Using launch settings from`,
+  `dotnet run` did not find the file: check that it is `Properties/launchSettings.json`,
+  spelled exactly so, in the `BlogTest` folder. Then check that it sets
+  `DOTNET_ENVIRONMENT` to `Development`, and that `dotnet user-secrets list` shows the
+  values.
 - **`dotnet run` fails with `COHO_DELIVERY_URL is needed to read released content`:** no
   preview token reached the configuration, so the program took the run for a release.
   Check `COHO_PREVIEW_TOKEN` with `dotnet user-secrets list`.
