@@ -267,13 +267,15 @@ body:has(.post:is([data-layout='wide'], [data-layout='landing'])) {
 
 .related,
 .downloads,
-.citations {
+.citations,
+.gallery {
   margin-top: 3rem;
 }
 
 .related h2,
 .downloads h2,
-.citations h2 {
+.citations h2,
+.gallery h2 {
   margin-block: 0 0.75rem;
   color: var(--muted);
   font-size: 0.875rem;
@@ -297,4 +299,20 @@ body:has(.post:is([data-layout='wide'], [data-layout='landing'])) {
 .citations li {
   margin-bottom: 0.5rem;
   overflow-wrap: anywhere;
+}
+
+/* A photo gallery's photos: a grid of equal tiles, as many across as fit */
+.gallery ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gallery img {
+  display: block;
+  width: 100%;
+  height: auto;
 }

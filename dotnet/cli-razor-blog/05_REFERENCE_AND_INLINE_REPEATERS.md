@@ -324,3 +324,5 @@ change the item, and send the list back with its `_id`s.
 - **`coho type delete citation` fails with `TYPE_IN_USE`:** `blogPost.citations` still
   holds it. Remove the field first, or pass `--confirm-destructive`, after which every
   post with citations is refused on its next save until they are removed.
+
+Next: [Traits and inheritance](06_TRAITS_AND_INHERITANCE.md).

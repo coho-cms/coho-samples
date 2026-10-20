@@ -29,7 +29,7 @@ In six short steps it goes from nothing to a working site:
    kind of post.
 
 Working in .NET? **[Setting up an ASP.NET Core blog with the CLI](dotnet/cli-razor-blog/README.md)**
-takes the same five steps, with a C# library and a Razor Pages site.
+takes the same six steps, with a C# library and a Razor Pages site.
 
 ## Samples by language
 
