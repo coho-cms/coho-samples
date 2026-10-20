@@ -8,8 +8,9 @@ page 5 showed two kinds of list: links to other entries, and citations stored in
 post.
 
 So far every content type stands on its own: each declares every field it has. That is
-fine for a handful of types, but a real model grows, and types start to need the same
-fields. Coho has two ways to share them, and this page introduces both:
+fine for a handful of types, but a real model grows, relationships between types emerge, 
+and types begin to share some of the same fields. 
+Coho has two ways to share them, and this page introduces both:
 
 - **Traits.** A trait is a named group of fields that any type can take, such as the
   title and description a page shows search engines. It says what a type **has**.
@@ -167,31 +168,24 @@ Upload each with a title, alt text and focal point, as on page 4. A slug would c
 the filename, `01-dam`, so each command names a shorter one with `--slug`:
 
 ```bash
-coho asset upload ../../sample-assets/gallery/01_dam.png --slug dam --title "Arch dam and reservoir" \
+coho asset upload ../../sample-assets/gallery/01_dam.png \
+    --slug dam --title "Arch dam and reservoir" \
     --alt "Cutaway of a concrete arch dam holding back a reservoir, with its spillway, a powerhouse and transmission lines below" \
     --focal 0.52,0.45
-```
-
-```bash
-coho asset upload ../../sample-assets/gallery/02_canal_lock.png --slug canal-lock --title "Canal lock and container port" \
+coho asset upload ../../sample-assets/gallery/02_canal_lock.png \
+    --slug canal-lock --title "Canal lock and container port" \
     --alt "Cutaway of a canal where a lock lifts a container barge, with a container port beside it and a village across the water" \
     --focal 0.52,0.48
-```
-
-```bash
-coho asset upload ../../sample-assets/gallery/03_interchange.png --slug interchange --title "Motorway interchange" \
+coho asset upload ../../sample-assets/gallery/03_interchange.png \
+    --slug interchange --title "Motorway interchange" \
     --alt "Cutaway of a motorway interchange: an overpass, a roundabout at each end of the slip roads, and a solar farm beside it" \
     --focal 0.50,0.48
-```
-
-```bash
-coho asset upload ../../sample-assets/gallery/04_river_town.png --slug river-town --title "River town and its bridges" \
+coho asset upload ../../sample-assets/gallery/04_river_town.png \
+    --slug river-town --title "River town and its bridges" \
     --alt "Cutaway of a town on a walled river, crossed by an arch bridge and a cable-stayed bridge" \
     --focal 0.62,0.51
-```
-
-```bash
-coho asset upload ../../sample-assets/gallery/05_treatment_plant.png --slug treatment-plant --title "Wastewater treatment plant" \
+coho asset upload ../../sample-assets/gallery/05_treatment_plant.png \
+    --slug treatment-plant --title "Wastewater treatment plant" \
     --alt "Cutaway of a wastewater treatment plant beside a river, with round clarifiers, aeration tanks and digesters" \
     --focal 0.53,0.48
 ```
@@ -403,7 +397,8 @@ and add this at the end:
  * A page's title and description for search engines, from any entry with the SEO trait:
  * its own SEO fields where it has them, and what the page shows where it does not.
  */
-export function seoMetadata(entry: Seo, fallback: { title?: string; description?: string }): Metadata {
+export function seoMetadata(entry: Seo, fallback: { title?: string; description?: string }): Metadata
+{
   return {
     title: entry.seoTitle ?? fallback.title,
     description: entry.seoDescription ?? fallback.description,
@@ -449,38 +444,6 @@ Galleries share the post's page: `coho.blogPost.bySlug` finds them. In
 The same narrowing as on the card: inside the check, `post` is a `PhotoGallery`. Each
 photo is an asset, drawn by `CohoImage` as on page 4, cropped to 400 × 300 around its
 focal point.
-
-The starter's stylesheet lays the photos out in a grid. If you copied the starter before
-this page was written, add these rules to the end of `app/globals.css`:
-
-```css
-.gallery {
-  margin-top: 3rem;
-}
-
-.gallery h2 {
-  margin-block: 0 0.75rem;
-  color: var(--muted);
-  font-size: 0.875rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.gallery ul {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
-  gap: 0.75rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.gallery img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-```
 
 ## 11. Check the result
 
