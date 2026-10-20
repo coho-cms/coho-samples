@@ -7,8 +7,7 @@ in the list, a wide image across the top of each post, cropped around the part t
 matters, and a link to download each file.
 
 You need the blog from [Build the Razor Pages blog](03_APPLICATION.md), with its repeaters
-in place. Asset slugs in `coho entry put` need `coho` 2026.1.0a18 or later: check with
-`coho --version`.
+in place.
 
 The CLI steps run from inside this folder, `cli-razor-blog`, as on page 1. The files are in
 the repository's `sample-assets` folder, two levels up:
@@ -109,21 +108,12 @@ file, not its name. Linking the PDF as an `image` is refused with `VALIDATION_FA
 
 ## 4. Regenerate the library
 
-The library's types come from the content types, so it needs generating again. Asset fields
-need `CohoCms.Codegen` and `CohoCms.Delivery` 0.1.0-alpha.3 or later, which a library
-created on page 2 already has. If yours was created with an earlier `CohoCms.Templates`,
-update both, in `YourOrg.BlogContent`:
+The library's types come from the content types, so it needs generating again. In
+`YourOrg.BlogContent`, pull the types from `dev`, and generate:
 
 ```bash
 cd ~/workarea/YourOrg.BlogContent
 ```
-
-```bash
-dotnet tool update cohocms.codegen --prerelease
-dotnet add src/YourOrg.BlogContent package CohoCms.Delivery --prerelease
-```
-
-Then pull the types from `dev`, and generate:
 
 ```bash
 dotnet coho-codegen pull && dotnet coho-codegen generate
@@ -165,7 +155,7 @@ cd ../BlogSite
 ```
 
 ```bash
-dotnet add package CohoCms.Razor --prerelease
+dotnet add package CohoCms.Razor
 ```
 
 It has a tag helper for MVC views and Razor pages, and a component for Blazor, of each of
@@ -290,11 +280,10 @@ post, and the CDN makes the new crop on its first request.
   slugs with `coho asset list`.
 - **`entry put` fails with `VALIDATION_FAILED`:** the asset's media type is not one the field
   accepts, such as the PDF linked as the `image`.
-- **`--set image=@roundabout` is stored as the text `@roundabout`:** the CLI is older than
-  2026.1.0a18, or the type change in step 2 has not been saved. Check `coho --version`, and
-  `coho type get blogPost`.
-- **`BlogPost` has no `Image` property:** the library was generated before the type changed,
-  or with a `CohoCms.Codegen` older than 0.1.0-alpha.3. Run step 4 again.
+- **`--set image=@roundabout` is stored as the text `@roundabout`:** the type change in
+  step 2 has not been saved. Check `coho type get blogPost`.
+- **`BlogPost` has no `Image` property:** the library was generated before the type
+  changed. Run step 4 again.
 - **`<coho-image>` is in the page's HTML as it was written, not as an `<img>`:** the tag
   helpers are not registered, or the package is not installed, and the build does not say
   which. Check `@addTagHelper *, CohoCms.Razor` in `Pages/_ViewImports.cshtml`, and that

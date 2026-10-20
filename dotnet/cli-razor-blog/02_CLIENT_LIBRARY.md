@@ -37,11 +37,10 @@ means each can be revoked without breaking the others.
 
 ## 2. Create the library
 
-The library tooling is in testing, so its releases are alphas on NuGet. Install the
-library template, at the version this tutorial uses:
+Install the library template from NuGet:
 
 ```bash
-dotnet new install CohoCms.Templates@0.1.0-alpha.3
+dotnet new install CohoCms.Templates
 ```
 
 Create the library in a folder of its own, outside this repository, such as

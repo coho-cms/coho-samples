@@ -6,9 +6,8 @@ This page builds the other kind, an **inline repeater**, whose items live inside
 itself. Each post gets a list of citations, as at the end of a paper: two each, in a
 basic ASCE style.
 
-You need the blog from [Images and downloads](04_IMAGES_AND_ASSETS.md). Component types
-need `CohoCms.Codegen` and `CohoCms.Delivery` 0.1.0-alpha.3 or later, and a Coho server
-that has them. The CLI steps run from inside this folder, `cli-razor-blog`, as on page 1.
+You need the blog from [Images and downloads](04_IMAGES_AND_ASSETS.md). The CLI steps run
+from inside this folder, `cli-razor-blog`, as on page 1.
 If you have already worked through the Node.js sample's page 5 in the same project, the
 citations are there: skip to step 5.
 
@@ -343,8 +342,8 @@ change the item, and send the list back with its `_id`s.
 - **`BlogPost` has no `Citations` property:** the library was generated before step 3, or
   from another ref. Run step 5 again.
 - **`Citations` is an `IReadOnlyList<RepeaterItem>`, not of `Citation`:** `generate`
-  printed that `citation` is not on the ref, so the types were pulled before step 2. Or the
-  generator is older than 0.1.0-alpha.3. Run step 5 again.
+  printed that `citation` is not on the ref, so the types were pulled before step 2. Run
+  step 5 again.
 - **`The type or namespace name 'Citation' could not be found` in `_Citation.cshtml`:** the
   library has no `Citation` yet: run step 5.
 - **A citation is missing, and the site's log says the post has an item of a type the code

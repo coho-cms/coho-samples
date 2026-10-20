@@ -24,9 +24,7 @@ post: it has everything a post has, a list of photos besides, and it is listed a
 posts. The page ends by setting the two side by side, and when to reach for which.
 
 You need the blog from [Reference repeaters and inline repeaters](05_REFERENCE_AND_INLINE_REPEATERS.md).
-Traits and subtypes need `coho` 2026.1.0a20 or later (check with `coho --version`),
-`CohoCms.Codegen` and `CohoCms.Delivery` 0.1.0-alpha.3 or later, and a Coho server that
-has them. The CLI steps run from inside this folder, `cli-razor-blog`, as on page 1. If you
+The CLI steps run from inside this folder, `cli-razor-blog`, as on page 1. If you
 have already worked through the Node.js sample's page 6 in the same project, the trait and
 the gallery are there: skip to step 7.
 
@@ -465,9 +463,6 @@ required, for example, is refused with the types it would reach, `blogPost` and
   `seoDescription` differs from the post's in a way that would cost content, for example
   it is not localized, or it is required. Make it match the post's, and put the trait
   again with `coho trait put --file types/seo.json --if-match '<etag>'`.
-- **`entry create` fails with `VALIDATION_FAILED` at `/author`, or stores `@tom-okafor` as
-  text:** the CLI is older than 2026.1.0a20, which looks up a slug only in the fields a type
-  declares itself, not those it inherits. Update it, or pass the team member's id.
 - **`entry create` fails with `VALIDATION_FAILED` at `/photos`:** a gallery needs at least
   one photo, and each must be an image. `coho asset list` shows the slugs.
 - **`The type or namespace name 'PhotoGallery' could not be found`, or `ISeo`:** the
@@ -476,9 +471,6 @@ required, for example, is refused with the types it would reach, `blogPost` and
   `is PhotoGallery` check, where the post may be a plain post.
 - **The gallery is not in the home page's list:** the library was generated before step 5,
   or from another ref. Run step 7 again, then restart `dotnet watch` with Ctrl+R.
-- **The gallery is in the list, but its page is a 404:** the library runs on a
-  `CohoCms.Delivery` older than 0.1.0-alpha.3, whose `BySlugAsync` on `BlogPost` keeps only
-  plain posts. Update it in `YourOrg.BlogContent`, as on page 4, and generate again.
 - **`coho trait delete seo` fails with `TRAIT_IN_USE`:** `blogPost` takes it. No flag
   overrides this, since a type whose trait is gone could not be read: remove `seo` from
   the type's `traits` first, after giving it back its own `seoDescription`.
