@@ -386,8 +386,10 @@ and add this at the end:
  * A page's title and description for search engines, from any entry with the SEO trait:
  * its own SEO fields where it has them, and what the page shows where it does not.
  */
-export function seoMetadata(entry: Seo, fallback: { title?: string; description?: string }): Metadata {
-  return {
+export function seoMetadata(entry: Seo, fallback: { title?: string; description?: string }): Metadata
+{
+  return
+  {
     title: entry.seoTitle ?? fallback.title,
     description: entry.seoDescription ?? fallback.description,
   };
