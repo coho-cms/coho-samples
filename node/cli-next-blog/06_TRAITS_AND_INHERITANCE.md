@@ -1,10 +1,26 @@
 # 6. Traits and inheritance
 
-The blog has one kind of entry with a page of its own, the post. This page shares fields
-two ways. First, a **trait**: the post's search-engine fields move into a group of their
-own, `seo`, which any type can take, and the group gains an SEO title. Then a
-**subtype**: a photo gallery is a new kind of post, with everything a post has and a list
-of photos besides, and it is listed among the posts.
+Over the last five pages you built a content model and a site that reads it. Page 1 set up
+the content types and entries: posts, authors and tags, with localized text, markdown and
+references between them. Page 2 generated a typed client library from those types, and
+page 3 used it to build a Next.js blog. Page 4 added images and downloads as assets, and
+page 5 showed two kinds of list: links to other entries, and citations stored inside each
+post.
+
+So far every content type stands on its own: each declares every field it has. That is
+fine for a handful of types, but a real model grows, and types start to need the same
+fields. Coho has two ways to share them, and this page introduces both:
+
+- **Traits.** A trait is a named group of fields that any type can take, such as the
+  title and description a page shows search engines. It says what a type **has**.
+- **Inheritance.** A type can extend another, and have every field the other has, plus
+  its own. It says what a type **is**: a kind of the type it extends, listed with it and
+  linkable wherever it is.
+
+You will use one of each. First, the post's search-engine fields move into a trait called
+`seo`, which gains an SEO title along the way. Then a photo gallery becomes a new kind of
+post: it has everything a post has, a list of photos besides, and it is listed among the
+posts. The page ends by setting the two side by side, and when to reach for which.
 
 You need the blog from [Reference repeaters and inline repeaters](05_REFERENCE_AND_INLINE_REPEATERS.md).
 Traits and subtypes need `coho` 2026.1.0a20 or later (check with `coho --version`),
