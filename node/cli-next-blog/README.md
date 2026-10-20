@@ -4,25 +4,29 @@ This sample walks through setting up a simple blog content model and wiring it i
 Next.js app. It starts with the content model: the content types, and a few entries to read.
 Next it creates a client library with a strongly typed API, generated from those types.
 Then it wires that library into React templates on a Next.js blog. It gives the posts
-images and files to download, and last, a list of citations stored inside each post.
+images and files to download, and a list of citations stored inside each post. Last, it
+shares fields two ways: an SEO trait any type can take, and a photo gallery that is a
+kind of post.
 
 1. [Set up the content model](01_CONTENT.md)
 2. [Create the client library](02_CLIENT_LIBRARY.md)
 3. [Build the Next.js blog](03_APPLICATION.md)
 4. [Images and downloads](04_IMAGES_AND_ASSETS.md)
 5. [Reference repeaters and inline repeaters](05_REFERENCE_AND_INLINE_REPEATERS.md)
+6. [Traits and inheritance](06_TRAITS_AND_INHERITANCE.md)
 
 The model shows the main things Coho does: content types, a closed list of choices,
-localized text, markdown, references between entries, assets, and component types for
-the items of a repeater.
+localized text, markdown, references between entries, assets, component types for
+the items of a repeater, a trait, and a type that extends another.
 
 ```
 cli-next-blog/
 └── entries/
-    ├── tags/           three tags
-    ├── team-members/   two authors
-    ├── blog-posts/     two posts, linked to the authors and tags
-    └── citations/      two citations for each post, from page 5
+    ├── tags/             three tags
+    ├── team-members/     two authors
+    ├── blog-posts/       two posts, linked to the authors and tags
+    ├── citations/        two citations for each post, from page 5
+    └── photo-galleries/  a gallery, a kind of post, from page 6
 ```
 
 ## Before you start
