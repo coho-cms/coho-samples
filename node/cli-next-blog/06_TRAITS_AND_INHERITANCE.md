@@ -8,8 +8,9 @@ page 5 showed two kinds of list: links to other entries, and citations stored in
 post.
 
 So far every content type stands on its own: each declares every field it has. That is
-fine for a handful of types, but a real model grows, and types start to need the same
-fields. Coho has two ways to share them, and this page introduces both:
+fine for a handful of types, but a real model grows, relationships between types emerge, 
+and types begin to share some of the same fields. 
+Coho has two ways to share them, and this page introduces both:
 
 - **Traits.** A trait is a named group of fields that any type can take, such as the
   title and description a page shows search engines. It says what a type **has**.
