@@ -157,6 +157,17 @@ cd ~/workarea/YourOrg.BlogContent
 dotnet coho-codegen pull && dotnet coho-codegen generate
 ```
 
+Then build it:
+
+```bash
+dotnet build
+```
+
+`dotnet watch` hands the new code to the running site by itself, but only in memory. An
+editor such as Rider or Visual Studio reads the library's types from its last build, so
+until you build it, a Razor page shows a new type, such as `Citation`, as unknown, even though
+the site compiles and runs.
+
 There is a new file, `src/YourOrg.BlogContent/Coho/Citation.cs`, with a record for the
 component, deriving from `ItemBase`, which gives it `Id` and `Type`:
 
@@ -188,11 +199,30 @@ Compare it with `Tags`, a list of links, each of which may be a stub:
 public IReadOnlyList<Linked<Tag>> Tags { get; init; } = [];
 ```
 
-`dotnet watch`, still running in `BlogSite`, picks up the new code.
+## 6. Bring the new library into the site
 
-## 6. Write one citation
+Go back to the site:
 
-In `BlogSite`, create `Pages/Shared/_Citation.cshtml`. It writes a citation as authors,
+```bash
+cd ../BlogSite
+```
+
+There is nothing to install. The site references the library's project (page 3, step 2),
+so it builds the library's new code with its own, `Citation.cs` included. Nor is there
+anything to add to `Content.cs`: its `global using YourOrg.BlogContent;` already gives
+every page the library's new types, `Citation` among them.
+
+If `dotnet watch` is still running in `BlogSite`, it saw the regenerated files and
+reloaded the site. If it says it cannot apply a change while the site runs, let it
+restart, or press Ctrl+R in its window. If the site is not running, start it again:
+
+```bash
+dotnet watch
+```
+
+## 7. Write one citation
+
+Create `Pages/Shared/_Citation.cshtml`. It writes a citation as authors,
 year, title in italics, source and link, each ending with a full stop:
 
 ```cshtml
@@ -219,7 +249,7 @@ year, title in italics, source and link, each ending with a full stop:
 ASCE's full style has more rules than this, such as quoting an article's title and
 italicising its journal instead. For reports and guides like these, it reads correctly.
 
-## 7. Add the inline repeater to the post
+## 8. Add the inline repeater to the post
 
 Open `Pages/Posts/Post.cshtml`, and add the citations after the downloads, before
 **Related posts**:
@@ -261,7 +291,7 @@ Both are a `@foreach` over a list on the post. Three things differ:
 - **`Id` means something else.** A tag's `Id` is the tag entry's, the same on every post
   that links it. A citation's `Id` is the item's, unique to this post.
 
-## 8. Check the result
+## 9. Check the result
 
 Open a post. Near its end there is a numbered **Citations** list. The roundabout
 post's first citation reads:

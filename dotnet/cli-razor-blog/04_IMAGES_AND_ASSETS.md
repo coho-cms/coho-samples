@@ -129,6 +129,17 @@ Then pull the types from `dev`, and generate:
 dotnet coho-codegen pull && dotnet coho-codegen generate
 ```
 
+Then build it:
+
+```bash
+dotnet build
+```
+
+`dotnet watch` hands the new code to the running site by itself, but only in memory. An
+editor such as Rider or Visual Studio reads the library's types from its last build, so
+until you build it, a Razor page shows a new field, such as `post.Image`, as unknown, even
+though the site compiles and runs.
+
 `src/YourOrg.BlogContent/Coho/BlogPost.cs` now has the two fields:
 
 ```csharp

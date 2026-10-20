@@ -267,6 +267,17 @@ cd ~/workarea/YourOrg.BlogContent
 dotnet coho-codegen pull && dotnet coho-codegen generate
 ```
 
+Then build it:
+
+```bash
+dotnet build
+```
+
+`dotnet watch` hands the new code to the running site by itself, but only in memory. An
+editor such as Rider or Visual Studio reads the library's types from its last build, so
+until you build it, a Razor page shows a new type, such as `PhotoGallery`, as unknown, even though
+the site compiles and runs.
+
 There are two new files. `src/YourOrg.BlogContent/Coho/ISeo.cs` is the trait, as an
 interface of its own:
 
