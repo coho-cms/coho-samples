@@ -434,38 +434,6 @@ The same narrowing as on the card: inside the check, `post` is a `PhotoGallery`.
 photo is an asset, drawn by `CohoImage` as on page 4, cropped to 400 × 300 around its
 focal point.
 
-The starter's stylesheet lays the photos out in a grid. If you copied the starter before
-this page was written, add these rules to the end of `app/globals.css`:
-
-```css
-.gallery {
-  margin-top: 3rem;
-}
-
-.gallery h2 {
-  margin-block: 0 0.75rem;
-  color: var(--muted);
-  font-size: 0.875rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.gallery ul {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
-  gap: 0.75rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.gallery img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-```
-
 ## 11. Check the result
 
 Restart `npm run dev`, and open the home page. **Civil works, from above** is the newest
