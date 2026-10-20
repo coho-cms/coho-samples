@@ -31,13 +31,17 @@ In six short steps it goes from nothing to a working site:
 Working in .NET? **[Setting up an ASP.NET Core blog with the CLI](dotnet/cli-razor-blog/README.md)**
 takes the same six steps, with a C# library and a Razor Pages site.
 
+Working in Python? **[Setting up a FastAPI blog service with the CLI](python/cli-fastapi-blog/README.md)**
+takes the same six steps, with a library of Pydantic models and a FastAPI service that
+answers with JSON.
+
 ## Samples by language
 
 | Language | Sample | What it shows |
 |---|---|---|
 | **Node.js and TypeScript** | [cli-next-blog](node/cli-next-blog/README.md) | A content model built with the CLI, a generated typed client library, and a Next.js blog |
 | **.NET** | [cli-razor-blog](dotnet/cli-razor-blog/README.md) | The same content model, a generated typed C# library, and an ASP.NET Core Razor Pages blog |
-| **Python** | 🔜 Coming | |
+| **Python** | [cli-fastapi-blog](python/cli-fastapi-blog/README.md) | The same content model, a generated library of Pydantic models, and a FastAPI web service |
 
 Each sample is self-contained: its own folder, its own README, and steps numbered in the
 order you take them. Commands run from inside the sample's folder, and each README says
@@ -74,6 +78,8 @@ git clone https://github.com/coho-cms/coho-samples.git
 | [coho-delivery-sdk-dotnet](https://github.com/coho-cms/coho-delivery-sdk-dotnet) | The .NET delivery client, the code generator, and `dotnet new coho-library` |
 | [coho-template-dotnet](https://github.com/coho-cms/coho-template-dotnet) | The starting point for a .NET content library |
 | [coho-razor](https://github.com/coho-cms/coho-razor) | Razor tag helpers and Blazor components for images and downloads |
+| [coho-delivery-sdk-python](https://github.com/coho-cms/coho-delivery-sdk-python) | The Python delivery client, the code generator, and `coho-codegen create` |
+| [coho-template-python](https://github.com/coho-cms/coho-template-python) | The starting point for a Python content library |
 | [coho-management-sdk-python](https://github.com/coho-cms/coho-management-sdk-python) | The Python management SDK: accounts, projects, branches, content, releases and delivery keys |
 
 ## Contributing

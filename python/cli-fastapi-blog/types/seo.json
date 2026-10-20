@@ -1,0 +1,7 @@
+{
+  "_name": "SEO",
+  "fields": [
+    { "id": "seoTitle",        "name": "SEO title",           "type": "text",      "localized": true, "max": 60 },
+    { "id": "seoDescription",  "name": "SEO description",     "type": "text",      "localized": true, "max": 160 }
+  ]
+}

@@ -1,0 +1,25 @@
+[project]
+name = "fastapi-blog-starter"
+version = "0.1.0"
+description = "A FastAPI service that reads a blog's posts from Coho."
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi[standard]>=0.115",
+    # For markdown fields, such as a post's body: see app/site.py.
+    "markdown-it-py>=3.0",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.11",
+]
+
+[tool.uv]
+# An app, not a library: nothing here is built or published.
+package = false
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+plugins = ["pydantic.mypy"]
+files = ["app"]

@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.mypy_cache/
+
+# The Coho values, with a token: never committed.
+.env
+
+# Editors
+.vscode/
+.idea/
+.DS_Store
