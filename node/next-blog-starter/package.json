@@ -9,7 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@coho-cms/delivery": "^0.1.0-alpha.5",
+    "@coho-cms/delivery": "^0.1.0",
     "next": "16.4.2",
     "react": "19.3.1",
     "react-dom": "19.3.1",

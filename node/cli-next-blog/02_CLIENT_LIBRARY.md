@@ -32,15 +32,14 @@ is for: there are no account or project IDs to copy.
 
 ## 2. Create the library
 
-The library tooling is in testing, so its releases are alphas on npm, reached with
-`@alpha`. Create the library in a folder of its own, outside this repository, such as
+Create the library in a folder of its own, outside this repository, such as
 `~/workarea/blog-content`. `npm create coho` makes the folder, so it must not exist yet,
 or be empty:
 
 ```bash
 mkdir ~/workarea/blog-content
 cd ~/workarea/blog-content
-npm create coho@alpha . -- --name @your-org/blog-content \
+npm create coho . -- --name @your-org/blog-content \
     --url https://api-dev.coho-cms.dev --ref dev
 ```
 
@@ -48,7 +47,7 @@ It asks for the project token from step 1. Paste it; it is not shown as you do. 
 which account and project the token is for, and the library is set up for them:
 
 ```
-Created @your-org/blog-content in …/workarea/blog-content, from the bundled template, on @coho-cms 0.1.0-alpha.4.
+Created @your-org/blog-content in …/workarea/blog-content, from the bundled template, on @coho-cms 0.1.0.
 It reads blog-sample, in <your account>, with the token in .env.
 ```
 
@@ -114,7 +113,7 @@ the package the library is built on:
 ```bash
 mkdir ../blog-test && cd ../blog-test
 npm init -y && npm pkg set type=module
-npm install ../blog-content @coho-cms/delivery@alpha
+npm install ../blog-content @coho-cms/delivery
 ```
 
 Save this as `posts.ts`. It lists the blog posts, newest first, with each one's author,

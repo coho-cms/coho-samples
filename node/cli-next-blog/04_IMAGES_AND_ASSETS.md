@@ -7,8 +7,7 @@ in the list, a wide image across the top of each post, cropped around the part t
 matters, and a link to download each file.
 
 You need the blog from [Build the Next.js blog](03_APPLICATION.md), with its repeaters in
-place. Asset slugs in `coho entry put` need `coho` 2026.1.0a18 or later: check with
-`coho --version`.
+place.
 
 The CLI steps run from inside this folder, `cli-next-blog`, as on page 1. The files are in
 the repository's `sample-assets` folder, two levels up:
@@ -106,19 +105,13 @@ file, not its name. Linking the PDF as an `image` is refused with `VALIDATION_FA
 
 ## 4. Regenerate the library
 
-The library's types come from the content types, so it needs generating again. Asset fields
-need `@coho-cms/codegen` and `@coho-cms/delivery` 0.1.0-alpha.6 or later. In
-`blog-content`, update both:
+The library's types come from the content types, so it needs generating again. In
+`blog-content`, pull the types from `dev`, generate, and pack the library again, as on
+page 3:
 
 ```bash
 cd ~/workarea/blog-content
 ```
-
-```bash
-npm install -D @coho-cms/codegen@alpha @coho-cms/delivery@alpha
-```
-
-Then pull the types from `dev`, generate, and pack the library again, as on page 3:
 
 ```bash
 npm run pull && npm run generate
@@ -145,15 +138,14 @@ when the asset it linked was deleted, and a deleted download is left out of the 
 
 ## 5. Add the components to the site
 
-In `blog-site`, install the new tarball, and `@coho-cms/react` with the version of
-`@coho-cms/delivery` it is built on:
+In `blog-site`, install the new tarball and `@coho-cms/react`:
 
 ```bash
 cd ../blog-site
 ```
 
 ```bash
-npm install ../blog-content/your-org-blog-content-0.1.0.tgz @coho-cms/react@alpha @coho-cms/delivery@alpha
+npm install ../blog-content/your-org-blog-content-0.1.0.tgz @coho-cms/react
 ```
 
 Restart `npm run dev`, so it picks up the new library.
@@ -277,12 +269,10 @@ changed.
   slugs with `coho asset list`.
 - **`entry put` fails with `VALIDATION_FAILED`:** the asset's media type is not one the field
   accepts, such as the PDF linked as the `image`.
-- **`--set image=@roundabout` is stored as the text `@roundabout`:** the CLI is older than
-  2026.1.0a18, or the type change in step 2 has not been saved. Check `coho --version`, and
-  `coho type get blogPost`.
-- **`BlogPost` has no `image` field:** the library was generated before the type changed, or
-  with a `@coho-cms/codegen` older than 0.1.0-alpha.6. Run step 4 again, then install the new
-  tarball in the site.
+- **`--set image=@roundabout` is stored as the text `@roundabout`:** the type change in
+  step 2 has not been saved. Check `coho type get blogPost`.
+- **`BlogPost` has no `image` field:** the library was generated before the type changed.
+  Run step 4 again, then install the new tarball in the site.
 - **The page fails with `This asset has no URL`:** the image is in the entry, but without its
   URLs, so `dev` is not delivering embedded assets. The Coho server needs a release that
   delivers them.

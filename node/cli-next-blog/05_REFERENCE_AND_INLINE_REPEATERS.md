@@ -6,10 +6,8 @@ page builds the other kind, an **inline repeater**, whose items live inside the 
 itself. Each post gets a list of citations, as at the end of a paper: two each, in a
 basic ASCE style.
 
-You need the blog from [Images and downloads](04_IMAGES_AND_ASSETS.md). Component types
-need `@coho-cms/codegen` and `@coho-cms/delivery` 0.1.0-alpha.7 or later, and a Coho
-server that has them. The CLI steps run from inside this folder, `cli-next-blog`, as on
-page 1.
+You need the blog from [Images and downloads](04_IMAGES_AND_ASSETS.md). The CLI steps run
+from inside this folder, `cli-next-blog`, as on page 1.
 
 ## 1. Two kinds of list
 
@@ -146,15 +144,10 @@ Coho checks each item against `citation` when the post is saved. A citation with
 
 ## 5. Regenerate the library
 
-In `blog-content`, update the generator and the runtime, then pull, generate and pack, as
-on page 4:
+In `blog-content`, pull, generate and pack, as on page 4:
 
 ```bash
 cd ~/workarea/blog-content
-```
-
-```bash
-npm install -D @coho-cms/codegen@alpha @coho-cms/delivery@alpha
 ```
 
 ```bash
@@ -196,14 +189,14 @@ readonly tags?: readonly runtime.Linked<Tag>[];
 
 ## 6. Install the new library in the site
 
-In `blog-site`, install the tarball and the new runtime:
+In `blog-site`, install the tarball:
 
 ```bash
 cd ../blog-site
 ```
 
 ```bash
-npm install ../blog-content/your-org-blog-content-0.1.0.tgz @coho-cms/delivery@alpha
+npm install ../blog-content/your-org-blog-content-0.1.0.tgz
 ```
 
 Open `lib/coho.ts`, and add `Citation` to the types it passes on from the library:
@@ -338,8 +331,8 @@ change the item, and send the list back with its `_id`s.
 - **`BlogPost` has no `citations` field:** the library was generated before step 3, or
   from another ref. Run step 5 again.
 - **`citations` is typed `RepeaterItem[]`, not `Citation[]`:** `npm run generate` printed
-  that `citation` is not on the ref, so the types were pulled before step 2. Or the
-  generator is older than 0.1.0-alpha.7. Run step 5 again.
+  that `citation` is not on the ref, so the types were pulled before step 2. Run step 5
+  again.
 - **A citation is missing, and the dev server's console says the post has an item of a
   type the code has no type for:** the field holds a component added after the library was
   generated. The runtime leaves out items it has no type for, rather than pass them off as
