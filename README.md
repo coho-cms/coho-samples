@@ -35,6 +35,10 @@ Working in Python? **[Setting up a FastAPI blog service with the CLI](python/cli
 takes the same six steps, with a library of Pydantic models and a FastAPI service that
 answers with JSON.
 
+On the JVM? **[Setting up a Spring Boot blog service](java/cli-spring-blog/README.md)** takes
+them in Java, and **[Setting up a Ktor blog service](kotlin/cli-ktor-blog/README.md)** in
+Kotlin, each with a generated library and a web service that answers with JSON.
+
 ## Samples by language
 
 | Language | Sample | What it shows |
@@ -42,6 +46,8 @@ answers with JSON.
 | **Node.js and TypeScript** | [cli-next-blog](node/cli-next-blog/README.md) | A content model built with the CLI, a generated typed client library, and a Next.js blog |
 | **.NET** | [cli-razor-blog](dotnet/cli-razor-blog/README.md) | The same content model, a generated typed C# library, and an ASP.NET Core Razor Pages blog |
 | **Python** | [cli-fastapi-blog](python/cli-fastapi-blog/README.md) | The same content model, a generated library of Pydantic models, and a FastAPI web service |
+| **Java** | [cli-spring-blog](java/cli-spring-blog/README.md) | The same content model, a generated Java library, and a Spring Boot web service |
+| **Kotlin** | [cli-ktor-blog](kotlin/cli-ktor-blog/README.md) | The same content model, a generated Kotlin library, and a Ktor web service |
 
 Each sample is self-contained: its own folder, its own README, and steps numbered in the
 order you take them. Commands run from inside the sample's folder, and each README says
@@ -80,6 +86,9 @@ git clone https://github.com/coho-cms/coho-samples.git
 | [coho-razor](https://github.com/coho-cms/coho-razor) | Razor tag helpers and Blazor components for images and downloads |
 | [coho-delivery-sdk-python](https://github.com/coho-cms/coho-delivery-sdk-python) | The Python delivery client, the code generator, and `coho-codegen create` |
 | [coho-template-python](https://github.com/coho-cms/coho-template-python) | The starting point for a Python content library |
+| [coho-delivery-sdk-jvm](https://github.com/coho-cms/coho-delivery-sdk-jvm) | The Java and Kotlin delivery client, and the code generator |
+| [coho-template-java](https://github.com/coho-cms/coho-template-java) | The starting point for a Java content library |
+| [coho-template-kotlin](https://github.com/coho-cms/coho-template-kotlin) | The starting point for a Kotlin content library |
 | [coho-management-sdk-python](https://github.com/coho-cms/coho-management-sdk-python) | The Python management SDK: accounts, projects, branches, content, releases and delivery keys |
 
 ## Contributing

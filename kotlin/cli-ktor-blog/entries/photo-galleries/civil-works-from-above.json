@@ -1,0 +1,20 @@
+{
+  "_name": "Civil works from above",
+  "title": {
+    "en-US": "Civil works, from above"
+  },
+  "summary": {
+    "en-US": "A dam, a canal lock, an interchange, a river town and a treatment plant, cut open to show how they work."
+  },
+  "body": {
+    "en-US": "Most of what a civil engineer builds is easiest to understand from above, with the ground cut away. These five cutaways are the kinds of places we work.\n\nAn **arch dam** holds back a reservoir and turns its fall into power. A **canal lock** lifts barges between two water levels. A **motorway interchange** lets traffic change roads without crossing it. A **river town** lives with its walls and bridges. And a **treatment plant** cleans the town's water before it goes back to the river."
+  },
+  "layout": "wide",
+  "publishedAt": "2026-10-20T09:00:00Z",
+  "seoTitle": {
+    "en-US": "Five civil works, cut open"
+  },
+  "seoDescription": {
+    "en-US": "Cutaways of a dam, a canal lock, a motorway interchange, a river town and a wastewater treatment plant."
+  }
+}

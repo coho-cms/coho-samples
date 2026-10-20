@@ -1,0 +1,11 @@
+{
+  "_name": "Team member",
+  "fields": [
+    { "id": "fullName",         "name": "Full name",            "type": "text",        "required": true, "max": 120 },
+    { "id": "title",            "name": "Title",                "type": "text",        "localized": true, "max": 120 },
+    { "id": "disciplines",      "name": "Disciplines",          "type": "multichoice", "required": true, "min": 1,
+      "values": ["highways", "traffic", "structures", "drainage", "geotechnical"] },
+    { "id": "bio",              "name": "Bio",                  "type": "longText",    "localized": true, "textFormat": "markdown" },
+    { "id": "yearsExperience",  "name": "Years of experience",  "type": "integer",     "min": 0 }
+  ]
+}

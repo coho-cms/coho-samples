@@ -1,0 +1,8 @@
+.gradle/
+build/
+.idea/
+*.iml
+.DS_Store
+
+# The Coho values, with a token: never committed.
+.env

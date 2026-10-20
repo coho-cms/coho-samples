@@ -1,0 +1,17 @@
+{
+  "_name": "Tag",
+  "fields": [
+    {
+      "id": "name",
+      "name": "Name",
+      "type": "text",
+      "required": true,
+      "max": 40
+    },
+    {
+      "id": "description",
+      "name": "Description",
+      "type": "longText"
+    }
+  ]
+}

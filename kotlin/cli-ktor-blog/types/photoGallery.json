@@ -1,0 +1,7 @@
+{
+  "_name": "Photo gallery",
+  "extends": "blogPost",
+  "fields": [
+    { "id": "photos",          "name": "Photos",              "type": "asset",     "required": true, "many": true, "max": 24, "accept": ["image/*"] }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "_name": "Citation",
+  "kind": "component",
+  "fields": [
+    { "id": "authors", "name": "Authors",              "type": "text",    "required": true, "max": 300 },
+    { "id": "year",    "name": "Year",                 "type": "integer", "required": true, "min": 1800, "max": 2100 },
+    { "id": "title",   "name": "Title",                "type": "text",    "required": true, "max": 300 },
+    { "id": "source",  "name": "Journal or publisher", "type": "text",    "max": 300 },
+    { "id": "url",     "name": "DOI or URL",           "type": "text",    "max": 500 }
+  ]
+}
