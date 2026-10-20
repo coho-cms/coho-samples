@@ -124,26 +124,58 @@ The `author`, `tags` and `related` fields now hold the IDs of the entries you na
 `dev` is a live environment. It points at the newest saved content on the trunk, `v0.0.x`,
 not at a tag. Use it to see what the entries look like as you work.
 
-Find the account and project IDs in the output of `coho status`.
+Reading `dev` needs a credential. Your `coho login` belongs to the CLI, and the portal's
+sign-in belongs to the portal's pages, so a read of your own takes a **project token**.
+Create one that can only read:
 
-Sign in to the dev site first. Open this address in the browser. If it shows an error,
-open `https://api-dev.coho-cms.dev/auth/login` and sign in, then try again:
-
-```
-https://api-dev.coho-cms.dev/api/v1/me
-```
-
-Then open the blog posts from `dev`, replacing `<account-id>` and `<project-id>`:
-
-```
-https://api-dev.coho-cms.dev/api/v1/accounts/<account-id>/projects/<project-id>/preview/dev/entries?type=blogPost&depth=1
+```bash
+coho token create --role viewer --label "dev preview"
 ```
 
-`depth=1` includes each post's author, tags and related posts in the same response.
-Without it, those references are listed under `unresolved` with the reason `depth`. To
-show one entry by its slug, replace `entries?type=blogPost` with
-`entries-by-slug/elm-street-drainage?depth=1`.
-Preview responses come through your signed-in session, so the browser needs nothing else.
+### Finding your token
+
+The token is the line under `Project token`, starting `coho_pt_`:
+
+```
+id  01a1…
+label  dev preview
+role  viewer
+expires  2027-01-18T09:00:00Z
+Project token
+coho_pt_AbCdEf…
+This project token is shown once and cannot be retrieved again.
+```
+
+Copy it now, and keep it somewhere safe, such as your password manager. Coho stores only
+a hash of it, so neither the CLI nor the portal can show it again. If you lose it,
+`coho token list` shows its id under `TOKEN`: revoke it with `coho token revoke <id>`, and
+create another. A token works for 90 days unless you pass `--expires`.
+
+### Read the posts
+
+The read also names the account and project by their IDs. `coho status` shows both, each
+as a name followed by its ID in parentheses. Put the three values in shell variables, so the
+commands that follow can use them without pasting the token into each one:
+
+```bash
+ACCOUNT=<account-id>
+PROJECT=<project-id>
+TOKEN=<the coho_pt_ token>
+```
+
+Then read the blog posts from `dev`, through Coho's preview:
+
+```bash
+curl -s -H "Authorization: Bearer $TOKEN" \
+    "https://api-dev.coho-cms.dev/api/v1/accounts/$ACCOUNT/projects/$PROJECT/preview/dev/entries?type=blogPost&depth=1" \
+    | python3 -m json.tool
+```
+
+`python3 -m json.tool` only indents the response, so it is easier to read; leave it off if
+you have no Python. `depth=1` includes each post's author, tags and related posts in the
+same response. Without it, those references are listed under `unresolved` with the reason
+`depth`. To show one entry by its slug, replace `entries?type=blogPost` with
+`entries-by-slug/elm-street-drainage`.
 
 The response lists entries in two places. `roots` holds the IDs of the entries the
 request asked for: here, every blog post, in the order the list is sorted. A request for
@@ -167,8 +199,8 @@ example, to correct the summary of the Elm Street post:
 coho entry put @elm-street-drainage --set 'summary={"en-US":"The corrected summary."}'
 ```
 
-`--set` reads the current entry, changes only that field, and writes it back. Check the
-change in the dev preview from step 8.
+`--set` reads the current entry, changes only that field, and writes it back. Run the
+`curl` from step 8 again to see the change on `dev`.
 
 ## If something goes wrong
 
@@ -186,7 +218,14 @@ change in the dev preview from step 8.
   Authors must be `teamMember` entries, and tags must be `tag` entries.
 - **`VERSION_CONFLICT` on `entry put --set`:** someone else saved the entry between the read
   and the write. Run the command again.
-- **The dev preview returns `401`:** sign in at `https://api-dev.coho-cms.dev/auth/login`,
-  then load the address again.
+- **The preview `curl` returns `401` with `UNAUTHENTICATED`:** no token reached Coho.
+  Check that `TOKEN` is set in this shell (`echo $TOKEN` prints it) and that the command
+  says `Bearer $TOKEN`. A new terminal starts without the variables: set them again.
+- **The preview `curl` returns `404` with `PROJECT_NOT_FOUND`:** the token is mistyped,
+  revoked or expired, or it belongs to another project; or `ACCOUNT` or `PROJECT` is wrong.
+  Compare them with `coho status`, and create another token if you have lost this one.
+- **Opening the preview address in a browser says `401`, even when you are signed in to
+  the portal:** a browser's sign-in belongs to the portal at `app-dev.coho-cms.dev`, and is
+  never sent to `api-dev`. Read the preview with `curl` and a token, as in step 8.
 
 Next: [Create the client library](02_CLIENT_LIBRARY.md).

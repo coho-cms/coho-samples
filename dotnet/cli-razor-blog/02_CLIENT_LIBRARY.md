@@ -27,8 +27,13 @@ it somewhere safe; it is shown once:
 coho token create --role viewer --label "blog-content library"
 ```
 
-A token belongs to one project, so it is all the library needs to know which project it
-is for: there are no account or project IDs to copy.
+As on page 1, the token is the line under `Project token`, starting `coho_pt_`, and it is
+shown only this once: see [Finding your token](01_CONTENT.md#finding-your-token) if you
+lose it. A token belongs to one project, so it is all the library needs to know which
+project it is for: there are no account or project IDs to copy.
+
+The token from page 1's preview would work here too. A token of its own for each use
+means each can be revoked without breaking the others.
 
 ## 2. Create the library
 
@@ -184,6 +189,8 @@ without breaking the other:
 ```bash
 coho token create --role viewer --label "blog-test preview"
 ```
+
+Copy the token from under `Project token`, as before.
 
 Keep the program's settings in **user secrets**: a file in your home folder, outside the
 project, so a token there can never be committed. Turn them on for the project, then set
