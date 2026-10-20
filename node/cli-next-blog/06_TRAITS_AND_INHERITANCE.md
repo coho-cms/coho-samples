@@ -132,18 +132,56 @@ coho entry put @elm-street-drainage --set 'seoTitle={"en-US":"What we found unde
 `seoTitle` is localized, so its value is an object of locales, as for `summary` on page 1.
 Search engines cut titles off at about 60 characters, hence the trait's `max`.
 
-## 4. Upload one more photo
+## 4. Upload the gallery's photos
 
-The gallery shows the culvert diagram from page 4, and a new one of a roadside ditch.
-Upload it, with its alt text and a focal point on the check dam:
+The gallery shows five cutaways from the repository's `sample-assets/gallery` folder:
 
-```bash
-coho asset upload ../../sample-assets/ditch.png --title "Roadside drainage ditch" \
-    --alt "Cutaway of a grass-lined ditch beside a road, with a rock check dam slowing the water" \
-    --focal 0.55,0.57
+```
+coho-samples/
+└── sample-assets/
+    └── gallery/
+        ├── 01_dam.png              an arch dam and its reservoir
+        ├── 02_canal_lock.png       a canal lock and a container port
+        ├── 03_interchange.png      a motorway interchange
+        ├── 04_river_town.png       a town on a walled river, and its bridges
+        └── 05_treatment_plant.png  a wastewater treatment plant
 ```
 
-Its slug is `ditch`.
+Upload each with a title, alt text and focal point, as on page 4. A slug would come from
+the filename, `01-dam`, so each command names a shorter one with `--slug`:
+
+```bash
+coho asset upload ../../sample-assets/gallery/01_dam.png --slug dam --title "Arch dam and reservoir" \
+    --alt "Cutaway of a concrete arch dam holding back a reservoir, with its spillway, a powerhouse and transmission lines below" \
+    --focal 0.52,0.45
+```
+
+```bash
+coho asset upload ../../sample-assets/gallery/02_canal_lock.png --slug canal-lock --title "Canal lock and container port" \
+    --alt "Cutaway of a canal where a lock lifts a container barge, with a container port beside it and a village across the water" \
+    --focal 0.52,0.48
+```
+
+```bash
+coho asset upload ../../sample-assets/gallery/03_interchange.png --slug interchange --title "Motorway interchange" \
+    --alt "Cutaway of a motorway interchange: an overpass, a roundabout at each end of the slip roads, and a solar farm beside it" \
+    --focal 0.50,0.48
+```
+
+```bash
+coho asset upload ../../sample-assets/gallery/04_river_town.png --slug river-town --title "River town and its bridges" \
+    --alt "Cutaway of a town on a walled river, crossed by an arch bridge and a cable-stayed bridge" \
+    --focal 0.62,0.51
+```
+
+```bash
+coho asset upload ../../sample-assets/gallery/05_treatment_plant.png --slug treatment-plant --title "Wastewater treatment plant" \
+    --alt "Cutaway of a wastewater treatment plant beside a river, with round clarifiers, aeration tanks and digesters" \
+    --focal 0.53,0.48
+```
+
+`coho asset list` shows the five slugs: `dam`, `canal-lock`, `interchange`, `river-town`
+and `treatment-plant`.
 
 ## 5. Define the photo gallery
 
@@ -186,14 +224,14 @@ A gallery **is** a post. That means three things, which are the point of inherit
 
 ## 6. Create a gallery
 
-[`entries/photo-galleries/drainage-in-pictures.json`](entries/photo-galleries/drainage-in-pictures.json)
+[`entries/photo-galleries/civil-works-from-above.json`](entries/photo-galleries/civil-works-from-above.json)
 has the gallery's text, and its SEO title and description. The links go in with `--set`,
 by slug, as on page 4. `photos` is required, so it is set in the same command:
 
 ```bash
-coho entry create -t photoGallery -f entries/photo-galleries/drainage-in-pictures.json \
-    --set author=@tom-okafor --set 'tags=["@drainage"]' \
-    --set image=@ditch --set 'photos=["@culvert","@ditch"]'
+coho entry create -t photoGallery -f entries/photo-galleries/civil-works-from-above.json \
+    --set author=@tom-okafor --set 'tags=["@project-notes"]' --set image=@dam \
+    --set 'photos=["@dam","@canal-lock","@interchange","@river-town","@treatment-plant"]'
 ```
 
 `author`, `tags` and `image` are fields the gallery inherits; `photos` is its own. List the
@@ -419,11 +457,11 @@ this page was written, add these rules to the end of `app/globals.css`:
 
 ## 11. Check the result
 
-Restart `npm run dev`, and open the home page. **Drainage, in pictures** is the newest
-post, with the ditch as its thumbnail and a **2 photos** badge. Open it: the post's usual
-page, with author and tags, and a grid of the two diagrams before the end.
+Restart `npm run dev`, and open the home page. **Civil works, from above** is the newest
+post, with the dam as its thumbnail and a **5 photos** badge. Open it: the post's usual
+page, with author and tags, and a grid of the five cutaways before the end.
 
-The browser tab shows its SEO title, **Road drainage, in two diagrams · Field notes**,
+The browser tab shows its SEO title, **Five civil works, cut open · Field notes**,
 not its title, and the roundabout post's tab starts **Roundabouts need a second opinion
 at peak flow**.
 Both come from `seoMetadata`, through the one trait.
