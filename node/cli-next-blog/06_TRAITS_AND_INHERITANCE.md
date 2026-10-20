@@ -388,8 +388,7 @@ and add this at the end:
  */
 export function seoMetadata(entry: Seo, fallback: { title?: string; description?: string }): Metadata
 {
-  return
-  {
+  return {
     title: entry.seoTitle ?? fallback.title,
     description: entry.seoDescription ?? fallback.description,
   };
