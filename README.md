@@ -66,8 +66,8 @@ what you need before you start.
 
 ## Before you start
 
-You need the [`coho` CLI](https://github.com/coho-cms/coho-cli) and a Coho account. Each
-sample's README walks through signing in. Then clone this repository:
+You need the `coho` CLI and a Coho account. [INSTALLING.md](INSTALLING.md) installs the
+CLI, points it at Coho and signs you in, once for every sample. Then clone this repository:
 
 ```bash
 git clone https://github.com/coho-cms/coho-samples.git

@@ -40,8 +40,9 @@ cli-fastapi-blog/
 
 You need:
 
-- the `coho` CLI, and a Coho account. Every command in this sample uses the default
-  profile, so none of them needs a `-p` flag.
+- the `coho` CLI and a Coho account. [Installing the `coho` CLI](../../INSTALLING.md) sets it up, once for every
+  sample. Every command in this sample uses the default profile, so none of them needs
+  a `-p` flag.
 - [uv](https://docs.astral.sh/uv/), which installs Python for you if you have none. Check
   with `uv --version`. The library and the service need Python 3.11 or later.
 
@@ -58,8 +59,8 @@ Sign in to the default profile. This opens a browser:
 coho login
 ```
 
-If `coho login` reports that there is no profile yet, set one up with `coho configure`,
-then run `coho login` again.
+If `coho login` reports that there is no profile yet, run the `coho configure` command in
+[Installing the `coho` CLI](../../INSTALLING.md#2-point-it-at-coho), then `coho login` again.
 
 Check who you are:
 
