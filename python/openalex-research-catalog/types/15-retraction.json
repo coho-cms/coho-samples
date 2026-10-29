@@ -1,0 +1,5 @@
+{
+  "_name": "Retraction",
+  "extends": "notice",
+  "fields": []
+}

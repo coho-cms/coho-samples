@@ -1,0 +1,12 @@
+{
+  "_name": "Book content",
+  "extends": "work",
+  "abstract": true,
+  "fields": [
+    {
+      "id": "publisher",
+      "type": "text",
+      "name": "Publisher"
+    }
+  ]
+}

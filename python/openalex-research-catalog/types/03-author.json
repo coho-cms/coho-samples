@@ -1,0 +1,23 @@
+{
+  "_name": "Author",
+  "fields": [
+    {
+      "id": "orcid",
+      "type": "text",
+      "name": "ORCID"
+    },
+    {
+      "id": "institution",
+      "type": "reference",
+      "name": "Institution",
+      "of": [
+        "institution"
+      ]
+    },
+    {
+      "id": "openAlexId",
+      "type": "text",
+      "name": "OpenAlex id"
+    }
+  ]
+}

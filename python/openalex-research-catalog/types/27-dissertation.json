@@ -1,0 +1,14 @@
+{
+  "_name": "Dissertation",
+  "extends": "work",
+  "fields": [
+    {
+      "id": "grantedBy",
+      "type": "reference",
+      "name": "Granted by",
+      "of": [
+        "institution"
+      ]
+    }
+  ]
+}

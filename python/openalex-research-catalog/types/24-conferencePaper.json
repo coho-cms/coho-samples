@@ -1,0 +1,11 @@
+{
+  "_name": "Conference paper",
+  "extends": "conferenceContent",
+  "fields": [
+    {
+      "id": "pages",
+      "type": "text",
+      "name": "Pages"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "_name": "Institution",
+  "fields": [
+    {
+      "id": "kind",
+      "type": "choice",
+      "name": "Kind",
+      "values": [
+        "education",
+        "healthcare",
+        "company",
+        "archive",
+        "nonprofit",
+        "government",
+        "facility",
+        "funder",
+        "other"
+      ]
+    },
+    {
+      "id": "country",
+      "type": "text",
+      "name": "Country"
+    },
+    {
+      "id": "ror",
+      "type": "text",
+      "name": "ROR"
+    },
+    {
+      "id": "openAlexId",
+      "type": "text",
+      "name": "OpenAlex id"
+    }
+  ]
+}

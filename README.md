@@ -46,6 +46,7 @@ Kotlin, each with a generated library and a web service that answers with JSON.
 | **Node.js and TypeScript** | [cli-next-blog](node/cli-next-blog/README.md) | A content model built with the CLI, a generated typed client library, and a Next.js blog |
 | **.NET** | [cli-razor-blog](dotnet/cli-razor-blog/README.md) | The same content model, a generated typed C# library, and an ASP.NET Core Razor Pages blog |
 | **Python** | [cli-fastapi-blog](python/cli-fastapi-blog/README.md) | The same content model, a generated library of Pydantic models, and a FastAPI web service |
+| **Python** | [openalex-research-catalog](python/openalex-research-catalog/README.md) | Tens of thousands of real entries from OpenAlex: a type tree four levels deep, linked authors, sources, and topics, and a project the size a real one reaches |
 | **Java** | [cli-spring-blog](java/cli-spring-blog/README.md) | The same content model, a generated Java library, and a Spring Boot web service |
 | **Kotlin** | [cli-ktor-blog](kotlin/cli-ktor-blog/README.md) | The same content model, a generated Kotlin library, and a Ktor web service |
 

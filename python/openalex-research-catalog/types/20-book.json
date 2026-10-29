@@ -1,0 +1,5 @@
+{
+  "_name": "Book",
+  "extends": "bookContent",
+  "fields": []
+}

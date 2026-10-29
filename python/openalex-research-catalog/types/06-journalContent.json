@@ -1,0 +1,22 @@
+{
+  "_name": "Journal content",
+  "extends": "work",
+  "abstract": true,
+  "fields": [
+    {
+      "id": "volume",
+      "type": "text",
+      "name": "Volume"
+    },
+    {
+      "id": "issue",
+      "type": "text",
+      "name": "Issue"
+    },
+    {
+      "id": "pages",
+      "type": "text",
+      "name": "Pages"
+    }
+  ]
+}

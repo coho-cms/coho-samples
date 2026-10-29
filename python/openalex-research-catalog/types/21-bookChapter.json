@@ -1,0 +1,11 @@
+{
+  "_name": "Book chapter",
+  "extends": "bookContent",
+  "fields": [
+    {
+      "id": "pages",
+      "type": "text",
+      "name": "Pages"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "_name": "Research article",
+  "extends": "journalContent",
+  "fields": []
+}

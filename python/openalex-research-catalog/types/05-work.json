@@ -1,0 +1,98 @@
+{
+  "_name": "Work",
+  "abstract": true,
+  "fields": [
+    {
+      "id": "abstract",
+      "type": "longText",
+      "name": "Abstract"
+    },
+    {
+      "id": "published",
+      "type": "datetime",
+      "name": "Published"
+    },
+    {
+      "id": "year",
+      "type": "integer",
+      "name": "Year"
+    },
+    {
+      "id": "doi",
+      "type": "text",
+      "name": "DOI"
+    },
+    {
+      "id": "language",
+      "type": "text",
+      "name": "Language"
+    },
+    {
+      "id": "citations",
+      "type": "integer",
+      "name": "Citations"
+    },
+    {
+      "id": "openAccess",
+      "type": "choice",
+      "name": "Open access",
+      "values": [
+        "diamond",
+        "gold",
+        "green",
+        "hybrid",
+        "bronze",
+        "closed"
+      ]
+    },
+    {
+      "id": "license",
+      "type": "text",
+      "name": "License"
+    },
+    {
+      "id": "source",
+      "type": "reference",
+      "name": "Published in",
+      "of": [
+        "source"
+      ]
+    },
+    {
+      "id": "authors",
+      "type": "reference",
+      "name": "Authors",
+      "of": [
+        "author"
+      ],
+      "many": true
+    },
+    {
+      "id": "institutions",
+      "type": "reference",
+      "name": "Institutions",
+      "of": [
+        "institution"
+      ],
+      "many": true
+    },
+    {
+      "id": "topic",
+      "type": "reference",
+      "name": "Topic",
+      "of": [
+        "researchTopic"
+      ]
+    },
+    {
+      "id": "keywords",
+      "type": "text",
+      "name": "Keywords"
+    },
+    {
+      "id": "openAlexId",
+      "type": "text",
+      "name": "OpenAlex id"
+    }
+  ]
+}

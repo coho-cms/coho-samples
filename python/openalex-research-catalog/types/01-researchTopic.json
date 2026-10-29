@@ -1,0 +1,31 @@
+{
+  "_name": "Research topic",
+  "fields": [
+    {
+      "id": "domain",
+      "type": "choice",
+      "name": "Domain",
+      "values": [
+        "Health Sciences",
+        "Life Sciences",
+        "Physical Sciences",
+        "Social Sciences"
+      ]
+    },
+    {
+      "id": "field",
+      "type": "text",
+      "name": "Field"
+    },
+    {
+      "id": "subfield",
+      "type": "text",
+      "name": "Subfield"
+    },
+    {
+      "id": "openAlexId",
+      "type": "text",
+      "name": "OpenAlex id"
+    }
+  ]
+}

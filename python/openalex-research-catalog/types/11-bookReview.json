@@ -1,0 +1,5 @@
+{
+  "_name": "Book review",
+  "extends": "journalContent",
+  "fields": []
+}

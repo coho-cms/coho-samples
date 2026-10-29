@@ -1,0 +1,5 @@
+{
+  "_name": "Erratum",
+  "extends": "notice",
+  "fields": []
+}

@@ -1,0 +1,5 @@
+{
+  "_name": "Editorial",
+  "extends": "journalContent",
+  "fields": []
+}

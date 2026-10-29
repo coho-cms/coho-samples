@@ -1,0 +1,6 @@
+{
+  "_name": "Descriptor",
+  "extends": "journalContent",
+  "abstract": true,
+  "fields": []
+}

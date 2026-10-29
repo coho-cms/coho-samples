@@ -1,0 +1,44 @@
+{
+  "_name": "Source",
+  "fields": [
+    {
+      "id": "kind",
+      "type": "choice",
+      "name": "Kind",
+      "values": [
+        "journal",
+        "repository",
+        "conference",
+        "ebook platform",
+        "book series",
+        "metadata",
+        "other"
+      ]
+    },
+    {
+      "id": "issn",
+      "type": "text",
+      "name": "ISSN"
+    },
+    {
+      "id": "publisher",
+      "type": "text",
+      "name": "Publisher"
+    },
+    {
+      "id": "openAccess",
+      "type": "boolean",
+      "name": "Open access"
+    },
+    {
+      "id": "inDoaj",
+      "type": "boolean",
+      "name": "In DOAJ"
+    },
+    {
+      "id": "openAlexId",
+      "type": "text",
+      "name": "OpenAlex id"
+    }
+  ]
+}

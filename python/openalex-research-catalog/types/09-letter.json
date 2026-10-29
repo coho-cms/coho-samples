@@ -1,0 +1,5 @@
+{
+  "_name": "Letter",
+  "extends": "journalContent",
+  "fields": []
+}
