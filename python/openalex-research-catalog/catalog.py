@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["coho-management-sdk>=2026.1.0a12,<2026.2", "keyring>=25"]
+# ///
 """
 A wide slice of OpenAlex, loaded into a Coho project. Four steps, each one resumable,
 each writing under `data/`:
@@ -9,7 +13,8 @@ each writing under `data/`:
     convert  turns those works into Coho backup documents in data/backup, a batch each
     load     posts each batch to the current project's ref, remembering which landed
 
-The standard library only. The pages beside this file walk through each step.
+The standard library, and for load alone the Coho SDK, which signs in the way the `coho`
+CLI does. The pages beside this file walk through each step.
 """
 
 from __future__ import annotations
@@ -26,7 +31,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any, Callable, Iterator
 
 import model
 
@@ -339,27 +344,26 @@ def trimmed(authorships: list[dict[str, Any]], keep: int) -> list[dict[str, Any]
 # LOAD
 
 def load(args: argparse.Namespace) -> None:
-    token = os.environ.get("COHO_TOKEN")
-    if not token:
-        sys.exit("Set COHO_TOKEN to a project token with the author role first: see 03_LOAD.md.")
+    token, who = bearer()
     place = current_place()
     ref = args.ref or place["ref"]
-    path = f"/api/v1/accounts/{place['account']}/projects/{place['project']}/refs/{urllib.parse.quote(ref, safe='')}/backup"
+    ref_url = place["url"].rstrip("/") + f"/api/v1/accounts/{place['account']}/projects/{place['project']}/refs/{urllib.parse.quote(ref, safe='')}"
     done_file = DATA / "loaded.txt"
     done = set(done_file.read_text().split()) if done_file.exists() else set()
     batches = sorted((DATA / "backup").glob("*.json"))
     if not batches:
         sys.exit("Nothing to load: run convert first.")
-    print(f"Loading into {place['projectName'] or place['project']} on {ref}: {len(done)} of {len(batches)} batches already in.")
+    check_types(ref_url, token, place["projectName"] or place["project"], ref)
+    print(f"Loading into {place['projectName'] or place['project']} on {ref} as {who}: {len(done)} of {len(batches)} batches already in.")
     started = time.time()
     for batch in batches:
         if batch.name in done:
             continue
         request = urllib.request.Request(
-            place["url"].rstrip("/") + path,
+            ref_url + "/backup",
             data=batch.read_bytes(),
             method="POST",
-            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+            headers={"Authorization": f"Bearer {token()}", "Content-Type": "application/json"},
         )
         t0 = time.time()
         try:
@@ -377,6 +381,51 @@ def load(args: argparse.Namespace) -> None:
             f.write(batch.name + "\n")
         print(f"  {batch.name}: {result.get('created', 0):,} created, {result.get('updated', 0):,} updated, {result.get('unchanged', 0):,} unchanged in {time.time() - t0:.1f}s")
     print(f"Done in {time.time() - started:.0f}s.")
+
+
+def check_types(ref_url: str, token: Callable[[], str], project: str, ref: str) -> None:
+    """
+    Every type in `types/` is on the ref before the first batch goes, since the import names
+    only the first type it cannot find, and only once a batch has been sent.
+    """
+    request = urllib.request.Request(ref_url + "/types", headers={"Authorization": f"Bearer {token()}"})
+    try:
+        with urllib.request.urlopen(request, timeout=60) as response:
+            present = {t["slug"] for t in json.load(response).get("types", [])}
+    except urllib.error.HTTPError as e:
+        sys.exit(f"Could not list the types on {ref} ({e.code}): {e.read().decode(errors='replace')[:500]}")
+    needed = model.definitions()
+    missing = [slug for slug in needed if slug not in present]
+    if not missing:
+        return
+    if len(missing) == len(needed):
+        sys.exit(f"{project} has none of the {len(needed)} content types in types/ on {ref} yet. Put them first: see 01_CONTENT_MODEL.md, step 3.")
+    names = [needed[slug]["_name"] for slug in missing]
+    listed = names[0] if len(names) == 1 else f"{names[0]} and {names[1]}" if len(names) == 2 else ", ".join(names[:-1]) + f", and {names[-1]}"
+    sys.exit(f"{project} is missing {len(missing)} of the {len(needed)} content types on {ref}: {listed}. Put them first: see 01_CONTENT_MODEL.md, step 3.")
+
+
+def bearer() -> tuple[Callable[[], str], str]:
+    """
+    COHO_TOKEN when it is set, a project token used as it is; otherwise whoever is signed in
+    to the CLI's profile, read from where `coho login` keeps it. A person's token lasts an
+    hour, and a big load can take longer, so it is asked for before every batch and
+    refreshed when it is close to running out.
+    """
+    # Imported here so that plan, fetch, and convert need nothing beyond the standard library.
+    try:
+        from coho_management_sdk import Coho, CohoError
+    except ImportError:
+        sys.exit("load needs the Coho SDK: run it as `uv run catalog.py load`, which installs it.")
+    try:
+        provider = Coho.from_profile().token_provider
+        provider()
+    except KeyError as e:
+        sys.exit(f"There is no CLI profile named {e}. Check `coho profile list`.")
+    except CohoError as e:
+        sys.exit(f"No credential for the load ({e}). Run `coho login`, or set COHO_TOKEN: see 03_LOAD.md.")
+    who = "a project token" if os.environ.get("COHO_TOKEN") else "you"
+    return (lambda: provider() or ""), who
 
 
 def current_place() -> dict[str, Any]:

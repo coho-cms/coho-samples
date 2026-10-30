@@ -72,8 +72,8 @@ You need:
   up, once for every sample. Every command in this sample uses the default profile, so none
   of them needs a `-p` flag.
 - [uv](https://docs.astral.sh/uv/), which installs Python for you if you have none. Check
-  with `uv --version`. `catalog.py` needs Python 3.11 or later and nothing else: it uses the
-  standard library only.
+  with `uv --version`. `catalog.py` needs Python 3.11 or later. It uses the standard
+  library, and for the load the Coho SDK, which `uv run` installs for it.
 - a free OpenAlex API key, which page 2 shows how to get. Without one, the API allows a
   tenth of a day's usage, shared with everyone on your network.
 
