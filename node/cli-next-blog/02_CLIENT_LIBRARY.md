@@ -165,7 +165,7 @@ library's `coho.config.json`, and with the token:
 
 ```
 # dev: the head of the trunk, read live through Coho.
-COHO_URL=https://api-dev.coho-cms.dev
+COHO_URL=https://api.coho-cms.com
 COHO_ACCOUNT=<account-id>
 COHO_PROJECT=<project-id>
 COHO_REF=dev
