@@ -45,7 +45,7 @@ or be empty:
 mkdir ~/workarea/blog-content
 cd ~/workarea/blog-content
 npm create coho . -- --name @your-org/blog-content \
-    --url https://api-dev.coho-cms.dev --ref dev
+    --url https://api.coho-cms.com --ref dev
 ```
 
 It asks for the project token from step 1. Paste it; it is not shown as you do. Coho says
