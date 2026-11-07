@@ -61,8 +61,9 @@ Sign in to the default profile. This opens a browser:
 coho login
 ```
 
-If `coho login` reports that there is no profile yet, run the `coho configure` command in
-[Installing the `coho` CLI](../../INSTALLING.md#2-point-it-at-coho), then `coho login` again.
+If `coho login` reports no profile, or a command reaches the wrong Coho, check the default
+profile in [Installing the `coho` CLI](../../INSTALLING.md#2-point-it-at-coho), then
+`coho login` again.
 
 Check who you are:
 

@@ -15,8 +15,9 @@ After that, we'll show how you can create your own content branch, point your lo
 that branch, and when you're happy with the content changes, merge that into the version branch.
 
 Everything on this page uses two credentials: your `coho login`, for the CLI, and project
-tokens, for the library and your own code. Releasing content to `qa` and reading it with a
-delivery key, the way a published website does, is a later tutorial.
+tokens, for the library and your own code. Releasing content and reading it with a
+delivery key, the way a published website does, comes last, in
+[Release the blog](07_RELEASE.md).
 
 ## 1. Create a project token
 
@@ -45,7 +46,7 @@ or be empty:
 mkdir ~/workarea/blog-content
 cd ~/workarea/blog-content
 npm create coho . -- --name @your-org/blog-content \
-    --url https://api-dev.coho-cms.dev --ref dev
+    --url https://api.coho-cms.com --ref dev
 ```
 
 It asks for the project token from step 1. Paste it; it is not shown as you do. Coho says
@@ -165,7 +166,7 @@ library's `coho.config.json`, and with the token:
 
 ```
 # dev: the head of the trunk, read live through Coho.
-COHO_URL=https://api-dev.coho-cms.dev
+COHO_URL=https://api.coho-cms.com
 COHO_ACCOUNT=<account-id>
 COHO_PROJECT=<project-id>
 COHO_REF=dev

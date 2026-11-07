@@ -270,7 +270,7 @@ curl -s http://localhost:8080/posts/roundabout-second-opinion
 The URLs are the CDN's, built from the asset. The hero's `src` is something like:
 
 ```
-https://assets-dev.coho-cms.dev/<project-id>/i/<hash>/roundabout.png?w=800&h=200&fit=fill&fm=auto&fx=0.5&fy=0.52
+https://assets.coho-cms.com/<project-id>/i/<hash>/roundabout.png?w=800&h=200&fit=fill&fm=auto&fx=0.5&fy=0.52
 ```
 
 `w` and `h` are the size, `fit=fill` the crop, `fm=auto` the format, and `fx`/`fy` the focal

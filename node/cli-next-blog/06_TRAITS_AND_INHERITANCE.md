@@ -509,3 +509,5 @@ required, for example, is refused with the types it would reach, `blogPost` and
   the type's `traits` first, after giving it back its own `seoDescription`.
 - **`coho type delete blogPost` fails with `TYPE_IN_USE`, naming `photoGallery`:** a type
   others extend is not deleted while they do.
+
+Next: [Release the blog](07_RELEASE.md).

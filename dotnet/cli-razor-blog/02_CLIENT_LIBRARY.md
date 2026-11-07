@@ -61,7 +61,7 @@ dotnet tool restore
 ```
 
 ```bash
-dotnet coho-codegen init --url https://api-dev.coho-cms.dev --ref dev
+dotnet coho-codegen init --url https://api.coho-cms.com --ref dev
 ```
 
 It asks for the project token from step 1. Paste it; it is not shown as you do. Coho says
@@ -199,7 +199,7 @@ the token:
 
 ```bash
 dotnet user-secrets init
-dotnet user-secrets set COHO_URL https://api-dev.coho-cms.dev
+dotnet user-secrets set COHO_URL https://api.coho-cms.com
 dotnet user-secrets set COHO_ACCOUNT <account-id>
 dotnet user-secrets set COHO_PROJECT <project-id>
 dotnet user-secrets set COHO_REF dev

@@ -2,8 +2,9 @@
 
 This page builds the content model and sets up some sample content for the blog. You create a project, add three content types
 (`tag`, `teamMember` and `blogPost`), and load a few entries by hand. Then you link the
-entries to each other, preview them on `dev`, and fix a mistake. Releasing content to `qa`
-and reading it with a delivery key, the way a published website does, is a later tutorial.
+entries to each other, preview them on `dev`, and fix a mistake. Releasing content and
+reading it with a delivery key, the way a published website does, comes last, in
+[Release the blog](07_RELEASE.md).
 
 Sign in first, as described under [Before you start](README.md#before-you-start).
 
@@ -167,7 +168,7 @@ Then read the blog posts from `dev`, through Coho's preview:
 
 ```bash
 curl -s -H "Authorization: Bearer $TOKEN" \
-    "https://api-dev.coho-cms.dev/api/v1/accounts/$ACCOUNT/projects/$PROJECT/preview/dev/entries?type=blogPost&depth=1"
+    "https://api.coho-cms.com/api/v1/accounts/$ACCOUNT/projects/$PROJECT/preview/dev/entries?type=blogPost&depth=1"
 ```
 
 Don't worry - this is just an example of how to make a raw API call. We'll get into the SDK in the next step or two.
@@ -225,7 +226,7 @@ coho entry put @elm-street-drainage --set 'summary={"en-US":"The corrected summa
   revoked or expired, or it belongs to another project; or `ACCOUNT` or `PROJECT` is wrong.
   Compare them with `coho status`, and create another token if you have lost this one.
 - **Opening the preview address in a browser says `401`, even when you are signed in to
-  the portal:** a browser's sign-in belongs to the portal at `app-dev.coho-cms.dev`, and is
-  never sent to `api-dev`. Read the preview with `curl` and a token, as in step 8.
+  the portal:** a browser's sign-in belongs to the portal at `app.coho-cms.com`, and is
+  never sent to `api.coho-cms.com`. Read the preview with `curl` and a token, as in step 8.
 
 Next: [Create the client library](02_CLIENT_LIBRARY.md).

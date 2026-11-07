@@ -58,7 +58,7 @@ uv sync
 Then point the library at your project:
 
 ```bash
-uv run coho-codegen init --url https://api-dev.coho-cms.dev --ref dev
+uv run coho-codegen init --url https://api.coho-cms.com --ref dev
 ```
 
 It asks for the project token from step 1. Paste it; it is not shown as you do. Coho says
@@ -226,7 +226,7 @@ Then create `.env` with these lines. Replace the placeholders with the `account`
 token:
 
 ```
-COHO_URL=https://api-dev.coho-cms.dev
+COHO_URL=https://api.coho-cms.com
 COHO_ACCOUNT=<account-id>
 COHO_PROJECT=<project-id>
 COHO_REF=dev

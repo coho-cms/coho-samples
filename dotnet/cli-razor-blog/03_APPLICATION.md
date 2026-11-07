@@ -107,7 +107,7 @@ dotnet user-secrets list
 ```
 
 ```
-COHO_URL = https://api-dev.coho-cms.dev
+COHO_URL = https://api.coho-cms.com
 COHO_ACCOUNT = <account-id>
 COHO_PROJECT = <project-id>
 COHO_REF = dev

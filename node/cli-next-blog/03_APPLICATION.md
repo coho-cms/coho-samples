@@ -46,6 +46,8 @@ blog-site/
 ├── lib/
 │   ├── coho.ts                 the Coho client, and the only import of the library
 │   └── site.ts                 the site's name, its locale, and how dates look
+└── scripts/
+    └── with-env.mjs            the production build's settings, for page 7
 ```
 
 ## 2. Pack the library
@@ -115,7 +117,7 @@ cp ../blog-test/.env.local .env.local
 It holds the same values as before:
 
 ```
-COHO_URL=https://api-dev.coho-cms.dev
+COHO_URL=https://api.coho-cms.com
 COHO_ACCOUNT=<account-id>
 COHO_PROJECT=<project-id>
 COHO_REF=dev
@@ -253,7 +255,7 @@ changes with it, and so does the line in `package.json`.
 - **Publish it.** `npm run build` renders every post ahead of time, and in production a
   page is rendered again at most once a minute (`revalidate`, in `app/layout.tsx`). A
   published site reads released content with a delivery key, rather than `dev` with a
-  token. That is a later tutorial.
+  token. [Release the blog](07_RELEASE.md) does that.
 
 ## If something goes wrong
 

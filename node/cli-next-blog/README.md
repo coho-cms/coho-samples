@@ -4,9 +4,10 @@ This sample walks through setting up a simple blog content model and wiring it i
 Next.js app. It starts with the content model: the content types, and a few entries to read.
 Next it creates a client library with a strongly typed API, generated from those types.
 Then it wires that library into React templates on a Next.js blog. It gives the posts
-images and files to download, and a list of citations stored inside each post. Last, it
+images and files to download, and a list of citations stored inside each post. It
 shares fields two ways: an SEO trait any type can take, and a photo gallery that is a
-kind of post.
+kind of post. Last, it releases the content to `prod`, and builds and runs the site for
+production, reading `prod` with a delivery key.
 
 1. [Set up the content model](01_CONTENT.md)
 2. [Create the client library](02_CLIENT_LIBRARY.md)
@@ -14,6 +15,7 @@ kind of post.
 4. [Images and downloads](04_IMAGES_AND_ASSETS.md)
 5. [Reference repeaters and inline repeaters](05_REFERENCE_AND_INLINE_REPEATERS.md)
 6. [Traits and inheritance](06_TRAITS_AND_INHERITANCE.md)
+7. [Release the blog](07_RELEASE.md)
 
 The model shows the main things Coho does: content types, a closed list of choices,
 localized text, markdown, references between entries, assets, component types for
@@ -48,8 +50,9 @@ Sign in to the default profile. This opens a browser:
 coho login
 ```
 
-If `coho login` reports that there is no profile yet, run the `coho configure` command in
-[Installing the `coho` CLI](../../INSTALLING.md#2-point-it-at-coho), then `coho login` again.
+If `coho login` reports no profile, or a command reaches the wrong Coho, check the default
+profile in [Installing the `coho` CLI](../../INSTALLING.md#2-point-it-at-coho), then
+`coho login` again.
 
 Check who you are:
 

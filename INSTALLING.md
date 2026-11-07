@@ -58,18 +58,22 @@ The package is `coho-cli`. Do not `pip install coho`: that is an unrelated proje
 
 ## 2. Point it at Coho
 
-The samples use Coho's development environment. Set it up as your default profile, so no
-command needs a `-p` flag:
+Nothing to do: the CLI points at Coho's service by itself. On a machine with no
+configuration, the first command uses `https://api.coho-cms.com` with the sign-in service
+at `https://auth.coho-cms.com`, so a fresh install goes straight to `coho login`. Check
+with `coho profile show`.
+
+If you have used the CLI before and its default profile points somewhere else, aim it here:
 
 ```bash
-coho configure --url https://api-dev.coho-cms.dev \
-    --oidc-domain https://auth-dev.coho-cms.dev --client-id coho-cli
+coho configure --url https://api.coho-cms.com \
+    --oidc-domain https://auth.coho-cms.com --client-id coho-cli
 ```
 
 The same command on one line, for PowerShell:
 
 ```powershell
-coho configure --url https://api-dev.coho-cms.dev --oidc-domain https://auth-dev.coho-cms.dev --client-id coho-cli
+coho configure --url https://api.coho-cms.com --oidc-domain https://auth.coho-cms.com --client-id coho-cli
 ```
 
 ## 3. Sign in
@@ -100,7 +104,8 @@ in `~/.config/coho` until you delete them.
 | What you see | What to do |
 |---|---|
 | `coho: command not found`, or "not recognized" on Windows | Run `uv tool update-shell` (or `pipx ensurepath`), then open a new terminal. |
-| `coho login` says there is no profile yet | Run the `coho configure` command in step 2. |
+| `coho login` says there is no profile with that name | Only named profiles have to be created. The samples use the default one, so leave `-p` off; to create a named profile, run step 2's `coho configure` with `--profile <name>`. |
+| `coho whoami` or a later command reaches the wrong Coho | `coho profile show` prints the profile's `url`. Aim it back with step 2's `coho configure`. |
 | The keyring errors or keeps prompting, as over SSH or on a server with no desktop | `coho configure --token-store file` keeps the tokens in a file only you can read instead. With no keyring at all, `coho` does that by itself. |
 | Your browser does not open | `coho login --no-browser` prints the URL to open yourself. |
 

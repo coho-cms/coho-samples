@@ -24,6 +24,8 @@ next-blog-starter/
 ├── lib/
 │   ├── coho.ts                 the Coho client, and the only import of your library
 │   └── site.ts                 the site's name, its locale, and how dates look
+└── scripts/
+    └── with-env.mjs            runs Next.js with .env.prod, for a production build
 ```
 
 ## In short
@@ -44,3 +46,14 @@ next-blog-starter/
 
 After the library changes, pack it again and install the new tarball by its path, as in
 step 3. A plain `npm install` keeps the copy it has.
+
+## Releasing it
+
+To build and run the site for production, reading released content from `prod`, put the
+delivery variables in `.env.prod`, which the `.gitignore` also keeps out of git:
+`COHO_DELIVERY_URL`, `COHO_PROJECT`, `COHO_REF=prod`, `COHO_LOCALE`, a delivery key as
+`COHO_DELIVERY_KEY`, and an empty `COHO_PREVIEW_TOKEN=`, so `.env.local`'s token stays
+out. Then `npm run build:prod` and `npm run start:prod`, on http://localhost:3001.
+`scripts/with-env.mjs` loads the file for them, since Next.js reads only the env files it
+knows by name. [Release the blog](../cli-next-blog/07_RELEASE.md) walks through it,
+from tagging the release onwards.

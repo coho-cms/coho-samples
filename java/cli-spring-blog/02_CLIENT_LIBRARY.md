@@ -63,7 +63,7 @@ COHO_TOKEN=coho_pt_…
 Then point the library at your project, and give it its package:
 
 ```bash
-./gradlew cohoInit --args="--url https://api-dev.coho-cms.dev --ref dev --package com.yourorg.blogcontent"
+./gradlew cohoInit --args="--url https://api.coho-cms.com --ref dev --package com.yourorg.blogcontent"
 ```
 
 The first run downloads Gradle and the library's packages, which takes a minute. Then Coho
@@ -287,7 +287,7 @@ these lines. Replace the placeholders with the `account` and `project` that `coh
 into the library's `coho.config.json`, and with the token:
 
 ```
-COHO_URL=https://api-dev.coho-cms.dev
+COHO_URL=https://api.coho-cms.com
 COHO_ACCOUNT=<account-id>
 COHO_PROJECT=<project-id>
 COHO_REF=dev

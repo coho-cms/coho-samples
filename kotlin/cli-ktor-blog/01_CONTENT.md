@@ -171,7 +171,7 @@ Then read the blog posts from `dev`, through Coho's preview:
 
 ```bash
 curl -s -H "Authorization: Bearer $TOKEN" \
-    "https://api-dev.coho-cms.dev/api/v1/accounts/$ACCOUNT/projects/$PROJECT/preview/dev/entries?type=blogPost&depth=1"
+    "https://api.coho-cms.com/api/v1/accounts/$ACCOUNT/projects/$PROJECT/preview/dev/entries?type=blogPost&depth=1"
 ```
 
 Don't worry - this is just an example of how to make a raw API call. We'll get into the SDK in the next step
@@ -230,7 +230,7 @@ coho entry put @elm-street-drainage --set 'summary={"en-US":"The corrected summa
   revoked or expired, or it belongs to another project; or `ACCOUNT` or `PROJECT` is wrong.
   Compare them with `coho status`, and create another token if you have lost this one.
 - **Opening the preview address in a browser says `401`, even when you are signed in to
-  the portal:** a browser's sign-in belongs to the portal at `app-dev.coho-cms.dev`, and is
-  never sent to `api-dev`. Read the preview with `curl` and a token, as in step 8.
+  the portal:** a browser's sign-in belongs to the portal at `app.coho-cms.com`, and is
+  never sent to `api.coho-cms.com`. Read the preview with `curl` and a token, as in step 8.
 
 Next: [Create the client library](02_CLIENT_LIBRARY.md).
