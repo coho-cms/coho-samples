@@ -27,6 +27,8 @@ An asset is a file Coho stores and serves from its own CDN, with a slug, a title
 for images, and a focal point: where a crop centres. Upload the two images, each with
 its alt text and focal point:
 
+NOTE: You will need to change the image paths depending on where your coho-samples is checked out. 
+
 ```bash
 coho asset upload ../../sample-assets/roundabout.png --title "Roundabout anatomy" \
     --alt "Diagram of a single-lane roundabout, with its central island, splitter islands and crossings" \
