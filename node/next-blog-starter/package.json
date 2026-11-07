@@ -11,7 +11,7 @@
     "start:prod": "node scripts/with-env.mjs .env.prod start --port 3001"
   },
   "dependencies": {
-    "@coho-cms/delivery": "^0.1.0",
+    "@coho-cms/delivery": "^2026.1.0",
     "next": "16.4.2",
     "react": "19.3.1",
     "react-dom": "19.3.1",

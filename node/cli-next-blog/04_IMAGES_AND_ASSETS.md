@@ -27,6 +27,8 @@ An asset is a file Coho stores and serves from its own CDN, with a slug, a title
 for images, and a focal point: where a crop centres. Upload the two images, each with
 its alt text and focal point:
 
+NOTE: You will need to change the image paths depending on where your coho-samples is checked out. 
+
 ```bash
 coho asset upload ../../sample-assets/roundabout.png --title "Roundabout anatomy" \
     --alt "Diagram of a single-lane roundabout, with its central island, splitter islands and crossings" \
@@ -48,7 +50,8 @@ coho asset upload ../../sample-assets/roundabout-functionality.pdf --title "How 
 ```
 
 Each upload says what it stored, and warns that asset URLs are public: anyone with the URL
-can open the file, even one only a draft links to. Each slug comes from the filename, so the
+can open the file, even one only a draft links to. That's why we have URLs that include a cryptographic hash that are
+extremely difficult to guess. Each slug comes from the filename, so the
 assets are `roundabout`, `culvert` and `roundabout-functionality`. List them:
 
 ```bash
