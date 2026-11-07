@@ -50,7 +50,8 @@ coho asset upload ../../sample-assets/roundabout-functionality.pdf --title "How 
 ```
 
 Each upload says what it stored, and warns that asset URLs are public: anyone with the URL
-can open the file, even one only a draft links to. Each slug comes from the filename, so the
+can open the file, even one only a draft links to. That's why we have URLs that include a cryptographic hash that are
+extremely difficult to guess. Each slug comes from the filename, so the
 assets are `roundabout`, `culvert` and `roundabout-functionality`. List them:
 
 ```bash
