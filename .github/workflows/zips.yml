@@ -1,0 +1,127 @@
+name: zips
+
+# The samples as downloads, for readers who would rather not use git: one zip per
+# language and one of everything, attached to the GitHub release a release-v* tag makes.
+# Every push to a version branch and every pull request builds them too, as a check.
+
+on:
+  push:
+    branches: ["v*"]
+    tags: ["release-v*"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: zips-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+permissions:
+  contents: read
+
+jobs:
+  zips:
+    name: build the zips
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Read the version
+        id: version
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/release-v* ]]; then
+            version="${GITHUB_REF_NAME#release-v}"
+            # The same forms as the other repositories' releases: a final, or an alpha,
+            # beta or release candidate.
+            if [[ ! "$version" =~ ^[0-9]{4}\.[0-9]+\.[0-9]+((a|b|rc)[0-9]+)?$ ]]; then
+              echo "::error::Use forms like release-v2026.2.7, release-v2026.2.7a1, release-v2026.2.7b1 or release-v2026.2.7rc1, not $GITHUB_REF_NAME."
+              exit 1
+            fi
+          else
+            version="0.0.0+${GITHUB_SHA::7}"
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Build the zips
+        run: scripts/zips.sh "${{ steps.version.outputs.version }}" dist
+
+      - name: Check what the .NET zip holds
+        # The tutorial's commands assume this layout: it reaches two levels up for the
+        # assets and the CLI's install page, and copies the starter from beside it.
+        run: |
+          zip="dist/coho-samples-dotnet-${{ steps.version.outputs.version }}.zip"
+          listing="$(unzip -Z1 "$zip")"
+          for path in \
+            coho-samples/INSTALLING.md \
+            coho-samples/LICENSE \
+            coho-samples/sample-assets/roundabout.png \
+            coho-samples/sample-assets/gallery/01_dam.png \
+            coho-samples/dotnet/cli-razor-blog/README.md \
+            coho-samples/dotnet/cli-razor-blog/types/blogPost.json \
+            coho-samples/dotnet/razor-blog-starter/RazorBlogStarter.csproj; do
+            grep -qx "$path" <<< "$listing" || { echo "::error::$zip has no $path"; exit 1; }
+          done
+          if grep -q '^coho-samples/node/' <<< "$listing"; then
+            echo "::error::$zip holds another language"
+            exit 1
+          fi
+
+      - name: Upload the zips
+        uses: actions/upload-artifact@v7
+        with:
+          name: coho-samples-zips
+          path: dist/*.zip
+          if-no-files-found: error
+
+  release:
+    name: attach to the GitHub release
+    if: startsWith(github.ref, 'refs/tags/release-v')
+    needs: zips
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ needs.zips.outputs.version }}
+    steps:
+      - name: Download the zips
+        uses: actions/download-artifact@v8
+        with:
+          name: coho-samples-zips
+          path: dist
+
+      - name: Copies under names without the version
+        # So a page can link to releases/latest/download/coho-samples-dotnet.zip and never
+        # change the link. GitHub's "latest" is the newest final release, so a pre-release
+        # carrying these too never moves what such a link serves.
+        run: |
+          cd dist
+          for name in dotnet java kotlin node python; do
+            cp "coho-samples-$name-$VERSION.zip" "coho-samples-$name.zip"
+          done
+          cp "coho-samples-$VERSION.zip" coho-samples.zip
+          ls -l
+
+      - name: Checksums
+        run: |
+          cd dist && sha256sum * > SHA256SUMS && cat SHA256SUMS
+
+      - name: Create or update the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # An alpha, beta or release candidate is a pre-release on GitHub too, so
+          # it never shows as the latest release.
+          prerelease=""
+          if [[ "$GITHUB_REF_NAME" =~ (a|b|rc)[0-9]+$ ]]; then
+            prerelease="--prerelease"
+          fi
+          if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY" --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" dist/* \
+              --repo "$GITHUB_REPOSITORY" \
+              --title "coho-samples $VERSION" \
+              --generate-notes \
+              --verify-tag $prerelease
+          fi
