@@ -23,7 +23,8 @@ razor-blog-starter/
 │   └── NotFound.cshtml         what an unknown address shows
 ├── TagHelpers/
 │   └── MarkdownTagHelper.cs    a markdown field, such as a post's body
-└── wwwroot/site.css            the styles
+├── wwwroot/site.css            the styles
+└── .vscode/tasks.json          the site as VS Code tasks: Ctrl+Shift+B runs dotnet watch
 ```
 
 ## In short
@@ -40,6 +41,14 @@ razor-blog-starter/
    `dotnet user-secrets list --json --project ../BlogTest | sed '/^\/\//d' | dotnet user-secrets set`.
 4. `dotnet watch`, open http://localhost:5080, then replace each `Repeater:` comment with
    a `@foreach` over its list. The tutorial has the code for each.
+
+## In VS Code
+
+Open this folder, and press **Ctrl+Shift+B**: the task **Site: watch** runs `dotnet watch`
+in VS Code's terminal, so each change you save reaches the running site and the browser
+refreshes. VS Code's own Run starts the site once, and does neither. A change that does not
+compile is listed under **Problems**, and the site keeps running as it was until you fix it.
+**Ctrl+C** in the task's terminal stops it, and **Ctrl+R** restarts it.
 
 The site builds the library from its project, and `dotnet watch` watches both, so a
 regenerated library reaches the running site with nothing to install. When the library is

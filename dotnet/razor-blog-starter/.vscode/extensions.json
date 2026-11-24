@@ -1,0 +1,4 @@
+{
+  // C# Dev Kit: IntelliSense for the site's C# and Razor pages, and building it in VS Code.
+  "recommendations": ["ms-dotnettools.csdevkit"]
+}

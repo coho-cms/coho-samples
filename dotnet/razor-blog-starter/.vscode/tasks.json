@@ -1,0 +1,53 @@
+{
+  // The site's steps as VS Code tasks: Terminal > Run Task, or Tasks: Run Task in the Command
+  // Palette. Ctrl+Shift+B runs the site with dotnet watch, which VS Code's Run does not: each change
+  // you save is applied to the running site, and the browser refreshes. Each task runs dotnet
+  // directly, not through a shell, so they work the same in PowerShell, Command Prompt, bash and zsh.
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Site: watch",
+      "detail": "Run the site at http://localhost:5080, and apply each change you save, as dotnet watch does",
+      "type": "process",
+      "command": "dotnet",
+      "args": ["watch"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": { "kind": "build", "isDefault": true },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "csharp",
+        "source": "dotnet watch",
+        "fileLocation": "absolute",
+        // A compile error, as the first build prints it and as dotnet watch does after a change:
+        // dotnet watch ❌ C:\...\Site.cs(25,1): error CS1519: Invalid token '}' in a member declaration
+        "pattern": {
+          "regexp": "^(?:dotnet watch \\S+ )?\\s*(\\S.*?)\\((\\d+),(\\d+)\\):\\s+(error|warning)\\s+(\\w+):\\s*(.*?)(?:\\s+\\[.*\\])?$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "code": 5,
+          "message": 6
+        },
+        // A build or a saved change clears the errors listed, and lists its own. A change that does
+        // not compile prints its errors after "Unable to apply changes", so that line ends nothing:
+        // the next change does.
+        "background": {
+          "activeBegin": true,
+          "beginsPattern": "^dotnet watch \\S+ (Loading projects|File updated|File changed|Building)",
+          "endsPattern": "^dotnet watch \\S+ (Waiting for|No managed code changes|Hot reload succeeded|.*Exited)|Now listening on"
+        }
+      },
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "Site: build",
+      "detail": "Build the site, and the library it references, without running it",
+      "type": "process",
+      "command": "dotnet",
+      "args": ["build"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}
