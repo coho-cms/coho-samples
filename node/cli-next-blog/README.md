@@ -33,8 +33,10 @@ cli-next-blog/
 
 ## Before you start
 
-You need the `coho` CLI and a Coho account. [Installing the `coho` CLI](../../INSTALLING.md) sets it up,
-once for every sample. Every command in this sample uses the default profile, so none of
+You need Node.js 22.18 or later, the `coho` CLI, and a Coho account. Node.js 22.18 is the
+first to run a TypeScript file as it is, which page 2's `posts.ts` and the library's
+`npm run catalog` both rely on: `node --version` says which you have.
+[Installing the `coho` CLI](../../INSTALLING.md) sets the CLI up, once for every sample. Every command in this sample uses the default profile, so none of
 them needs a `-p` flag.
 
 Every command below runs from inside this folder. Start by moving into it:

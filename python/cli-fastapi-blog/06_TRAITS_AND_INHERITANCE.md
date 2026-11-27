@@ -304,7 +304,7 @@ class PhotoGallery(BlogPost):
     """Photos. Accepts image/*."""
 ```
 
-`coho.blog_post` reads `AnyBlogPost`, which the library's `__init__.py` defines as
+`coho.blog_post` reads `AnyBlogPost`, which the generated `coho/__init__.py` defines as
 `BlogPost | PhotoGallery`: Coho lists a type with its subtypes, so its lists hold galleries,
 and `by_slug` finds one, each as a `PhotoGallery`. `coho.photo_gallery` reads galleries alone.
 

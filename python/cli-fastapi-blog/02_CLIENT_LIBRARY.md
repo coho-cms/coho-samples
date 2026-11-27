@@ -162,12 +162,14 @@ library to it:
 
 ```bash
 cd ..
-uv init --app blog-test
+uv init --app --no-package blog-test
 cd blog-test
 uv add --editable ../yourorg-blog-content
 ```
 
-`--editable` installs the library from its folder, so the program sees the library's code
+`--no-package` makes the program a plain folder with a `main.py`, rather than a package to
+build: since uv 0.13, `--app` alone makes a package, with its code under `src` and no
+`main.py`. `--editable` installs the library from its folder, so the program sees the library's code
 as it is now, and as it is the next time you generate it, with nothing to reinstall.
 
 Replace `main.py` with this. It lists the blog posts, newest first, with each one's author,
@@ -328,8 +330,10 @@ coho ref switch v0.0.x
   written when the token is refused, so run it again as it was.
 - **`pull` fails with `401` or `403`:** check `COHO_TOKEN` in `.env`. It must be a project
   token for this project.
-- **`pull` fails with `404`:** the Coho server predates the type model. It needs a build
-  that serves `…/refs/{ref}/type-model`.
+- **`pull` fails with `404`, with `PROJECT_NOT_FOUND`:** `coho.config.json` still has the
+  template's `your-account-id` and `your-project-id`, because `init` ran with no token, such
+  as when its prompt was left blank, and the token went into `.env` afterwards. Run `init`
+  again and paste the token: it fills them in, and says which project it reads.
 - **The catalog fails with `PROJECT_NOT_FOUND`:** `COHO_TOKEN` is for another project, or
   `account` or `project` in `coho.config.json` is wrong. With `UNAUTHENTICATED`, the token
   has expired or been revoked: create another.
@@ -344,6 +348,8 @@ coho ref switch v0.0.x
   for another project. Also check `COHO_ACCOUNT` and `COHO_PROJECT` in `.env`.
 - **`REF_NOT_FOUND` on the branch:** check the branch name in `COHO_REF` against
   `coho branch list`.
+- **`uv init` made a `src` folder, and no `main.py`:** the `--no-package` was left out.
+  Remove the `blog-test` folder, and run step 5 again.
 - **`ModuleNotFoundError: No module named 'yourorg_blog_content'`:** the library is not
   installed in `blog-test`. Run `uv add --editable ../yourorg-blog-content` (step 5).
 

@@ -19,7 +19,7 @@ v0.0.x  the trunk ──── dev    live: the newest saved content, read throu
 ```
 
 You need the site from [Build the Next.js blog](03_APPLICATION.md), with the posts,
-images, citations and gallery of pages 4 to 6, and Node.js 20.12 or later. Release
+images, citations and gallery of pages 4 to 6, and Node.js 22.18 or later. Release
 commands run from anywhere; the `coho` ones use the project and ref that `coho status`
 shows, which should be `blog-sample` and `v0.0.x`.
 
@@ -47,8 +47,10 @@ one fails. Every write was checked when it was made, but a type changed later do
 check the entries it already has, so a release is the place to check them all. `-m` is the
 release notes, which `coho tag list` shows beside each tag.
 
-A tag cannot be changed or deleted, since it is the record of what was released. The name
-is yours to choose: `v0.0.1`, `2026.11.1` and `launch` are all fine.
+A tag's content never changes, since it is the record of what was released. Its release
+notes can be revised, and a tag that no environment is running or would roll back to can
+be deleted, but its name is never used again. The name is yours to choose: `v0.0.1`,
+`2026.11.1` and `launch` are all fine.
 
 ## 2. Promote it to prod
 
@@ -117,11 +119,18 @@ KEY=<the coho_dk_ key>
 
 ```bash
 curl -s -H "Authorization: Bearer $KEY" \
-    "https://delivery.coho-cms.com/v1/projects/$PROJECT/prod/entries?type=blogPost&depth=1"
+    "https://delivery.coho-cms.com/v1/projects/$PROJECT/prod/entries?type=blogPost&depth=1&locale=en-US" \
+    | jq -r '.roots[] as $id | .entries[$id].fields.title'
 ```
 
-The answer has the same shape as the preview's on page 1, with `roots` and `entries`. The
-address has no account in it, and names `prod` where the preview named `dev`.
+[`jq`](https://jqlang.org/) picks the titles out of the answer: macOS 15 and later have it,
+and `brew install jq` or your distribution's packages install it elsewhere. Without it,
+leave out the last line to see the whole answer.
+
+There are three titles: the two posts, and the gallery, which is a kind of post. The answer
+has the same shape as the preview's on page 1, with `roots` and `entries`, and `locale`
+gives each localized field in that locale, as there. The address has no account in it, and
+names `prod` where the preview named `dev`.
 
 ## 4. Create `.env.prod`
 
@@ -201,7 +210,7 @@ npm run build:prod
 ```
 
 ```
-▲ Next.js 16.4.2 (Turbopack)
+▲ Next.js 16.4.6 (Turbopack)
 - Environments: .env.local
   Creating an optimized production build ...
 ✓ Compiled successfully in 188ms
@@ -236,7 +245,7 @@ npm run start:prod
 ```
 
 ```
-▲ Next.js 16.4.2
+▲ Next.js 16.4.6
 - Local:         http://localhost:3001
 ✓ Ready in 76ms
 ```
@@ -317,8 +326,8 @@ is lost: `v0.0.2` is still a tag, and `coho promote prod v0.0.2` would release i
 
 - **`tag create` fails with `TAG_CONTENT_INVALID`:** it lists the entries that fail, and
   what is wrong with each. Nothing was tagged: correct them on the trunk, and tag again.
-- **`tag create` fails with `REF_NAME_TAKEN`:** a tag with that name exists already, and
-  tags are never deleted. Choose the next name: `coho tag list` shows the ones used.
+- **`tag create` fails with `REF_NAME_TAKEN`:** a tag has that name, or had it: a deleted
+  tag's name is never used again. Choose the next name: `coho tag list` shows the ones in use.
 - **`promote` gives up with `SNAPSHOT_NOT_READY`:** the snapshot took longer to build than
   the CLI waits. Run the same command again: the build carries on in the meantime.
 - **`promote` fails with `ENVIRONMENT_MOVED`:** `prod` no longer points where `--expected`
@@ -327,7 +336,7 @@ is lost: `v0.0.2` is still a tag, and `coho promote prod v0.0.2` would release i
   can create delivery keys. Ask the owner, or have them grant you the `owner` role.
 - **`npm run build:prod` fails with `ENOENT` for `.env.prod`:** the file is not in the
   folder you ran it from. Run it in `blog-site`, beside `package.json`.
-- **`process.loadEnvFile is not a function`:** Node.js is older than 20.12. Check with
+- **`process.loadEnvFile is not a function`:** Node.js is older than 22.18. Check with
   `node --version`.
 - **`set COHO_PREVIEW_TOKEN to preview unreleased content, or COHO_DELIVERY_KEY to read
   released content, not both`:** `.env.prod` is missing the `COHO_PREVIEW_TOKEN=` line, or
